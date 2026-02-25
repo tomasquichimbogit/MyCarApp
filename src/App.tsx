@@ -1,19 +1,25 @@
 import './App.css'
-import { useAuthStore } from './store/useAuthStore';
 import { LoginUI } from './view/Security/Login/LoginUI.controller';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { RecoveryPasswordUI } from './view/Security/RecoveryPassword/RecoveryPasswordUI.controller';
+import { AppGuard } from './router/AppGuard';
 
 function App() {
-  const { isAuthenticated } = useAuthStore();
-
-  if (!isAuthenticated) {
-    return <LoginUI />;
-  }
-
   return (
-    <>
-      home
-    </>
+    <Routes>
+      <Route path="/login" element={<LoginUI />} />
+      <Route path="/recovery-password" element={<RecoveryPasswordUI />} />
+      <Route
+        path="/"
+        element={
+          <AppGuard>
+            <h1>Home</h1>
+          </AppGuard>
+        }
+      />
+      <Route path="*" element={<Navigate to="/login" replace />} />
+    </Routes>
   )
 }
 
-export default App
+export default App;
