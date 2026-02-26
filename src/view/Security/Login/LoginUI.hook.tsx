@@ -1,57 +1,45 @@
-import { useState } from "react";
-import { signIn } from "../../../services/auth.service";
+import { useForm, type Control } from "react-hook-form";
+import type { ILoginForm } from "./interface";
+import { loginFormSchema } from "./loginForm.schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useSignInMutation } from "../../../services/auth.service";
 
 export interface ILoginUI {
-    email: string;
-    password: string;
-    message: string;
-    isLoading: boolean;
-    setEmail: (value: string) => void;
-    setPassword: (value: string) => void;
-    onSubmit: () => Promise<void>;
+    control: Control<ILoginForm>;
+    handleFormSubmit: () => void;
+    isSignInPending: boolean;
 }
+export const useLoginUI = (): ILoginUI => {
+    
+    const { mutateAsync: signInMutate, isPending: isSignInPending } = useSignInMutation();
 
+    const methods = useForm<ILoginForm>({
+        resolver: zodResolver(loginFormSchema),
+    });
 
-export const useLoginUI = () => {
-    const [email, setEmail] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
-    const [message, setMessage] = useState<string>("");
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const { control, handleSubmit } = methods;
 
-    const onSubmit = async () => {
-        if (!email || !password) {
-            setMessage("Completa email y password.");
-            return;
-        }
-
-        setIsLoading(true);
-        setMessage("");
-
-        const { data, error } = await signIn(email, password);
+    const onSubmit = async (data: ILoginForm) => {
+        const { data: signInData, error } = await signInMutate(data);
         if (error) {
-            setMessage(error.message);
-            setIsLoading(false);
+            console.log(error.message);
             return;
         }
 
-        const accessToken = data.session?.access_token ?? "";
+        const accessToken = signInData.session?.access_token ?? "";
         if (!accessToken) {
-            setMessage("No se pudo crear sesion.");
-            setIsLoading(false);
+            console.log("No se pudo crear sesion.");
             return;
         }
 
         localStorage.setItem("token", accessToken);
         window.location.href = "/";
-    };
+    }
 
-    return {
-        email,
-        password,
-        message,
-        isLoading,
-        setEmail,
-        setPassword,
-        onSubmit,
+    const handleFormSubmit = () => {
+        handleSubmit(onSubmit, (errors) => {
+            console.log(errors);
+        })();
     };
-};
+    return { control, handleFormSubmit, isSignInPending };
+}

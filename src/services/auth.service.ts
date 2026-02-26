@@ -1,17 +1,29 @@
 import { supabase } from "../constants";
+import type { ILoginForm } from "../view/Security/Login/interface";
+import { useMutation } from "@tanstack/react-query";
 
-export const signUp = async (email: string, password: string) => {
-    const { data, error } = await supabase.auth.signUp({
-        email: email,
-        password: password,
+
+
+export const useSignUpMutation = () => {
+    return useMutation({
+        mutationFn: async (dataSignUp: ILoginForm) => {
+            const { data, error } = await supabase.auth.signUp({
+                email: dataSignUp.email,
+                password: dataSignUp.password,
+            });
+            return { data, error };
+        },
     });
-    return { data, error };
 };
 
-export const signIn = async (email: string, password: string) => {
-    const { data, error } = await supabase.auth.signInWithPassword({
-        email: email,
-        password: password,
+export const useSignInMutation = () => {
+    return useMutation({
+        mutationFn: async (dataSignIn: ILoginForm) => {
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email: dataSignIn.email,
+                password: dataSignIn.password,
+            });
+            return { data, error };
+        },
     });
-    return { data, error };
 };
