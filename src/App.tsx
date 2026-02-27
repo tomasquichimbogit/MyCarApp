@@ -3,8 +3,11 @@ import { LoginUI } from './view/Security/Login/LoginUI.controller';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { RecoveryPasswordUI } from './view/Security/RecoveryPassword/RecoveryPasswordUI.controller';
 import { AppGuard } from './router/AppGuard';
+import { useForegroundMessages } from './hooks/useForegroundMessages.hook';
 
-function App() {
+export const App = () => {
+  useForegroundMessages();
+
   return (
     <Routes>
       <Route path="/login" element={<LoginUI />} />

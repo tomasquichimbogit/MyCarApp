@@ -3,6 +3,7 @@ import type { ILoginForm } from "./interface";
 import { loginFormSchema } from "./loginForm.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSignInMutation } from "../../../services/auth.service";
+import { requestForToken } from "../../../firebaseConfig";
 
 export interface ILoginUI {
     control: Control<ILoginForm>;
@@ -20,7 +21,11 @@ export const useLoginUI = (): ILoginUI => {
     const { control, handleSubmit } = methods;
 
     const onSubmit = async (data: ILoginForm) => {
-        const { data: signInData, error } = await signInMutate(data);
+        console.log('data =>',data);
+        const { data: signInData, error } = await signInMutate({
+            email: data.email,
+            password: data.password,
+        });
         if (error) {
             console.log(error.message);
             return;
@@ -33,6 +38,16 @@ export const useLoginUI = (): ILoginUI => {
         }
 
         localStorage.setItem("token", accessToken);
+
+        try {
+            const fcmToken = await requestForToken();
+            if (fcmToken) {
+                localStorage.setItem("fcm_token", fcmToken);
+            }
+        } catch (error) {
+            console.log("No se pudo obtener token de notificaciones", error);
+        }
+
         window.location.href = "/";
     }
 
