@@ -1,18 +1,42 @@
 
-import { useState } from "react";
-
 export interface IAuthStore {
-    isAuthenticated: boolean;
+    getToken: () => string | null;
+    logout: () => void;
 }
 
-export const useAuthStore =  (): IAuthStore => {
+export const useAuthStore = (): IAuthStore => {
+    const logout = () => {
+        localStorage.removeItem("token");
+        window.location.href = "/login";
+    }
 
-    const [isAuthenticated] = useState<boolean>(() => {
-        const token = localStorage.getItem("token");
-        return token !== null && token.trim() !== "";
-    });
+    const getToken = () => {
+        return localStorage.getItem("token");
+    }
 
     return {
-        isAuthenticated,
+        getToken,
+        logout,
     }
 }
+
+// import { create } from "zustand";
+
+// export interface IAuthStore {
+//     isAuthenticated: boolean;
+//     setIsAuthenticated: (isAuthenticated: boolean) => void;
+//     getToken: () => string | null;
+//     setToken: (token: string) => void;
+// }
+
+// export const useAuthStore = create<IAuthStore>((set) => ({
+//     isAuthenticated: false,
+//     setIsAuthenticated: (isAuthenticated: boolean) => set({ isAuthenticated }),
+//     getToken: () => {
+//         const token = localStorage.getItem("token");
+//         return token !== null && token.trim() !== "";
+//     },
+//     setToken: (token: string) => {
+//         localStorage.setItem("token", token);
+//     },
+// }));

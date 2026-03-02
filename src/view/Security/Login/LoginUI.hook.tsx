@@ -4,14 +4,17 @@ import { loginFormSchema } from "./loginForm.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSignInMutation } from "../../../services/auth.service";
 import { requestForToken } from "../../../firebaseConfig";
+import { useState } from "react";
 
 export interface ILoginUI {
     control: Control<ILoginForm>;
     handleFormSubmit: () => void;
     isSignInPending: boolean;
+    visiblePassword: boolean;
+    setVisiblePassword: (visible: boolean) => void;
 }
 export const useLoginUI = (): ILoginUI => {
-    
+    const [visiblePassword, setVisiblePassword] = useState(false);
     const { mutateAsync: signInMutate, isPending: isSignInPending } = useSignInMutation();
 
     const methods = useForm<ILoginForm>({
@@ -56,5 +59,7 @@ export const useLoginUI = (): ILoginUI => {
             console.log(errors);
         })();
     };
-    return { control, handleFormSubmit, isSignInPending };
+
+
+    return { control, handleFormSubmit, isSignInPending, visiblePassword, setVisiblePassword };
 }

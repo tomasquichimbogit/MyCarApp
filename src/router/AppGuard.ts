@@ -7,9 +7,9 @@ interface AppGuardProps {
 }
 
 export const AppGuard = ({ children }: AppGuardProps) => {
-  const { isAuthenticated } = useAuthStore();
+  const { getToken } = useAuthStore();
 
-  if (!isAuthenticated) {
+  if (!getToken()) {
     return createElement(Navigate, { to: "/login", replace: true });
   }
 
