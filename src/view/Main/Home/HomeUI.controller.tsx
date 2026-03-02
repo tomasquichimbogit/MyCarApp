@@ -1,7 +1,9 @@
 import { HomeUIView } from "./HomeUI.view"
+import { useHomeUI } from "./HomeUI.hook";
 
-export const HomeUI = () => {
+export const HomeUI = () => {   
+    const hook = useHomeUI();
     return (
-        <HomeUIView />
+        <HomeUIView {...hook} />
     )
 }

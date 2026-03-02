@@ -36,7 +36,7 @@ self.addEventListener("message", (event) => {
       const title = payload.notification?.title || "MyCarApp";
       const options = {
         body: payload.notification?.body || "",
-        icon: "/vite.svg",
+        icon: "vite.svg",
       };
 
       self.registration.showNotification(title, options);
