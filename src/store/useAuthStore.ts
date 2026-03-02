@@ -10,8 +10,8 @@ export const useAuthStore = (): IAuthStore => {
     const { navigateTo } = useAppNavigation();
 
     const logout = (nextPath = "/login") => {
-        // localStorage.removeItem("token");
-        localStorage.clear();
+        localStorage.removeItem("token");
+        localStorage.removeItem("fcm_token");
         navigateTo(nextPath, true);
     }
 
