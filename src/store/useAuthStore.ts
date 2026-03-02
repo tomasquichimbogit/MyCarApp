@@ -1,13 +1,17 @@
 
+import { useAppNavigation } from "../hooks/useAppNavigation.hook";
+
 export interface IAuthStore {
     getToken: () => string | null;
-    logout: () => void;
+    logout: (nextPath?: string) => void;
 }
 
 export const useAuthStore = (): IAuthStore => {
-    const logout = () => {
+    const { navigateTo } = useAppNavigation();
+
+    const logout = (nextPath = "/login") => {
         localStorage.removeItem("token");
-        window.location.href = "/login";
+        navigateTo(nextPath, true);
     }
 
     const getToken = () => {

@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useSignInMutation } from "../../../services/auth.service";
 import { requestForToken } from "../../../firebaseConfig";
 import { useState } from "react";
+import { useAppNavigation } from "../../../hooks/useAppNavigation.hook";
 
 export interface ILoginUI {
     control: Control<ILoginForm>;
@@ -16,6 +17,7 @@ export interface ILoginUI {
 export const useLoginUI = (): ILoginUI => {
     const [visiblePassword, setVisiblePassword] = useState(false);
     const { mutateAsync: signInMutate, isPending: isSignInPending } = useSignInMutation();
+    const { navigateTo } = useAppNavigation();
 
     const methods = useForm<ILoginForm>({
         resolver: zodResolver(loginFormSchema),
@@ -51,7 +53,7 @@ export const useLoginUI = (): ILoginUI => {
             console.log("No se pudo obtener token de notificaciones", error);
         }
 
-        window.location.href = "/";
+        navigateTo("/", true);
     }
 
     const handleFormSubmit = () => {

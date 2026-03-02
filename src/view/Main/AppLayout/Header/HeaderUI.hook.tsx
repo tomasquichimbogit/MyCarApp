@@ -1,13 +1,16 @@
 import { useSendFireBaseNotification } from "../../../../hooks/sendFireBaseNotification";
+import { useAuthStore } from "../../../../store/useAuthStore";
 import { useSidebarStore } from "../../../../store/useSidebarStore";
 
 export interface IHeaderUI {
     toggleOpen: () => void;
     testNotification: () => Promise<void>;
+    handleLogout: () => void;
 }
 
 export const useHeaderUI = (): IHeaderUI => {
     const { toggleOpen } = useSidebarStore();
+    const { logout } = useAuthStore();
 
     const { sendFireBaseNotification } = useSendFireBaseNotification();
 
@@ -17,5 +20,9 @@ export const useHeaderUI = (): IHeaderUI => {
         console.log(result);
     }
 
-    return { toggleOpen, testNotification };
+    const handleLogout = () => {
+        logout();
+    }
+
+    return { toggleOpen, testNotification, handleLogout };
 }
