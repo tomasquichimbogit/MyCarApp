@@ -2,7 +2,7 @@ import { createClient } from '@supabase/supabase-js';
 
 export const apiKeySupabase = import.meta.env.VITE_SUPABASE_KEY as string;
 export const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string;
-export const supabase = createClient(supabaseUrl ?? "", apiKeySupabase ?? "");
+export const supabase = createClient(supabaseUrl, apiKeySupabase);
 
 export const authDomainFirebase = import.meta.env.VITE_AUTH_DOMAIN as string;
 export const projectIdFirebase = import.meta.env.VITE_PROJECT_ID as string;

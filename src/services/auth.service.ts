@@ -9,6 +9,10 @@ export const useSignUpMutation = () => {
         mutationFn: async (dataSignUp: ILoginForm) => {
             console.log('supabaseUrl =>',supabaseUrl);
             console.log('apiKeySupabase =>',apiKeySupabase);
+            if (!supabaseUrl || !apiKeySupabase) {
+                throw new Error('Supabase URL or API key is not set');
+
+            }
             const { data, error } = await supabase.auth.signUp({
                 email: dataSignUp.email,
                 password: dataSignUp.password,
