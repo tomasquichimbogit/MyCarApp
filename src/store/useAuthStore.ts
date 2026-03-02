@@ -10,7 +10,8 @@ export const useAuthStore = (): IAuthStore => {
     const { navigateTo } = useAppNavigation();
 
     const logout = (nextPath = "/login") => {
-        localStorage.removeItem("token");
+        // localStorage.removeItem("token");
+        localStorage.clear();
         navigateTo(nextPath, true);
     }
 
