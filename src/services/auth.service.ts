@@ -1,4 +1,4 @@
-import { supabase } from "../constants";
+import { apiKeySupabase, supabase, supabaseUrl } from "../constants";
 import type { ILoginForm } from "../view/Security/Login/interface";
 import { useMutation } from "@tanstack/react-query";
 
@@ -7,6 +7,8 @@ import { useMutation } from "@tanstack/react-query";
 export const useSignUpMutation = () => {
     return useMutation({
         mutationFn: async (dataSignUp: ILoginForm) => {
+            console.log('supabaseUrl =>',supabaseUrl);
+            console.log('apiKeySupabase =>',apiKeySupabase);
             const { data, error } = await supabase.auth.signUp({
                 email: dataSignUp.email,
                 password: dataSignUp.password,
