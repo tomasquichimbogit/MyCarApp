@@ -7,7 +7,7 @@ export const useForegroundMessages = (): void => {
         const handleBackgroundMessage = (event: MessageEvent) => {
             if (event.data?.type === "FIREBASE_BACKGROUND_MESSAGE") {
                 console.log("Background payload en app:", event.data.payload);
-                alert(`Background payload en app: ${event.data.payload}`);
+                alert(`Background payload en app: ${JSON.stringify(event.data.payload)}`);
             }
         };
 

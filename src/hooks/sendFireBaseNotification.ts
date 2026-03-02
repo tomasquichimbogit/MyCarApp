@@ -1,4 +1,4 @@
-import { requestForToken } from "../firebaseConfig";
+import { requestForToken, showLocalNotification } from "../firebaseConfig";
 
 export interface ISendFireBaseNotificationResult {
     fcmToken: string | null;
@@ -21,12 +21,8 @@ export const sendFireBaseNotification = async (
         return { fcmToken, notificationSent: false };
     }
 
-    new Notification(title, {
-        body,
-        icon: `${import.meta.env.BASE_URL}vite.svg`,
-    });
-
-    return { fcmToken, notificationSent: true };
+    const notificationSent = await showLocalNotification(title, body);
+    return { fcmToken, notificationSent };
 };
 
 
