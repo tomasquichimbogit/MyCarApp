@@ -64,6 +64,7 @@ const postFirebaseConfigToServiceWorker = (registration: ServiceWorkerRegistrati
 export const requestForToken = async (): Promise<string | null> => {
     const supported = await isSupported();
     if (!supported || typeof window === "undefined" || !("Notification" in window)) {
+        
         return null;
     }
 

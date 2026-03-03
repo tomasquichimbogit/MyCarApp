@@ -26,11 +26,12 @@ export const useLoginUI = (): ILoginUI => {
     const { control, handleSubmit } = methods;
 
     const onSubmit = async (data: ILoginForm) => {
-        console.log('data =>',data);
+        
         const { data: signInData, error } = await signInMutate({
             email: data.email,
             password: data.password,
         });
+
         if (error) {
             console.log(error.message);
             return;
