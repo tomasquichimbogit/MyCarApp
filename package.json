@@ -20,7 +20,7 @@
     "react-dom": "^19.2.0",
     "react-hook-form": "^7.71.2",
     "react-router-dom": "^7.13.1",
-    "tomascomponents": "C:\\GitHub\\TomasComponents\\tomascomponents-b4.tgz",
+    "tomascomponents": "^0.0.3",
     "zustand": "^5.0.11"
   },
   "devDependencies": {
