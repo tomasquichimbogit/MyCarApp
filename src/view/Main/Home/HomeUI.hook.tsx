@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 
-export interface IHomeUI {
+export interface IUseHomeUI {
     tokenFcm: string | null;
 }
 
-export const useHomeUI = (): IHomeUI => {
+export const useHomeUI = (): IUseHomeUI => {
     const [tokenFcm, setTokenFcm] = useState<string | null>(null);
     useEffect(() => {
         const token = localStorage.getItem("fcm_token");
