@@ -1,14 +1,16 @@
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { useVehiclesQuery } from "../../../../../services/vehiculo.service";
-import type { CollapseProps } from "tomascomponents";
+import { useModal, type CollapseProps } from "tomascomponents";
 import { VehicleItemUI } from "./components/VehicleItem/VehicleItemUI.controller";
 
 export interface IVehiclesUI {
     itemsCollapse: CollapseProps['items'];
+    openModalAddVehicle: () => void;
 }
 
 export const useVehiclesUI = (): IVehiclesUI => {
     const { data: vehicles } = useVehiclesQuery();
+    const { openModal } = useModal();
 
     const normalizedVehicles = useMemo(() => {
         return vehicles ?? [];
@@ -26,7 +28,15 @@ export const useVehiclesUI = (): IVehiclesUI => {
       return items;
     },[normalizedVehicles]);
 
+    const openModalAddVehicle = useCallback(() => {
+      openModal({
+        title: "Agregar vehículo",
+        content: <div>Agregar vehículo</div>,
+      });
+    }, []); 
+
   return {
     itemsCollapse,
+    openModalAddVehicle,
   };
 };

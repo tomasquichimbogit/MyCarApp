@@ -3209,10 +3209,9 @@ tinyglobby@^0.2.15:
     fdir "^6.5.0"
     picomatch "^4.0.3"
 
-tomascomponents@^0.0.3:
+"tomascomponents@file:../TomasComponents/tomascomponents-b5.tgz":
   version "0.0.3"
-  resolved "https://registry.yarnpkg.com/tomascomponents/-/tomascomponents-0.0.3.tgz#0fd4171138dc546481c26c7a45a6d67dd986a9ee"
-  integrity sha512-nrX+hIXvwzkv8IQHx7bnRqpxT1I8PSf97hPcGFeOiCny4qfXkMaqP91X42BXaJzrvmUGWW5YKf+DYRHv5XzmIg==
+  resolved "file:../TomasComponents/tomascomponents-b5.tgz#bfadabf1a969cea2c5f36d60f4ecc33121e18640"
   dependencies:
     "@ant-design/icons" "^5.4.0"
     "@hookform/resolvers" "^5.2.2"
