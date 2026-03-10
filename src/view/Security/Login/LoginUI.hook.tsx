@@ -6,6 +6,7 @@ import { useSignInMutation } from "../../../services/auth.service";
 import { requestForToken } from "../../../firebaseConfig";
 import { useState } from "react";
 import { useAppNavigation } from "../../../hooks/useAppNavigation.hook";
+import { useThemeMode } from "../../../provider/Provider";
 
 export interface ILoginUI {
     control: Control<ILoginForm>;
@@ -13,11 +14,14 @@ export interface ILoginUI {
     isSignInPending: boolean;
     visiblePassword: boolean;
     setVisiblePassword: (visible: boolean) => void;
+    toggleMode: () => void;
+    mode: "light" | "dark";
 }
 export const useLoginUI = (): ILoginUI => {
     const [visiblePassword, setVisiblePassword] = useState(false);
     const { mutateAsync: signInMutate, isPending: isSignInPending } = useSignInMutation();
     const { navigateTo } = useAppNavigation();
+    const { mode, toggleMode } = useThemeMode();
 
     const methods = useForm<ILoginForm>({
         resolver: zodResolver(loginFormSchema),
@@ -64,5 +68,5 @@ export const useLoginUI = (): ILoginUI => {
     };
 
 
-    return { control, handleFormSubmit, isSignInPending, visiblePassword, setVisiblePassword };
+    return { control, handleFormSubmit, isSignInPending, visiblePassword, setVisiblePassword, toggleMode, mode };
 }

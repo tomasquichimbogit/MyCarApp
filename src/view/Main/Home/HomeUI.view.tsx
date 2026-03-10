@@ -4,7 +4,7 @@ import { TabPrincipalUI } from "./components/TabPrincipal/TabPrincipalUI.control
 export const HomeUIView = ({ tokenFcm }: IUseHomeUI) => {
   console.log(tokenFcm);
   return (
-    <div className="bg-white rounded-lg p-2">
+    <div className="rounded-lg p-2">
       <TabPrincipalUI />
     </div>
   );

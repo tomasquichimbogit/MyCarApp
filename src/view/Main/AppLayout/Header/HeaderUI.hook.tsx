@@ -6,6 +6,7 @@ import { PowerOff } from "lucide-react";
 import { useSupabaseUserId } from "../../../../hooks/useSupabaseUser";
 import { usePersonByUserIdQuery } from "../../../../services/person.service";
 import { useMemo } from "react";
+import { useThemeMode } from "../../../../provider/Provider";
 
 export interface IHeaderUI {
     toggleOpen: () => void;
@@ -13,6 +14,8 @@ export interface IHeaderUI {
     handleLogout: () => void;
     userOptions: MenuProps["items"];
     userName: string;
+    mode: "light" | "dark";
+    toggleMode: () => void;
 }
 
 export const useHeaderUI = (): IHeaderUI => {
@@ -25,6 +28,7 @@ export const useHeaderUI = (): IHeaderUI => {
     const { data: person } = usePersonByUserIdQuery(userId);
 
     const { sendFireBaseNotification } = useSendFireBaseNotification();
+    const { mode, toggleMode } = useThemeMode();
 
 
     const testNotification = async () => {
@@ -66,5 +70,5 @@ export const useHeaderUI = (): IHeaderUI => {
         return `${person?.name} ${person?.lastnames}`;
     }, [person]);
 
-    return { toggleOpen, testNotification, handleLogout, userOptions, userName };
+    return { toggleOpen, testNotification, handleLogout, userOptions, userName, mode, toggleMode };
 }
