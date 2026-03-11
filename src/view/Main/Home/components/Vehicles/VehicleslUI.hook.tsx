@@ -5,37 +5,39 @@ import { VehicleItemUI } from "./components/VehicleItem/VehicleItemUI.controller
 import { VehicleCreateUI } from "./components/create/VehicleCreateUI.controller.tsx";
 
 export interface IVehiclesUI {
-    itemsCollapse: CollapseProps['items'];
-    openModalAddVehicle: () => void;
+  itemsCollapse: CollapseProps['items'];
+  openModalAddVehicle: () => void;
 }
 
 export const useVehiclesUI = (): IVehiclesUI => {
-    const { data: vehicles } = useVehiclesQuery();
-    const { openModal } = useModal();
+  const { data: vehicles } = useVehiclesQuery();
+  const { openModal } = useModal();
 
-    const normalizedVehicles = useMemo(() => {
-        return vehicles ?? [];
-    }, [vehicles]);
+  const normalizedVehicles = useMemo(() => {
+    return vehicles ?? [];
+  }, [vehicles]);
 
-    const itemsCollapse = useMemo(() => {
-      const items: CollapseProps['items'] = [];
-      normalizedVehicles.forEach((vehicle) => {
-        items.push({
-          key: vehicle.id,
-          label: vehicle.marca,
-          children: <VehicleItemUI vehicle={vehicle} />,
-        });
+  const itemsCollapse = useMemo(() => {
+    const items: CollapseProps['items'] = [];
+    normalizedVehicles.forEach((vehicle) => {
+      items.push({
+        key: vehicle.id,
+        label: vehicle.marca,
+        children: <VehicleItemUI vehicle={vehicle} />,
       });
-      return items;
-    },[normalizedVehicles]);
+    });
+    return items;
+  }, [normalizedVehicles]);
 
-    const openModalAddVehicle = useCallback(() => {
-      openModal({
-        title: "Agregar vehículo",
-        content: <VehicleCreateUI />,
-        width: "auto"
-      });
-    }, []); 
+
+
+  const openModalAddVehicle = useCallback(() => {
+    openModal({
+      title: "Agregar vehículo",
+      content: <VehicleCreateUI />,
+      width: "40vw",
+    });
+  }, []);
 
   return {
     itemsCollapse,

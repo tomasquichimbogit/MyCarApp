@@ -3629,9 +3629,9 @@ tinyglobby@^0.2.15:
     fdir "^6.5.0"
     picomatch "^4.0.3"
 
-"tomascomponents@file:../TomasComponents/tomascomponents-c1.tgz":
-  version "0.0.4"
-  resolved "file:../TomasComponents/tomascomponents-c1.tgz#72ae6e05d92f340f7115e85ab8c7f16a56d7ea02"
+"tomascomponents@file:../TomasComponents/tomascomponents-c9.tgz":
+  version "0.0.3"
+  resolved "file:../TomasComponents/tomascomponents-c9.tgz#5c9721d5a68d107dd015b9d06b9fd89ba6387455"
   dependencies:
     "@ant-design/icons" "^5.4.0"
     "@hookform/resolvers" "^5.2.2"
