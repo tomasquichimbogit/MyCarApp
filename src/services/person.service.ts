@@ -36,7 +36,7 @@ export const usePersonByUserIdQuery = (userId?: string) => {
             if (error) {
                 throw error;
             }
-            return (data ?? null) as PersonRecord | null;
+            return (data ?? undefined) as PersonRecord | undefined;
         },
     });
 };

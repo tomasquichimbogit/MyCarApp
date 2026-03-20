@@ -1,5 +1,6 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { supabase } from "../constants";
+import { VEHICLE_KEYS } from "./keys";
 
 export interface VehicleRecord {
     id: string;
@@ -8,7 +9,7 @@ export interface VehicleRecord {
     modelo: string;
     anio: number;
     color: string;
-    propietario_id: string;
+    propietario_id: number;
     created_at?: string | null;
     updated_at?: string | null;
     deleted_at?: string | null;
@@ -17,9 +18,14 @@ export interface VehicleRecord {
 export type VehicleInsert = Omit<VehicleRecord, "id" | "created_at" | "updated_at" | "deleted_at">;
 export type VehicleUpdate = Partial<Omit<VehicleRecord, "id">>;
 
-export const useVehiclesQuery = (filters?: { propietarioId?: string; includeDeleted?: boolean }) => {
+
+export interface UseVehiclesQueryProps {
+    propietarioId?: string;
+    includeDeleted?: boolean;
+}
+export const useVehiclesQuery = (filters?: UseVehiclesQueryProps) => {
     return useQuery({
-        queryKey: ["vehiculo", filters],
+        queryKey: VEHICLE_KEYS.listFilters(filters ?? {}),
         queryFn: async () => {
             let query = supabase.from("vehiculo").select("*").order("created_at", { ascending: false });
 
@@ -54,7 +60,7 @@ export const useVehicleQuery = (id?: string) => {
     });
 };
 
-export const useCreateVehicleMutation = () => {
+export const useCreateVehicle = () => {
     return useMutation({
         mutationFn: async (payload: VehicleInsert) => {
             const { data, error } = await supabase.from("vehiculo").insert(payload).select().single();
@@ -78,7 +84,7 @@ export const useUpdateVehicleMutation = () => {
     });
 };
 
-export const useDeleteVehicleMutation = () => {
+export const useDeleteVehicle = () => {
     return useMutation({
         mutationFn: async (id: string) => {
             const { error } = await supabase.from("vehiculo").delete().eq("id", id);

@@ -34,6 +34,7 @@ export const Provider = ({ children }: { children: React.ReactNode }) => {
     const { defaultAlgorithm, darkAlgorithm, compactAlgorithm } = theme;
     const [mode, setMode] = useState<ThemeMode>(getInitialMode);
 
+
     useEffect(() => {
         window.localStorage.setItem(THEME_STORAGE_KEY, mode);
         document.documentElement.style.colorScheme = mode;

@@ -26,7 +26,7 @@ export const HeaderUIView = ({ toggleOpen, userOptions, userName, mode, toggleMo
         <Dropdown menu={{ items: userOptions }} placement="bottomLeft" trigger={['click']}>
           <Button variant="outlined">
             <Space>
-              {userName}
+              {userName }
               <DownOutlined />
             </Space>
           </Button>

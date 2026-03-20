@@ -3,10 +3,11 @@ import { useSendFireBaseNotification } from "../../../../hooks/sendFireBaseNotif
 import { useAuthStore } from "../../../../store/useAuthStore";
 import { useSidebarStore } from "../../../../store/useSidebarStore";
 import { PowerOff } from "lucide-react";
+import { useEffect, useMemo } from "react";
+import { useThemeMode } from "../../../../provider/Provider";
+import { useUserPersonInformationStore } from "../../../../store/useUserPersonInformation";
 import { useSupabaseUserId } from "../../../../hooks/useSupabaseUser";
 import { usePersonByUserIdQuery } from "../../../../services/person.service";
-import { useMemo } from "react";
-import { useThemeMode } from "../../../../provider/Provider";
 
 export interface IHeaderUI {
     toggleOpen: () => void;
@@ -21,11 +22,17 @@ export interface IHeaderUI {
 export const useHeaderUI = (): IHeaderUI => {
     const { toggleOpen } = useSidebarStore();
     const { logout } = useAuthStore();
-   
+    
+  const { userPersonInformation, setUserPersonInformation } = useUserPersonInformationStore();
+  const { userId } = useSupabaseUserId();
+  const { data: person } = usePersonByUserIdQuery(userId);
 
-    const { userId } = useSupabaseUserId();
 
-    const { data: person } = usePersonByUserIdQuery(userId);
+  useEffect(() => {
+    if (person) {
+      setUserPersonInformation(person);
+    }
+  }, [person]);
 
     const { sendFireBaseNotification } = useSendFireBaseNotification();
     const { mode, toggleMode } = useThemeMode();
@@ -66,9 +73,9 @@ export const useHeaderUI = (): IHeaderUI => {
 
 
     const userName = useMemo(() => {
-        if (!person) return '';
-        return `${person?.name} ${person?.lastnames}`;
-    }, [person]);
+        if (!userPersonInformation) return 'Usuario';
+        return `${userPersonInformation?.name} ${userPersonInformation?.lastnames}`;
+    }, [userPersonInformation]);
 
     return { toggleOpen, testNotification, handleLogout, userOptions, userName, mode, toggleMode };
 }

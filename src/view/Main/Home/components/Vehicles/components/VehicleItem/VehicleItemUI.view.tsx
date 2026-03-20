@@ -1,8 +1,15 @@
 
 import type { IVehicleItemUI } from "./VehicleItemUI.hook";
-
-export const VehicleItemUIView = ({ vehicle }: IVehicleItemUI) => {
+import { ButtonIcon } from "tomascomponents";
+import { PencilIcon, TrashIcon } from "lucide-react";
+export const VehicleItemUIView = ({ vehicle, openModalEditVehicle, openModalConfirmDeleteVehicle, loading }: IVehicleItemUI) => {
   return <div key={vehicle.id} className="flex flex-col gap-2">
+    <div className="flex justify-end items-end">
+      <div className="flex gap-2">
+        <ButtonIcon variant="outlined" color="primary" onClick={openModalEditVehicle} icon={<PencilIcon className="w-4 h-4" />} loading={loading} />
+        <ButtonIcon variant="outlined" color="danger" onClick={openModalConfirmDeleteVehicle} icon={<TrashIcon className="w-4 h-4" />} loading={loading} />
+      </div>
+    </div>
     <div className="flex justify-center items-center w-full">
       <div className="flex justify-center items-center w-1/2 h-full">
         <img
