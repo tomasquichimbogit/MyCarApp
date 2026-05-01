@@ -1,10 +1,11 @@
 import { useCallback, useMemo } from "react";
-import { useVehiclesQuery } from "../../../../../services/vehiculo.service";
-import { useModal, type CollapseProps } from "tomascomponents";
+import { useVehiclesQuery, type VehicleRecord } from "../../../../../services/vehiculo.service";
+import { useModal, type CollapseProps, Button } from "tomascomponents";
 import { VehicleItemUI } from "./components/VehicleItem/VehicleItemUI.controller";
 import { VehicleCreateUI } from "./components/create/VehicleCreateUI.controller.tsx";
+import { StarIcon } from "lucide-react";
 export interface IVehiclesUI {
-  itemsCollapse: CollapseProps['items'];
+  itemsCollapse: CollapseProps["items"];
   openModalAddVehicle: () => void;
   loading?: boolean;
 }
@@ -17,16 +18,30 @@ export const useVehiclesUI = (): IVehiclesUI => {
     return vehicles ?? [];
   }, [vehicles]);
 
+  const renderVehicleLabel = useCallback((vehicle: VehicleRecord) => {
+    return (
+      <div className="flex w-full justify-between items-center">
+        <span>{vehicle.marca}</span>
+        <Button
+          variant="outlined"
+          color="primary"
+          title={<div className="flex items-center gap-2"><StarIcon className="w-4 h-4" /> <small>Favorito</small></div>}
+          onClick={() => {}}
+        />
+      </div>
+    );
+  }, []);
+
   const itemsCollapse = useMemo(() => {
-    const items: CollapseProps['items'] = [];
+    const items: CollapseProps["items"] = [];
     normalizedVehicles.forEach((vehicle) => {
       items.push({
         key: vehicle.id,
-        label: vehicle.marca,
+        label: renderVehicleLabel(vehicle),
         children: <VehicleItemUI vehicle={vehicle} />,
       });
     });
-    return items as CollapseProps['items'];
+    return items as CollapseProps["items"];
   }, [normalizedVehicles]);
 
   const openModalAddVehicle = useCallback(() => {

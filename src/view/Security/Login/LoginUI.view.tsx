@@ -1,7 +1,7 @@
 import { Button, FormInput } from "tomascomponents";
 import type { ILoginUI } from "./LoginUI.hook";
 import { IconCarSuv } from "../../../assets";
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sun, User2 } from "lucide-react";
 import { Button as ButtonAntd } from "antd";
 
 export const LoginUIView = ({
@@ -12,13 +12,74 @@ export const LoginUIView = ({
   toggleMode,
   mode,
 }: ILoginUI) => {
-
   return (
-    <div className=" flex flex-col items-center justify-center w-full min-h-screen pr-2 pl-2">
+    <div className="flex flex-col w-full min-h-screen">
+      <div className="flex justify-end w-full p-2">
+        <ButtonAntd onClick={toggleMode} variant="outlined">
+          {mode === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          <span className="ml-1">{mode === "dark" ? "Light" : "Dark"}</span>
+        </ButtonAntd>
+      </div>
+      <div className="flex-1 min-h-0 flex items-center justify-center p-4">
+        <form className="flex flex-col gap-4 border border-gray-800 rounded-4xl p-4 pb-12 w-full md:w-[500px]">
+          <div className="flex flex-col items-center justify-center gap-0 rotate-12 mb-2">
+            <IconCarSuv width={100} height={100} color={mode === "dark" ? "white" : "black"} />
+            <div className="w-full h-0.5 -mt-6" />
+          </div>
+          <div className="flex w-full justify-center items-center">
+            <div className="flex flex-col gap-2 w-full md:w-1/2">
+              <FormInput label="Email" control={control} name="email" placeholder="Email" />
+              <FormInput
+                type={visiblePassword ? "text" : "password"}
+                label="Password"
+                control={control}
+                name="password"
+                placeholder="Password"
+              />
+            </div>
+          </div>
+          <div className="flex flex-col gap-2 w-full justify-center items-center">
+            <div className="flex flex-col gap-2 w-full md:w-1/2">
+              <Button
+                variant="solid"
+                onClick={handleFormSubmit}
+                color="primary"
+                title={
+                  <div className="flex items-center gap-2">
+                    <User2 className="w-4 h-4" />
+                    <span>Iniciar sesión</span>
+                  </div>
+                }
+                loading={isSignInPending}
+              />
+              <Button
+                variant="outlined"
+                onClick={handleFormSubmit}
+                title={
+                  <div className="flex items-center gap-2">
+                    <img
+                      className="h-4 w-4"
+                      src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/login/googleFavicon.png"
+                      alt="googleFavicon"
+                    />
+                    <span>Iniciar sesión con Google</span>
+                  </div>
+                }
+                loading={isSignInPending}
+              />
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+/*
+ <div className=" flex flex-col items-center justify-center w-full min-h-screen pr-2 pl-2">
       <div className="w-full md:w-[500px] gap-2 border-gray-300 border-2 rounded-4xl p-4">
         <form className="flex flex-col items-center justify-center w-full gap-2">
           <div className="flex justify-end w-full">
-            {/* <Button onClick={toggleMode} title={mode === "dark" ? "Light mode" : "Dark mode"} /> */}
             <ButtonAntd onClick={toggleMode} variant="outlined">
               {mode === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
               <span className="ml-1">{mode === "dark" ? "Light" : "Dark"}</span>
@@ -41,5 +102,4 @@ export const LoginUIView = ({
       </div>
     </div>
 
-  );
-};
+*/

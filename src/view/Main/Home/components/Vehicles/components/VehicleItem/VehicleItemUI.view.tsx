@@ -1,50 +1,56 @@
-
 import type { IVehicleItemUI } from "./VehicleItemUI.hook";
-import { ButtonIcon } from "tomascomponents";
-import { PencilIcon, TrashIcon } from "lucide-react";
-export const VehicleItemUIView = ({ vehicle, openModalEditVehicle, openModalConfirmDeleteVehicle, loading }: IVehicleItemUI) => {
-  return <div key={vehicle.id} className="flex flex-col gap-2">
-    <div className="flex justify-end items-end">
-      <div className="flex gap-2">
-        <ButtonIcon variant="outlined" color="primary" onClick={openModalEditVehicle} icon={<PencilIcon className="w-4 h-4" />} loading={loading} />
-        <ButtonIcon variant="outlined" color="danger" onClick={openModalConfirmDeleteVehicle} icon={<TrashIcon className="w-4 h-4" />} loading={loading} />
+import { Button } from "tomascomponents";
+export const VehicleItemUIView = ({
+  vehicle,
+  openModalEditVehicle,
+  openModalConfirmDeleteVehicle,
+  loading,
+}: IVehicleItemUI) => {
+  return (
+    <div key={vehicle.id} className="flex flex-col gap-2">
+      <div className="flex justify-end items-end">
+        <div className="flex gap-4">
+          <Button title="Editar" onClick={openModalEditVehicle} variant="outlined" color="primary" loading={loading} />
+          <Button
+            title="Eliminar"
+            onClick={openModalConfirmDeleteVehicle}
+            variant="outlined"
+            color="danger"
+            loading={loading}
+          />
+        </div>
+      </div>
+      <div className="flex justify-center items-center w-full">
+        <div className="flex justify-center items-center w-1/2 h-full">
+          <img
+            src="https://suzukiecuador.com/wp-content/uploads/2023/07/Jimny-blanco-1.jpg"
+            alt="Imagen de ejemplo de vehículo"
+            className="rounded shadow w-full h-full object-cover"
+          />
+        </div>
+      </div>
+      <div className="grid grid-cols-2 gap-2">
+        <div className="col-span-1 flex flex-row gap-2">
+          <span>Marca: </span>
+          <strong>{vehicle.marca}</strong>
+        </div>
+        <div className="col-span-1 flex flex-row gap-2">
+          <span>Modelo: </span>
+          <strong>{vehicle.modelo}</strong>
+        </div>
+        <div className="col-span-1 flex flex-row gap-2">
+          <span>Año: </span>
+          <strong>{vehicle.anio}</strong>
+        </div>
+        <div className="col-span-1 flex flex-row gap-2">
+          <span>Color: </span>
+          <strong>{vehicle.color}</strong>
+        </div>
+        <div className="col-span-1 flex flex-row gap-2">
+          <span>Placa: </span>
+          <strong>{vehicle.placa}</strong>
+        </div>
       </div>
     </div>
-    <div className="flex justify-center items-center w-full">
-      <div className="flex justify-center items-center w-1/2 h-full">
-        <img
-          src="https://suzukiecuador.com/wp-content/uploads/2023/07/Jimny-blanco-1.jpg"
-          alt="Imagen de ejemplo de vehículo"
-          className="rounded shadow w-full h-full object-cover"
-        />
-      </div>
-    </div>
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-      <div className="border-2 border-white rounded-lg p-2">
-        <label>
-          <strong>Marca: </strong> {vehicle.marca}
-        </label>
-      </div>
-      <div className="border-2 border-white rounded-lg p-2">
-        <label>
-          <strong>Modelo: </strong> {vehicle.modelo}
-        </label>
-      </div>
-      <div className="border-2 border-white rounded-lg p-2">
-        <label>
-          <strong>Año: </strong> {vehicle.anio}
-        </label>
-      </div>
-      <div className="border-2 border-white rounded-lg p-2">
-        <label>
-          <strong>Color: </strong> {vehicle.color}
-        </label>
-      </div>
-      <div className="border-2 border-white rounded-lg p-2">
-        <label>
-          <strong>Placa: </strong> {vehicle.placa}
-        </label>
-      </div>
-    </div>
-  </div>;
+  );
 };

@@ -14,17 +14,17 @@ export const useTabPrincipalUI = (): ITabPrincipalUI => {
     const items: TabsProps['items'] = [
         {
             key: '1',
-            label: 'Vehicles',
+            label: 'Vehiculos',
             children: <VehiclesUI />,
         },
         {
             key: '2',
-            label: 'Maintenance',
+            label: 'Mantenimiento',
             children: <MaintenanceUI />,
         },
         {
             key: '3',
-            label: 'Workshops',
+            label: 'Talleres',
             children: <WorkshopsUI />,
         },
     ];

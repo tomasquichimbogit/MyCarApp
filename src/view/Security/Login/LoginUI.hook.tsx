@@ -4,10 +4,9 @@ import { loginFormSchema } from "./loginForm.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSignInMutation } from "../../../services/auth.service";
 import { requestForToken } from "../../../firebaseConfig";
-import { useState } from "react";
 import { useAppNavigation } from "../../../hooks/useAppNavigation.hook";
 import { useThemeMode } from "../../../provider/Provider";
-
+import { useState } from "react";
 export interface ILoginUI {
     control: Control<ILoginForm>;
     handleFormSubmit: () => void;
@@ -66,7 +65,6 @@ export const useLoginUI = (): ILoginUI => {
             console.log(errors);
         })();
     };
-
 
     return { control, handleFormSubmit, isSignInPending, visiblePassword, setVisiblePassword, toggleMode, mode };
 }
