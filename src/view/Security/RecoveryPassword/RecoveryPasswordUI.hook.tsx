@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { supabase } from "../../../constants";
+import { SUPABASE } from "../../../constants";
 
 export interface IRecoveryPasswordUI {
     newPassword: string;
@@ -36,7 +36,7 @@ export const useRecoveryPasswordUI = (): IRecoveryPasswordUI => {
                 return;
             }
 
-            const { error } = await supabase.auth.setSession({
+            const { error } = await SUPABASE.auth.setSession({
                 access_token: accessToken,
                 refresh_token: refreshToken,
             });
@@ -75,14 +75,14 @@ export const useRecoveryPasswordUI = (): IRecoveryPasswordUI => {
         setIsLoading(true);
         setMessage("");
 
-        const { data: sessionData } = await supabase.auth.getSession();
+        const { data: sessionData } = await SUPABASE.auth.getSession();
         if (!sessionData.session) {
             setMessage("Auth session missing. Abre el enlace del correo y vuelve a intentar.");
             setIsLoading(false);
             return;
         }
 
-        const { error } = await supabase.auth.updateUser({
+        const { error } = await SUPABASE.auth.updateUser({
             password: newPassword,
         });
 

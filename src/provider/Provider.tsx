@@ -1,7 +1,7 @@
 import { ConfigProvider, theme } from 'antd';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { QueryProvider } from './QueryProvider';
-import { ModalProvider } from 'tomascomponents';
+import { ModalProvider, NotificationProvider } from 'tomascomponents';
 
 type ThemeMode = 'light' | 'dark';
 
@@ -33,8 +33,6 @@ export const useThemeMode = (): ThemeModeContextValue => {
 export const Provider = ({ children }: { children: React.ReactNode }) => {
     const { defaultAlgorithm, darkAlgorithm, compactAlgorithm } = theme;
     const [mode, setMode] = useState<ThemeMode>(getInitialMode);
-
-
     useEffect(() => {
         window.localStorage.setItem(THEME_STORAGE_KEY, mode);
         document.documentElement.style.colorScheme = mode;
@@ -51,29 +49,32 @@ export const Provider = ({ children }: { children: React.ReactNode }) => {
     const isDarkMode = mode === 'dark';
 
     return (
-        <ThemeModeContext.Provider value={themeModeContextValue}>
-            <ConfigProvider
-                theme={{
-                    algorithm: [isDarkMode ? darkAlgorithm : defaultAlgorithm, compactAlgorithm],
-                    token: {
-                        colorLink: '#1890ff',
-                    },
+      <ThemeModeContext.Provider value={themeModeContextValue}>
+        <ConfigProvider
+          theme={{
+            algorithm: [isDarkMode ? darkAlgorithm : defaultAlgorithm, compactAlgorithm],
+            token: {
+              colorLink: "#1890ff",
+            },
+          }}
+        >
+          {/* Portal único de notificaciones; en el resto de la app usar useNotify() */}
+          <NotificationProvider>
+          <QueryProvider>
+            <ModalProvider>
+              <div
+                style={{
+                  minHeight: "100vh",
+                  backgroundColor: isDarkMode ? "#141414" : "#f5f5f5",
+                  color: isDarkMode ? "rgba(255, 255, 255, 0.85)" : "rgba(0, 0, 0, 0.88)",
                 }}
-            >
-                <QueryProvider>
-                    <ModalProvider>
-                        <div
-                            style={{
-                                minHeight: '100vh',
-                                backgroundColor: isDarkMode ? '#141414' : '#f5f5f5',
-                                color: isDarkMode ? 'rgba(255, 255, 255, 0.85)' : 'rgba(0, 0, 0, 0.88)',
-                            }}
-                        >
-                            {children}
-                        </div>
-                    </ModalProvider>
-                </QueryProvider>
-            </ConfigProvider>
-        </ThemeModeContext.Provider>
+              >
+                {children}
+              </div>
+            </ModalProvider>
+          </QueryProvider>
+          </NotificationProvider>
+        </ConfigProvider>
+      </ThemeModeContext.Provider>
     );
 };

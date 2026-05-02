@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { supabase } from "../constants";
+import { SUPABASE } from "../constants";
 import { VEHICLE_KEYS } from "./keys";
 
 export interface VehicleRecord {
@@ -27,7 +27,7 @@ export const useVehiclesQuery = (filters?: UseVehiclesQueryProps) => {
     return useQuery({
         queryKey: VEHICLE_KEYS.listFilters(filters ?? {}),
         queryFn: async () => {
-            let query = supabase.from("vehiculo").select("*").order("created_at", { ascending: false });
+            let query = SUPABASE.from("vehiculo").select("*").order("created_at", { ascending: false });
 
             if (filters?.propietarioId) {
                 query = query.eq("propietario_id", filters.propietarioId);
@@ -51,7 +51,7 @@ export const useVehicleQuery = (id?: string) => {
         queryKey: ["vehiculo", id],
         enabled: Boolean(id),
         queryFn: async () => {
-            const { data, error } = await supabase.from("vehiculo").select("*").eq("id", id!).single();
+            const { data, error } = await SUPABASE.from("vehiculo").select("*").eq("id", id!).single();
             if (error) {
                 throw error;
             }
@@ -63,7 +63,7 @@ export const useVehicleQuery = (id?: string) => {
 export const useCreateVehicle = () => {
     return useMutation({
         mutationFn: async (payload: VehicleInsert) => {
-            const { data, error } = await supabase.from("vehiculo").insert(payload).select().single();
+            const { data, error } = await SUPABASE.from("vehiculo").insert(payload).select().single();
             if (error) {
                 throw error;
             }
@@ -75,7 +75,7 @@ export const useCreateVehicle = () => {
 export const useUpdateVehicleMutation = () => {
     return useMutation({
         mutationFn: async ({ id, values }: { id: string; values: VehicleUpdate }) => {
-            const { data, error } = await supabase.from("vehiculo").update(values).eq("id", id).select().single();
+            const { data, error } = await SUPABASE.from("vehiculo").update(values).eq("id", id).select().single();
             if (error) {
                 throw error;
             }
@@ -87,7 +87,7 @@ export const useUpdateVehicleMutation = () => {
 export const useDeleteVehicle = () => {
     return useMutation({
         mutationFn: async (id: string) => {
-            const { error } = await supabase.from("vehiculo").delete().eq("id", id);
+            const { error } = await SUPABASE.from("vehiculo").delete().eq("id", id);
             if (error) {
                 throw error;
             }

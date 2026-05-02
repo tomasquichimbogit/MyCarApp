@@ -1,14 +1,14 @@
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, isSupported, onMessage } from "firebase/messaging";
-import { apiKeyFirebase, appIdFirebase, authDomainFirebase, messagingSenderIdFirebase, projectIdFirebase, storageBucketFirebase, vapidKeyFirebase } from "./constants";
+import { API_KEY_FIREBASE, APP_ID_FIREBASE, AUTH_DOMAIN_FIREBASE, MESSAGING_SENDER_ID_FIREBASE, PROJECT_ID_FIREBASE, STORAGE_BUCKET_FIREBASE, VAPID_KEY_FIREBASE } from "./constants";
 
 const firebaseConfig = {
-    apiKey: apiKeyFirebase,
-    authDomain: authDomainFirebase,
-    projectId: projectIdFirebase,
-    storageBucket: storageBucketFirebase,
-    messagingSenderId: messagingSenderIdFirebase,
-    appId: appIdFirebase,
+    apiKey: API_KEY_FIREBASE,
+    authDomain: AUTH_DOMAIN_FIREBASE,
+    projectId: PROJECT_ID_FIREBASE,
+    storageBucket: STORAGE_BUCKET_FIREBASE,
+    messagingSenderId: MESSAGING_SENDER_ID_FIREBASE,
+    appId: APP_ID_FIREBASE,
 };
 
 const app = initializeApp(firebaseConfig);
@@ -92,7 +92,7 @@ export const requestForToken = async (): Promise<string | null> => {
         postFirebaseConfigToServiceWorker(registration);
         postFirebaseConfigToServiceWorker(readyRegistration);
         const currentToken = await getToken(messaging, {
-            vapidKey: vapidKeyFirebase,
+            vapidKey: VAPID_KEY_FIREBASE,
             serviceWorkerRegistration: readyRegistration,
         });
 

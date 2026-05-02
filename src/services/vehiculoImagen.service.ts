@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { supabase } from "../constants";
+import { SUPABASE } from "../constants";
 
 export interface VehicleImageRecord {
     id: string;
@@ -20,7 +20,7 @@ export const useVehicleImagesQuery = (vehiculoId?: string) => {
         queryKey: ["vehiculo_imagen", vehiculoId],
         enabled: Boolean(vehiculoId),
         queryFn: async () => {
-            const { data, error } = await supabase
+            const { data, error } = await SUPABASE
                 .from("vehiculo_imagen")
                 .select("*")
                 .eq("vehiculo_id", vehiculoId!)
@@ -36,7 +36,7 @@ export const useVehicleImagesQuery = (vehiculoId?: string) => {
 export const useCreateVehicleImageMutation = () => {
     return useMutation({
         mutationFn: async (payload: VehicleImageInsert) => {
-            const { data, error } = await supabase.from("vehiculo_imagen").insert(payload).select().single();
+            const { data, error } = await SUPABASE.from("vehiculo_imagen").insert(payload).select().single();
             if (error) {
                 throw error;
             }
@@ -48,7 +48,7 @@ export const useCreateVehicleImageMutation = () => {
 export const useUpdateVehicleImageMutation = () => {
     return useMutation({
         mutationFn: async ({ id, values }: { id: string; values: VehicleImageUpdate }) => {
-            const { data, error } = await supabase.from("vehiculo_imagen").update(values).eq("id", id).select().single();
+            const { data, error } = await SUPABASE.from("vehiculo_imagen").update(values).eq("id", id).select().single();
             if (error) {
                 throw error;
             }
@@ -60,7 +60,7 @@ export const useUpdateVehicleImageMutation = () => {
 export const useDeleteVehicleImageMutation = () => {
     return useMutation({
         mutationFn: async (id: string) => {
-            const { error } = await supabase.from("vehiculo_imagen").delete().eq("id", id);
+            const { error } = await SUPABASE.from("vehiculo_imagen").delete().eq("id", id);
             if (error) {
                 throw error;
             }

@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { supabase } from "../constants";
+import { SUPABASE } from "../constants";
 
 export interface PersonRecord {
     id: number;
@@ -18,7 +18,7 @@ export const usePersonsQuery = () => {
     return useQuery({
         queryKey: ["persona"],
         queryFn: async () => {
-            const { data, error } = await supabase.from("persona").select("*").order("created_at", { ascending: false });
+            const { data, error } = await SUPABASE.from("persona").select("*").order("created_at", { ascending: false });
             if (error) {
                 throw error;
             }
@@ -32,7 +32,7 @@ export const usePersonByUserIdQuery = (userId?: string) => {
         queryKey: ["persona", "user", userId],
         enabled: Boolean(userId),
         queryFn: async () => {
-            const { data, error } = await supabase.from("persona").select("*").eq("user_id", userId!).single();
+            const { data, error } = await SUPABASE.from("persona").select("*").eq("user_id", userId!).single();
             if (error) {
                 throw error;
             }
@@ -44,7 +44,7 @@ export const usePersonByUserIdQuery = (userId?: string) => {
 export const useCreatePersonMutation = () => {
     return useMutation({
         mutationFn: async (payload: PersonInsert) => {
-            const { data, error } = await supabase.from("persona").insert(payload).select().single();
+            const { data, error } = await SUPABASE.from("persona").insert(payload).select().single();
             if (error) {
                 throw error;
             }
@@ -56,7 +56,7 @@ export const useCreatePersonMutation = () => {
 export const useUpdatePersonMutation = () => {
     return useMutation({
         mutationFn: async ({ id, values }: { id: number; values: PersonUpdate }) => {
-            const { data, error } = await supabase.from("persona").update(values).eq("id", id).select().single();
+            const { data, error } = await SUPABASE.from("persona").update(values).eq("id", id).select().single();
             if (error) {
                 throw error;
             }
@@ -68,7 +68,7 @@ export const useUpdatePersonMutation = () => {
 export const useDeletePersonMutation = () => {
     return useMutation({
         mutationFn: async (id: number) => {
-            const { error } = await supabase.from("persona").delete().eq("id", id);
+            const { error } = await SUPABASE.from("persona").delete().eq("id", id);
             if (error) {
                 throw error;
             }

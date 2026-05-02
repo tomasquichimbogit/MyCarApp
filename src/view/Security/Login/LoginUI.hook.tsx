@@ -3,68 +3,53 @@ import type { ILoginForm } from "./interface";
 import { loginFormSchema } from "./loginForm.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSignInMutation } from "../../../services/auth.service";
-import { requestForToken } from "../../../firebaseConfig";
-import { useAppNavigation } from "../../../hooks/useAppNavigation.hook";
 import { useThemeMode } from "../../../provider/Provider";
 import { useState } from "react";
+import { useNotify } from "tomascomponents";
 export interface ILoginUI {
-    control: Control<ILoginForm>;
-    handleFormSubmit: () => void;
-    isSignInPending: boolean;
-    visiblePassword: boolean;
-    setVisiblePassword: (visible: boolean) => void;
-    toggleMode: () => void;
-    mode: "light" | "dark";
+  control: Control<ILoginForm>;
+  handleFormSubmit: () => void;
+  isSignInPending: boolean;
+  visiblePassword: boolean;
+  setVisiblePassword: (visible: boolean) => void;
+  toggleMode: () => void;
+  mode: "light" | "dark";
 }
 export const useLoginUI = (): ILoginUI => {
-    const [visiblePassword, setVisiblePassword] = useState(false);
-    const { mutateAsync: signInMutate, isPending: isSignInPending } = useSignInMutation();
-    const { navigateTo } = useAppNavigation();
-    const { mode, toggleMode } = useThemeMode();
+  const [visiblePassword, setVisiblePassword] = useState(false);
+  const { mutate: signInMutate, isPending: isSignInPending } = useSignInMutation();
+  const { notify } = useNotify();
+  const { mode, toggleMode } = useThemeMode();
 
-    const methods = useForm<ILoginForm>({
-        resolver: zodResolver(loginFormSchema),
-    });
+  const methods = useForm<ILoginForm>({
+    resolver: zodResolver(loginFormSchema),
+  });
 
-    const { control, handleSubmit } = methods;
+  const { control, handleSubmit } = methods;
 
-    const onSubmit = async (data: ILoginForm) => {
-        
-        const { data: signInData, error } = await signInMutate({
-            email: data.email,
-            password: data.password,
-        });
-
-        if (error) {
-            console.log(error.message);
-            return;
+  const onSubmit = (data: ILoginForm) => {
+    signInMutate(
+      {
+        email: data.email,
+        password: data.password,
+      },
+      {
+        onSuccess: () => {
+          console.log('onSuccess =>');
+          // navigateTo("/", true);
+          notify("success", {
+            title: "Login successful",
+          });
         }
+      },
+    );
+  };
 
-        const accessToken = signInData.session?.access_token ?? "";
-        if (!accessToken) {
-            console.log("No se pudo crear sesion.");
-            return;
-        }
+  const handleFormSubmit = () => {
+    handleSubmit(onSubmit, (errors) => {
+      console.log(errors);
+    })();
+  };
 
-        localStorage.setItem("token", accessToken);
-
-        try {
-            const fcmToken = await requestForToken();
-            if (fcmToken) {
-                localStorage.setItem("fcm_token", fcmToken);
-            }
-        } catch (error) {
-            console.log("No se pudo obtener token de notificaciones", error);
-        }
-
-        navigateTo("/", true);
-    }
-
-    const handleFormSubmit = () => {
-        handleSubmit(onSubmit, (errors) => {
-            console.log(errors);
-        })();
-    };
-
-    return { control, handleFormSubmit, isSignInPending, visiblePassword, setVisiblePassword, toggleMode, mode };
-}
+  return { control, handleFormSubmit, isSignInPending, visiblePassword, setVisiblePassword, toggleMode, mode };
+};

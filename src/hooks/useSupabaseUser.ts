@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "../constants";
+import { SUPABASE } from "../constants";
 
 export const useSupabaseUser = () => {
     return useQuery({
         queryKey: ["supabase", "user"],
         queryFn: async () => {
-            const { data, error } = await supabase.auth.getUser();
+            const { data, error } = await SUPABASE.auth.getUser();
             if (error) {
                 throw error;
             }
