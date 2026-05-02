@@ -3629,23 +3629,9 @@ tinyglobby@^0.2.15:
     fdir "^6.5.0"
     picomatch "^4.0.3"
 
-"tomascomponents@C:\\GitHub\\TomasComponents\\tomascomponents-0.0.5-a2.tgz":
+"tomascomponents@file:../TomasComponents/tomascomponents-0.0.5-a3.tgz":
   version "0.0.5"
-  resolved "C:\\GitHub\\TomasComponents\\tomascomponents-0.0.5-a2.tgz#7a57540345499c51934ade07f3a764819c472952"
-  dependencies:
-    "@ant-design/icons" "^5.4.0"
-    "@hookform/resolvers" "^5.2.2"
-    "@tailwindcss/vite" "^4.2.0"
-    antd "^6.3.0"
-    react "^19.2.0"
-    react-dom "^19.2.0"
-    react-hook-form "^7.71.2"
-    tailwindcss "^4.2.0"
-    zod "^4.3.6"
-
-"tomascomponents@file:../TomasComponents/tomascomponents-0.0.5-a2.tgz":
-  version "0.0.5"
-  resolved "file:../TomasComponents/tomascomponents-0.0.5-a2.tgz#958944ed9bd369effab03678aedaa7f470051e10"
+  resolved "file:../TomasComponents/tomascomponents-0.0.5-a3.tgz#e0484c3a27165882eba1f85eb9745ff2b116757d"
   dependencies:
     "@ant-design/icons" "^5.4.0"
     "@hookform/resolvers" "^5.2.2"

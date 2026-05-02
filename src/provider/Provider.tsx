@@ -2,6 +2,7 @@ import { ConfigProvider, theme } from 'antd';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { QueryProvider } from './QueryProvider';
 import { ModalProvider, NotificationProvider } from 'tomascomponents';
+import { LocalStorageProvider } from '../store/useLocalStorage';
 
 type ThemeMode = 'light' | 'dark';
 
@@ -62,15 +63,17 @@ export const Provider = ({ children }: { children: React.ReactNode }) => {
           <NotificationProvider>
           <QueryProvider>
             <ModalProvider>
-              <div
-                style={{
-                  minHeight: "100vh",
-                  backgroundColor: isDarkMode ? "#141414" : "#f5f5f5",
-                  color: isDarkMode ? "rgba(255, 255, 255, 0.85)" : "rgba(0, 0, 0, 0.88)",
-                }}
-              >
-                {children}
-              </div>
+              <LocalStorageProvider>
+                <div
+                  style={{
+                    minHeight: "100vh",
+                    backgroundColor: isDarkMode ? "#141414" : "#f5f5f5",
+                    color: isDarkMode ? "rgba(255, 255, 255, 0.85)" : "rgba(0, 0, 0, 0.88)",
+                  }}
+                >
+                  {children}
+                </div>
+              </LocalStorageProvider>
             </ModalProvider>
           </QueryProvider>
           </NotificationProvider>

@@ -1,11 +1,10 @@
 import type { IUseHomeUI } from "./HomeUI.hook";
-import { TabPrincipalUI } from "./components/TabPrincipal/TabPrincipalUI.controller";
+import { VehiclesListUI } from "./componentss/Vehicles/VehiclesListUI.controller";
 
-export const HomeUIView = ({ tokenFcm }: IUseHomeUI) => {
-  console.log(tokenFcm);
+export const HomeUIView = ({}: IUseHomeUI) => {
   return (
     <div className="rounded-lg p-2">
-      <TabPrincipalUI />
+      <VehiclesListUI />
     </div>
   );
 };
