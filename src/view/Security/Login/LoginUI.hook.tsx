@@ -2,10 +2,13 @@ import { useForm, type Control } from "react-hook-form";
 import type { ILoginForm } from "./interface";
 import { loginFormSchema } from "./loginForm.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useSignInMutation } from "../../../services/auth.service";
+import { useSignIn } from "../../../services/auth.service";
 import { useThemeMode } from "../../../provider/Provider";
 import { useState } from "react";
 import { useNotify } from "tomascomponents";
+import { useAppNavigation } from "../../../hooks/useAppNavigation.hook";
+import { useAuthStore } from "../../../store/useAuthStore";
+
 export interface ILoginUI {
   control: Control<ILoginForm>;
   handleFormSubmit: () => void;
@@ -17,10 +20,11 @@ export interface ILoginUI {
 }
 export const useLoginUI = (): ILoginUI => {
   const [visiblePassword, setVisiblePassword] = useState(false);
-  const { mutate: signInMutate, isPending: isSignInPending } = useSignInMutation();
+  const { mutate: signInMutate, isPending: isSignInPending } = useSignIn();
   const { notify } = useNotify();
   const { mode, toggleMode } = useThemeMode();
-
+  const { navigateTo } = useAppNavigation();  
+  const { setToken } = useAuthStore();
   const methods = useForm<ILoginForm>({
     resolver: zodResolver(loginFormSchema),
   });
@@ -34,12 +38,14 @@ export const useLoginUI = (): ILoginUI => {
         password: data.password,
       },
       {
-        onSuccess: () => {
-          console.log('onSuccess =>');
-          // navigateTo("/", true);
+        onSuccess: (data) => {
+          if (data.session?.access_token) {
+            setToken(data.session.access_token);
+          }
           notify("success", {
             title: "Login successful",
           });
+          navigateTo("/", true);
         }
       },
     );

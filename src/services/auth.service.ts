@@ -3,18 +3,32 @@ import type { ILoginForm } from "../view/Security/Login/interface";
 import { useMutation } from "@tanstack/react-query";
 import { useApiPostMutation } from "../config/axiosMethods";
 
-export const useSignInMutation = () => {
-  return useApiPostMutation<ILoginForm>(
+type SignInData = Awaited<ReturnType<typeof SUPABASE.auth.signInWithPassword>>["data"];
+type RefreshSessionData = Awaited<ReturnType<typeof SUPABASE.auth.refreshSession>>["data"];
+
+export const refreshSupabaseSession = async (): Promise<RefreshSessionData> => {
+  const { data, error } = await SUPABASE.auth.refreshSession();
+  if (error) throw error;
+  return data;
+};
+
+export const useSignIn = () => {
+  return useApiPostMutation<ILoginForm, SignInData>(
     true,
     async (dataSignIn) => {
-      const { data, error } = await SUPABASE.auth.signInWithPassword({
-        email: dataSignIn.email,
-        password: dataSignIn.password,
-      });
+      const { data, error } = await SUPABASE.auth.signInWithPassword(dataSignIn);
       if (error) throw error;
       return data;
     },
     "sign-in",
+  );
+};
+
+export const useRefreshSession = (showErrorNotification = false) => {
+  return useApiPostMutation<void, RefreshSessionData>(
+    showErrorNotification,
+    refreshSupabaseSession,
+    "refresh-session",
   );
 };
 
