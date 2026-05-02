@@ -8,6 +8,7 @@ import { useThemeMode } from "../../../../provider/Provider";
 import { useUserPersonInformationStore } from "../../../../store/useUserPersonInformation";
 import { useSupabaseUserId } from "../../../../hooks/useSupabaseUser";
 import { usePersonByUserIdQuery } from "../../../../services/person.service";
+import { signOutSupabase } from "../../../../services/auth.service";
 
 export interface IHeaderUI {
     toggleOpen: () => void;
@@ -43,8 +44,13 @@ export const useHeaderUI = (): IHeaderUI => {
         console.log(result);
     }
 
-    const handleLogout = () => {
-        logout();
+    const handleLogout = async () => {
+        try {
+            await signOutSupabase();
+            logout();
+        } catch {
+            logout();
+        }
     }
 
     const userOptions: MenuProps["items"] = [

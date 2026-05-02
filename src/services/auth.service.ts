@@ -12,6 +12,11 @@ export const refreshSupabaseSession = async (): Promise<RefreshSessionData> => {
   return data;
 };
 
+export const signOutSupabase = async (): Promise<void> => {
+  const { error } = await SUPABASE.auth.signOut();
+  if (error) throw error;
+};
+
 export const useSignIn = () => {
   return useApiPostMutation<ILoginForm, SignInData>(
     true,
