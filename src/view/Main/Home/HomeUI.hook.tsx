@@ -1,7 +1,7 @@
 import { useMemo } from "react";
-import { VehiclesListUI } from "./components/Vehicles/list/VehiclesListUI.controller";
+import { VehiclesListUI } from "../Vehicles/list/VehiclesListUI.controller";
 import type { TabsProps } from "antd";
-import { MaintenanceListUI } from "./components/Maintenance/list/MaintenanceListUI.controller";
+import { MaintenanceListUI } from "../Maintenance/list/MaintenanceListUI.controller";
 
 export interface IUseHomeUI {
     itemsTabs: TabsProps['items'];
