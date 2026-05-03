@@ -7,13 +7,17 @@ import { WorkshopItemUI } from "./components/workshop-item/WorkshopItemUI.contro
 export const WorkhopsListUIView = ({
   workshops,
   isLoadingWorkshops,
-  openModalCreateWorkshop,
+  openModalCreateWorkshop
 }: IWorkhopsListUI) => {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex justify-end items-end">
         <Button variant="solid" color="primary" title="Agregar taller" onClick={openModalCreateWorkshop} />
       </div>
+
+     
+
+
 
       {isLoadingWorkshops && <LoadingData loading={isLoadingWorkshops} message="Cargando talleres..." />}
 

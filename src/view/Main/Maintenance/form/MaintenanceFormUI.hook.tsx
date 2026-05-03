@@ -22,7 +22,7 @@ export interface IMaintenanceFormUIProps {
   workshopOptions: DefaultOptionType[];
 }
 
-export interface IMaintenanceFormUI extends IMaintenanceFormUIProps {}
+export type IMaintenanceFormUI = IMaintenanceFormUIProps;
 
 export const useMaintenanceFormUI = (props: IMaintenanceFormUIProps): IMaintenanceFormUI => props;
 

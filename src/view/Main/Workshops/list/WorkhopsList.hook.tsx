@@ -11,7 +11,10 @@ export interface IWorkhopsListUI {
 
 export const useWorkhopsListUI = (): IWorkhopsListUI => {
   const { openModal } = useModal();
+
   const { data: workshops = [], isLoading: isLoadingWorkshops } = useWorkshopsQuery();
+
+
 
   const openModalCreateWorkshop = useCallback(() => {
     openModal({
@@ -21,6 +24,8 @@ export const useWorkhopsListUI = (): IWorkhopsListUI => {
       height: "auto",
     });
   }, [openModal]);
+
+
 
   return {
     workshops,

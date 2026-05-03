@@ -2349,6 +2349,11 @@ dayjs@^1.11.11:
   resolved "https://registry.npmjs.org/dayjs/-/dayjs-1.11.19.tgz"
   integrity sha512-t5EcLVS6QPBNqM2z8fakk/NKel+Xzshgt8FFKAn+qwlD1pzZWxh0nVCrvFK7ZDb6XucZeF9z8C7CBWTRIVApAw==
 
+dayjs@^1.11.13:
+  version "1.11.20"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.11.20.tgz#88d919fd639dc991415da5f4cb6f1b6650811938"
+  integrity sha512-YbwwqR/uYpeoP4pu043q+LTDLFBLApUP6VxRihdfNTqu4ubqMlGDLd6ErXhEgsyvY0K6nCs7nggYumAN+9uEuQ==
+
 debug@^4.0.0, debug@^4.1.0, debug@^4.3.1, debug@^4.3.2, debug@^4.3.4, debug@^4.4.0, debug@^4.4.3:
   version "4.4.3"
   resolved "https://registry.npmjs.org/debug/-/debug-4.4.3.tgz"
@@ -3632,14 +3637,15 @@ tinyglobby@^0.2.15:
     fdir "^6.5.0"
     picomatch "^4.0.3"
 
-"tomascomponents@file:../TomasComponents/tomascomponents-0.0.5-a4.tgz":
+"tomascomponents@file:../TomasComponents/tomascomponents-0.0.5-a5.tgz":
   version "0.0.5"
-  resolved "file:../TomasComponents/tomascomponents-0.0.5-a4.tgz#68b88a960faa466d3449be5e42010c9556dfe63a"
+  resolved "file:../TomasComponents/tomascomponents-0.0.5-a5.tgz#fe23d7b6fb7616e0a1e86cd647467d45b4a45a9c"
   dependencies:
     "@ant-design/icons" "^5.4.0"
     "@hookform/resolvers" "^5.2.2"
     "@tailwindcss/vite" "^4.2.0"
     antd "^6.3.0"
+    dayjs "^1.11.13"
     react "^19.2.0"
     react-dom "^19.2.0"
     react-hook-form "^7.71.2"

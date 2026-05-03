@@ -1,4 +1,4 @@
-import { FormInput, FormNumberInput, FormSelect } from "tomascomponents";
+import { FormDatePicker, FormInput, FormNumberInput, FormSelect } from "tomascomponents";
 import type { IMaintenanceFormUI } from "./MaintenanceFormUI.hook";
 
 export const MaintenanceFormUIView = ({
@@ -8,8 +8,20 @@ export const MaintenanceFormUIView = ({
 }: IMaintenanceFormUI) => {
   return (
     <>
-      <FormSelect label="Vehículo" name="vehiculo_id" placeholder="Selecciona vehículo" control={control} options={vehicleOptions} />
-      <FormSelect label="Taller" name="taller_id" placeholder="Selecciona taller" control={control} options={workshopOptions} />
+      <FormSelect
+        label="Vehículo"
+        name="vehiculo_id"
+        placeholder="Selecciona vehículo"
+        control={control}
+        options={vehicleOptions}
+      />
+      <FormSelect
+        label="Taller"
+        name="taller_id"
+        placeholder="Selecciona taller"
+        control={control}
+        options={workshopOptions}
+      />
       <FormInput
         label="Descripción del servicio"
         name="descripcion_servicio"
@@ -19,7 +31,7 @@ export const MaintenanceFormUIView = ({
         maxLength={500}
       />
       <FormNumberInput label="Costo" name="costo" placeholder="Costo" control={control} />
-      <FormInput
+      <FormDatePicker
         label="Fecha del servicio"
         name="fecha_servicio"
         placeholder="Ej: fecha y hora local (YYYY-MM-DDTHH:mm)"

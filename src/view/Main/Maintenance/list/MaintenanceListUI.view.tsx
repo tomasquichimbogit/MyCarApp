@@ -1,4 +1,4 @@
-import { Button } from "tomascomponents";
+import { Button, Select } from "tomascomponents";
 import { Empty } from "antd";
 import { LoadingData } from "@/components/Render/LoadingData";
 import type { IMaintenanceListUI } from "./MaintenanceListUI.hook";
@@ -8,6 +8,12 @@ export const MaintenanceListUIView = ({
   maintenances,
   isLoadingMaintenance,
   openModalCreateMaintenance,
+  selectedVehicleId,
+  vehiclesOptions,
+  workshopsOptions,
+  handleSelectVehicle,
+  handleSelectWorkshop,
+  selectedWorkshopId,
 }: IMaintenanceListUI) => {
   return (
     <div className="flex flex-col gap-2">
@@ -15,6 +21,22 @@ export const MaintenanceListUIView = ({
         <Button variant="solid" color="primary" title="Agregar mantenimiento" onClick={openModalCreateMaintenance} />
       </div>
 
+      <div className="flex flex-col gap-2">
+        <Select
+          className="w-full"
+          placeholder="Selecciona vehículo"
+          options={vehiclesOptions}
+          value={selectedVehicleId}
+          onChange={(value) => handleSelectVehicle(value)}
+        />
+        <Select
+          className="w-full"
+          placeholder="Selecciona taller"
+          options={workshopsOptions}
+          value={selectedWorkshopId}
+          onChange={(value) => handleSelectWorkshop(value)}
+        />
+      </div>
       {isLoadingMaintenance && <LoadingData loading={isLoadingMaintenance} message="Cargando mantenimientos..." />}
 
       {!isLoadingMaintenance && maintenances.length > 0 && (
