@@ -1,6 +1,7 @@
 import { MaintenanceListUIView } from "./MaintenanceListUI.view";
+import { useMaintenanceListUI } from "./MaintenanceListUI.hook";
 
 export const MaintenanceListUI = () => {
-  
-  return <MaintenanceListUIView />;
+  const hook = useMaintenanceListUI();
+  return <MaintenanceListUIView {...hook} />;
 };
