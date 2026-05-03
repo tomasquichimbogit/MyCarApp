@@ -20,12 +20,13 @@ export const useVehicleItemUI = (vehicle: VehicleRecord): IVehicleItemUI => {
 
 
   const openModalConfirmDeleteVehicle = useCallback(() => {
+    if (!vehicle.id) return;
     openModal({
       title: "Eliminar vehículo",
       content: <ConfirmDeleteItemUIView vehicleId={vehicle.id} />,
       height: "auto",
     });
-  }, []);
+  }, [openModal, vehicle.id]);
 
   return {
     vehicle,

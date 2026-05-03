@@ -1,4 +1,4 @@
-import type { VehicleRecord } from "../../../../../../../services/vehiculo.service";
+import type { VehicleRecord } from "@/services/vehiculo.service";
 import { useVehicleItemUI } from "./VehicleItemUI.hook";
 import { VehicleItemUIView } from "./VehicleItemUI.view";
 

@@ -1,5 +1,5 @@
 import type { Control } from "react-hook-form";
-import { useCreateVehicle, type VehicleInsert } from "../../../../../../../services/vehiculo.service";
+import { useCreateVehicle, type VehicleRecord } from "../../../../../../../services/vehiculo.service";
 import { useVehicleCreateForm } from "./form/useVehicleCreateForm";
 import { useModal } from "tomascomponents";
 import { useMemo } from "react";
@@ -11,7 +11,7 @@ import { VEHICLE_KEYS } from "../../../../../../../services/keys";
 import { useQueryClient } from "@tanstack/react-query";
 
 export interface IVehicleCreateUI {
-  control: Control<VehicleInsert>;
+  control: Control<VehicleRecord>;
   closeModal: () => void;
   handleFormSubmit: () => void;
   loading?: boolean;
@@ -28,7 +28,7 @@ export const useVehicleCreateUI = (): IVehicleCreateUI => {
   const queryClient = useQueryClient();
   const brand = watch("marca");
 
-  const onSubmit = (data: VehicleInsert) => {
+  const onSubmit = (data: VehicleRecord) => {
     createVehicle(data,{
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: VEHICLE_KEYS.init, exact: false });

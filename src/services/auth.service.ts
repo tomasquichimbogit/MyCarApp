@@ -40,8 +40,6 @@ export const useRefreshSession = (showErrorNotification = false) => {
 export const useSignUpMutation = () => {
   return useMutation({
     mutationFn: async (dataSignUp: ILoginForm) => {
-      console.log("supabaseUrl =>", SUPABASE_URL);
-      console.log("apiKeySupabase =>", API_KEY_SUPABASE);
       if (!SUPABASE_URL || !API_KEY_SUPABASE) {
         throw new Error("Supabase URL or API key is not set");
       }

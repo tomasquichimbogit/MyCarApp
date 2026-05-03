@@ -2,9 +2,10 @@ import { Button } from "tomascomponents";
 import type { IVehicleItemUI } from "./VehicleItemUI.hook";
 import { PencilIcon, StarIcon, TrashIcon } from "lucide-react";
 
-export const VehicleItemUIView = ({ vehicle, isFavorite, toggleFavorite }: IVehicleItemUI) => {
+export const VehicleItemUIView = ({ vehicle, isFavorite, toggleFavorite, openModalDeleteVehicle, openModalUpdateVehicle }: IVehicleItemUI) => {
+  const classNameFavoriteBorder = isFavorite ? "border-green-500" : "border-gray-200";
   return (
-    <div className="flex flex-col gap-2 bg-gray-100 border border-gray-200 rounded-md p-2">
+    <div className={`flex flex-col gap-2 border rounded-md p-2 ${classNameFavoriteBorder}`}>
       <div className="flex flex-row justify-between items-center gap-2">
         <span>{vehicle.marca}</span>
         <div className="flex flex-row gap-0.5">
@@ -13,14 +14,14 @@ export const VehicleItemUIView = ({ vehicle, isFavorite, toggleFavorite }: IVehi
             color="primary"
             title={<PencilIcon className="w-4 h-4" />}
             size="small"
-            onClick={() => {}}
+            onClick={() => openModalUpdateVehicle(vehicle)}
           />
           <Button
             variant="outlined"
             color="danger"
             title={<TrashIcon className="w-4 h-4" />}
             size="small"
-            onClick={() => {}}
+            onClick={() => openModalDeleteVehicle(vehicle.id)}
           />
           <Button
             variant="outlined"
@@ -31,32 +32,8 @@ export const VehicleItemUIView = ({ vehicle, isFavorite, toggleFavorite }: IVehi
           />
         </div>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-0.5">
-        <div className="flex flex-row gap-0.5">
-          <strong>Modelo:</strong>
-          <span>{vehicle.modelo}</span>
-        </div>
-        <div className="flex flex-row gap-0.5">
-          <strong>Año:</strong>
-          <span>{vehicle.anio}</span>
-        </div>
-        <div className="flex flex-row gap-0.5">
-          <strong>Color:</strong>
-          <span>{vehicle.color}</span>
-        </div>
-        <div className="flex flex-row gap-0.5">
-          <strong>Placa:</strong>
-          <span>{vehicle.placa}</span>
-        </div>
-      </div>
-    </div>
-  );
-};
-{
-  /* 
-    
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-0.5">
+      <div className="grid grid-cols-2 gap-0.5">
+        <div className="grid grid-cols-2 gap-0.5">
           <div className="flex flex-col gap-0.5">
             <strong>Modelo:</strong>
             <span>{vehicle.modelo}</span>
@@ -66,7 +43,7 @@ export const VehicleItemUIView = ({ vehicle, isFavorite, toggleFavorite }: IVehi
             <span>{vehicle.anio}</span>
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-0.5">
+        <div className="grid grid-cols-2 gap-0.5">
           <div className="flex flex-col gap-0.5">
             <strong>Color:</strong>
             <span>{vehicle.color}</span>
@@ -76,7 +53,7 @@ export const VehicleItemUIView = ({ vehicle, isFavorite, toggleFavorite }: IVehi
             <span>{vehicle.placa}</span>
           </div>
         </div>
-    
-    
-    */
-}
+      </div>
+    </div>
+  );
+};

@@ -1,19 +1,30 @@
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
+import { VehiclesListUI } from "./componentss/Vehicles/list/VehiclesListUI.controller";
+import type { TabsProps } from "antd";
+import { MaintenanceListUI } from "./componentss/Maintenance/list/MaintenanceListUI.controller";
 
 export interface IUseHomeUI {
-    tokenFcm: string | null;
+    itemsTabs: TabsProps['items'];
 }
 
 export const useHomeUI = (): IUseHomeUI => {
-    const [tokenFcm, setTokenFcm] = useState<string | null>(null);
-    useEffect(() => {
-        const token = localStorage.getItem("fcm_token");
-        if (token) {
-            setTokenFcm(token);
-        }
+  
+    const itemsTabs = useMemo(() => {
+        return [
+            {
+                key: "1",
+                label: "Vehículos",
+                children: <VehiclesListUI />,
+            },
+            {
+                key: "2",
+                label: "Mantenimientos",
+                children: <MaintenanceListUI />,
+            },
+        ];
     }, []);
 
     return {
-        tokenFcm,
+        itemsTabs,
     }
 }

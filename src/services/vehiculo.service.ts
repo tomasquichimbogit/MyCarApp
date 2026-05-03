@@ -1,9 +1,10 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { SUPABASE } from "../constants";
 import { VEHICLE_KEYS } from "./keys";
+import { useApiPostMutation } from "@/config/axiosMethods";
 
 export interface VehicleRecord {
-    id: string;
+    id?: string;
     placa: string;
     marca: string;
     modelo: string;
@@ -15,8 +16,8 @@ export interface VehicleRecord {
     deleted_at?: string | null;
 }
 
-export type VehicleInsert = Omit<VehicleRecord, "id" | "created_at" | "updated_at" | "deleted_at">;
-export type VehicleUpdate = Partial<Omit<VehicleRecord, "id">>;
+// export type VehicleInsert = Omit<VehicleRecord, "id" | "created_at" | "updated_at" | "deleted_at">;
+// export type VehicleUpdate = Partial<Omit<VehicleRecord, "id">>;
 
 
 export interface UseVehiclesQueryProps {
@@ -60,27 +61,41 @@ export const useVehicleQuery = (id?: string) => {
     });
 };
 
+// export const useCreateVehicle = () => {
+//     return useMutation({
+//       mutationFn: async (payload: VehicleRecord) => {
+//         const { data, error } = await SUPABASE.from("vehiculo").insert(payload).select().single();
+//         if (error) {
+//           throw error;
+//         }
+//         return data as VehicleRecord;
+//       },
+//     });
+// };
+
 export const useCreateVehicle = () => {
-    return useMutation({
-        mutationFn: async (payload: VehicleInsert) => {
-            const { data, error } = await SUPABASE.from("vehiculo").insert(payload).select().single();
-            if (error) {
-                throw error;
-            }
-            return data as VehicleRecord;
-        },
-    });
+    return useApiPostMutation<VehicleRecord, VehicleRecord>(
+      true,
+      async (payload: VehicleRecord) => {
+        const { data, error } = await SUPABASE.from("vehiculo").insert(payload).select().single();
+        if (error) {
+          throw error;
+        }
+        return data as VehicleRecord;
+      },
+      "create-vehicle",
+    );
 };
 
 export const useUpdateVehicleMutation = () => {
     return useMutation({
-        mutationFn: async ({ id, values }: { id: string; values: VehicleUpdate }) => {
-            const { data, error } = await SUPABASE.from("vehiculo").update(values).eq("id", id).select().single();
-            if (error) {
-                throw error;
-            }
-            return data as VehicleRecord;
-        },
+      mutationFn: async ({ id, values }: { id: string; values: VehicleRecord }) => {
+        const { data, error } = await SUPABASE.from("vehiculo").update(values).eq("id", id).select().single();
+        if (error) {
+          throw error;
+        }
+        return data as VehicleRecord;
+      },
     });
 };
 

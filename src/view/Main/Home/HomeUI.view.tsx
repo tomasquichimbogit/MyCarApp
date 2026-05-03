@@ -1,10 +1,10 @@
+import { Tab } from "tomascomponents";
 import type { IUseHomeUI } from "./HomeUI.hook";
-import { VehiclesListUI } from "./componentss/Vehicles/VehiclesListUI.controller";
 
-export const HomeUIView = ({}: IUseHomeUI) => {
+export const HomeUIView = ({ itemsTabs }: IUseHomeUI) => {
   return (
     <div className="rounded-lg p-2">
-      <VehiclesListUI />
+      <Tab items={itemsTabs} type="card" />
     </div>
   );
 };

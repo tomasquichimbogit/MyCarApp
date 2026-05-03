@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from "react";
-import { useVehiclesQuery, type VehicleRecord } from "../../../../../services/vehiculo.service";
+import { useVehiclesQuery, type VehicleRecord } from "@/services/vehiculo.service";
 import { useModal, type CollapseProps, Button } from "tomascomponents";
 import { VehicleItemUI } from "./components/VehicleItem/VehicleItemUI.controller";
 import { VehicleCreateUI } from "./components/create/VehicleCreateUI.controller.tsx";
@@ -42,7 +42,7 @@ export const useVehiclesUI = (): IVehiclesUI => {
       });
     });
     return items as CollapseProps["items"];
-  }, [normalizedVehicles]);
+  }, [normalizedVehicles, renderVehicleLabel]);
 
   const openModalAddVehicle = useCallback(() => {
     openModal({
@@ -51,7 +51,7 @@ export const useVehiclesUI = (): IVehiclesUI => {
       width: "40vw",
       height: "auto",
     });
-  }, []);
+  }, [openModal]);
 
   return {
     itemsCollapse,

@@ -1,3 +1,4 @@
+import { cleanObjectData } from "@/helper";
 import {
   useMutation,
   type UseMutationOptions,
@@ -18,7 +19,10 @@ export function useApiPostMutation<
   const { notify } = useNotify();
   return useMutation<TResponse, TError, TRequest>({
     mutationKey: key !== undefined ? ["POST", key] : ["POST"],
-    mutationFn: (variables, _context) => mutationFn(variables),
+    mutationFn: (variables) => {
+      const cleanVariables = cleanObjectData(variables);
+      return mutationFn(cleanVariables);
+    },
     ...options,
     onError: (error, variables, onMutateResult, context) => {
       if (showErrorNotification) {
