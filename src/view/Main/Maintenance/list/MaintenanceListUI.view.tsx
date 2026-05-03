@@ -21,21 +21,33 @@ export const MaintenanceListUIView = ({
         <Button variant="solid" color="primary" title="Agregar mantenimiento" onClick={openModalCreateMaintenance} />
       </div>
 
-      <div className="flex flex-col gap-2">
-        <Select
-          className="w-full"
-          placeholder="Selecciona vehículo"
-          options={vehiclesOptions}
-          value={selectedVehicleId}
-          onChange={(value) => handleSelectVehicle(value)}
-        />
-        <Select
-          className="w-full"
-          placeholder="Selecciona taller"
-          options={workshopsOptions}
-          value={selectedWorkshopId}
-          onChange={(value) => handleSelectWorkshop(value)}
-        />
+      <div className="flex flex-col gap-0.5">
+        <div className="flex flex-col gap-0.5">
+          <div className="font-bold flex flex-row justify-between">
+            Vehículo
+            <small className="text-gray-500"> (Por defecto el vehículo favorito)</small>
+          </div>
+          <Select
+            className="w-full"
+            placeholder="Selecciona vehículo"
+            options={vehiclesOptions}
+            value={selectedVehicleId}
+            onChange={(value) => handleSelectVehicle(value)}
+          />
+        </div>
+        <div className="flex flex-col gap-0.5">
+          <div className="font-bold flex flex-row justify-between">
+            Taller
+          </div>
+          <Select
+            className="w-full"
+            placeholder="Selecciona taller"
+            options={workshopsOptions}
+            value={selectedWorkshopId}
+            onChange={(value) => handleSelectWorkshop(value ?? undefined)}
+            allowClear
+          />
+        </div>
       </div>
       {isLoadingMaintenance && <LoadingData loading={isLoadingMaintenance} message="Cargando mantenimientos..." />}
 

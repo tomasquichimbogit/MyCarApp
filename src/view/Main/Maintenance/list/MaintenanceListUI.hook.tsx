@@ -17,7 +17,7 @@ export interface IMaintenanceListUI {
   workshopsOptions: DefaultOptionType[];
   selectedWorkshopId?: string;
   handleSelectVehicle: (vehicleId: string) => void;
-  handleSelectWorkshop: (workshopId: string) => void;
+  handleSelectWorkshop: (workshopId?: string) => void;
 }
 
 export const useMaintenanceListUI = (): IMaintenanceListUI => {
@@ -60,18 +60,27 @@ export const useMaintenanceListUI = (): IMaintenanceListUI => {
     setManuallySelectedVehicleId(vehicleId);
   }, []);
 
-  const handleSelectWorkshop = useCallback((workshopId: string) => {
-    setManuallySelectedWorkshopId(workshopId);
+  const handleSelectWorkshop = useCallback((workshopId?: string) => {
+    setManuallySelectedWorkshopId(workshopId || undefined);
   }, []);
 
   const selectedVehicleId = manuallySelectedVehicleId ?? favoriteVehicleIdFromList;
 
-  const maintenancesFilteredByVehicle = useMemo(() => {
-    return maintenances.filter((maintenance) => maintenance.vehiculo_id === selectedVehicleId);
-  }, [maintenances, selectedVehicleId]);
+  const maintenancesFiltered = useMemo(() => {
+    return maintenances.filter((maintenance) => {
+      if (selectedVehicleId != null && maintenance.vehiculo_id !== selectedVehicleId) {
+        return false;
+      }
+      const workshopId = manuallySelectedWorkshopId;
+      if (workshopId != null && maintenance.taller_id !== workshopId) {
+        return false;
+      }
+      return true;
+    });
+  }, [maintenances, selectedVehicleId, manuallySelectedWorkshopId]);
 
   return {
-    maintenances: maintenancesFilteredByVehicle,
+    maintenances: maintenancesFiltered,
     isLoadingMaintenance,
     openModalCreateMaintenance,
     selectedVehicleId,
