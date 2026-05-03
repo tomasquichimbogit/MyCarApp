@@ -16,10 +16,6 @@ export interface VehicleRecord {
     deleted_at?: string | null;
 }
 
-// export type VehicleInsert = Omit<VehicleRecord, "id" | "created_at" | "updated_at" | "deleted_at">;
-// export type VehicleUpdate = Partial<Omit<VehicleRecord, "id">>;
-
-
 export interface UseVehiclesQueryProps {
     propietarioId?: string;
     includeDeleted?: boolean;
@@ -60,18 +56,6 @@ export const useVehicleQuery = (id?: string) => {
         },
     });
 };
-
-// export const useCreateVehicle = () => {
-//     return useMutation({
-//       mutationFn: async (payload: VehicleRecord) => {
-//         const { data, error } = await SUPABASE.from("vehiculo").insert(payload).select().single();
-//         if (error) {
-//           throw error;
-//         }
-//         return data as VehicleRecord;
-//       },
-//     });
-// };
 
 export const useCreateVehicle = () => {
     return useApiPostMutation<VehicleRecord, VehicleRecord>(

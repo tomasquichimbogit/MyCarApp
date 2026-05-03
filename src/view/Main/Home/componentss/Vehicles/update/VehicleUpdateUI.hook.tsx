@@ -5,6 +5,9 @@ import type { DefaultOptionType } from "antd/es/select";
 import type { IVehicleUpdateUIProps } from "./VehicleUpdateUI.controller";
 import { useEffect } from "react";
 import { useModal } from "tomascomponents";
+import { useUpdateVehicleMutation } from "@/services/vehiculo.service";
+import { VEHICLE_KEYS } from "@/services/keys";
+import { useQueryClient } from "@tanstack/react-query";
 
 export interface IVehicleUpdateUI {
   control: Control<VehicleRecord>;
@@ -13,6 +16,7 @@ export interface IVehicleUpdateUI {
   modelsOptions: DefaultOptionType[];
   colorsOptions: DefaultOptionType[];
   closeModal: () => void;
+  loading?: boolean;
 }
 
 export const useVehicleUpdateUI = (props: IVehicleUpdateUIProps): IVehicleUpdateUI => {
@@ -21,13 +25,21 @@ export const useVehicleUpdateUI = (props: IVehicleUpdateUIProps): IVehicleUpdate
   const {closeModal} = useModal();
   const { methods, brandsOptions, modelsOptions, colorsOptions } = useVehicleCreateForm();
   const { control, handleSubmit, reset } = methods;
+  const { mutate: updateVehicle, isPending: isUpdatingVehicle } = useUpdateVehicleMutation();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     reset(vehicle);
   }, [reset, vehicle]);
   
     const onSubmit = (data: VehicleRecord) => {
-    console.log('data =>',data);
+    if (!vehicle.id) return;
+    updateVehicle({ id: vehicle.id, values: data }, {
+      onSuccess: () => {
+        closeModal();
+        queryClient.invalidateQueries({ queryKey: VEHICLE_KEYS.init, exact: false }); 
+      },
+    });
     };
 
   const handleFormSubmit = () => {
@@ -44,5 +56,6 @@ export const useVehicleUpdateUI = (props: IVehicleUpdateUIProps): IVehicleUpdate
     modelsOptions,
     colorsOptions,
     closeModal,
+    loading: isUpdatingVehicle,
   };
 };
