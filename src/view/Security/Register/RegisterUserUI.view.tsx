@@ -34,6 +34,9 @@ export const RegisterUserUIView = ({
                 draggable={false}
               />
             </div>
+            <div className="flex flex-col items-center justify-center gap-2 mb-4">
+              <p className="text-xl font-semibold">Registrate para continuar</p>
+            </div>
             <div className="flex w-full justify-center items-center">
               <div className="flex flex-col gap-0.5 w-full md:w-1/2">
                 <FormInput label="Email" control={control} name="email" placeholder="Email" />
@@ -61,10 +64,17 @@ export const RegisterUserUIView = ({
                   loading={isSignInPending}
                 />
 
-                <Button type="link" title={<div className="flex flex-row items-center gap-2">
-                  <ArrowLeft className="w-4 h-4" />
-                  Iniciar sesión
-                  </div>} onClick={handleNavigate} variant="link" />
+                <Button
+                  type="link"
+                  title={
+                    <div className="flex flex-row items-center gap-2">
+                      <ArrowLeft className="w-4 h-4" />
+                      Iniciar sesión
+                    </div>
+                  }
+                  onClick={handleNavigate}
+                  variant="link"
+                />
               </div>
             </div>
           </form>

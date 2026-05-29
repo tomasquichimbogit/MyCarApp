@@ -2,6 +2,8 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { SUPABASE } from "../constants";
 import { VEHICLE_KEYS } from "./keys";
 import { useApiPostMutation } from "@/config/axiosMethods";
+import { useSupabaseUserId } from "@/hooks/useSupabaseUser";
+import { usePersonByUserIdQuery } from "./person.service";
 
 export interface VehicleRecord {
     id?: string;
@@ -17,16 +19,20 @@ export interface VehicleRecord {
 }
 
 export interface UseVehiclesQueryProps {
-    propietarioId?: string;
+    propietarioId?: number;
     includeDeleted?: boolean;
 }
+
 export const useVehiclesQuery = (filters?: UseVehiclesQueryProps) => {
+    const shouldFilterByOwner = filters !== undefined && "propietarioId" in filters;
+
     return useQuery({
         queryKey: VEHICLE_KEYS.listFilters(filters ?? {}),
+        enabled: !shouldFilterByOwner || filters?.propietarioId != null,
         queryFn: async () => {
             let query = SUPABASE.from("vehiculo").select("*").order("created_at", { ascending: false });
 
-            if (filters?.propietarioId) {
+            if (filters?.propietarioId != null) {
                 query = query.eq("propietario_id", filters.propietarioId);
             }
 
@@ -41,6 +47,17 @@ export const useVehiclesQuery = (filters?: UseVehiclesQueryProps) => {
             return data as VehicleRecord[];
         },
     });
+};
+
+export const useMyVehiclesQuery = () => {
+    const { userId } = useSupabaseUserId();
+    const { data: person, isLoading: isLoadingPerson } = usePersonByUserIdQuery(userId);
+    const vehiclesQuery = useVehiclesQuery({ propietarioId: person?.id });
+
+    return {
+        ...vehiclesQuery,
+        isLoading: isLoadingPerson || vehiclesQuery.isLoading,
+    };
 };
 
 export const useVehicleQuery = (id?: string) => {

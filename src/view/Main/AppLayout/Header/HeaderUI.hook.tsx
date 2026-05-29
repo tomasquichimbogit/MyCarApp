@@ -18,6 +18,7 @@ export interface IHeaderUI {
     userName: string;
     mode: "light" | "dark";
     toggleMode: () => void;
+    isLoadingPerson: boolean;
 }
 
 export const useHeaderUI = (): IHeaderUI => {
@@ -26,14 +27,14 @@ export const useHeaderUI = (): IHeaderUI => {
     
   const { userPersonInformation, setUserPersonInformation } = useUserPersonInformationStore();
   const { userId } = useSupabaseUserId();
-  const { data: person } = usePersonByUserIdQuery(userId);
+  const { data: person, isLoading: isLoadingPerson } = usePersonByUserIdQuery(userId);
 
 
   useEffect(() => {
     if (person) {
       setUserPersonInformation(person);
     }
-  }, [person]);
+  }, [person, setUserPersonInformation]);
 
     const { sendFireBaseNotification } = useSendFireBaseNotification();
     const { mode, toggleMode } = useThemeMode();
@@ -83,5 +84,5 @@ export const useHeaderUI = (): IHeaderUI => {
         return `${userPersonInformation?.name} ${userPersonInformation?.lastnames}`;
     }, [userPersonInformation]);
 
-    return { toggleOpen, testNotification, handleLogout, userOptions, userName, mode, toggleMode };
+    return { toggleOpen, testNotification, handleLogout, userOptions, userName, mode, toggleMode, isLoadingPerson };
 }

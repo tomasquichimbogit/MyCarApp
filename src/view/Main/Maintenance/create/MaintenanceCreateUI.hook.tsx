@@ -7,7 +7,7 @@ import {
   useCreateMaintenance,
   type MaintenanceRecord,
 } from "@/services/maintenance.service";
-import { useVehiclesQuery } from "@/services/vehiculo.service";
+import { useMyVehiclesQuery } from "@/services/vehiculo.service";
 import { useWorkshopsQuery } from "@/services/taller.service";
 import { useMaintenanceForm } from "../form/MaintenanceFormUI.hook";
 import type { DefaultOptionType } from "antd/es/select";
@@ -27,7 +27,7 @@ export const useMaintenanceCreateUI = (): IMaintenanceCreateUI => {
   const { control, handleSubmit } = methods;
   const { mutate: createMaintenance, isPending: isCreatingMaintenance } = useCreateMaintenance();
   const queryClient = useQueryClient();
-  const { data: vehicles = [] } = useVehiclesQuery();
+  const { data: vehicles = [] } = useMyVehiclesQuery();
   const { data: workshops = [] } = useWorkshopsQuery();
 
   const vehicleOptions = useMemo(() => {

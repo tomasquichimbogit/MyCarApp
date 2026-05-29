@@ -3,7 +3,7 @@ import { useModal } from "tomascomponents";
 import type { MaintenanceListRow } from "@/services/maintenance.service";
 import { useMaintenanceListQuery } from "@/services/maintenance.service";
 import { MaintenanceCreateUI } from "../create/MaintenanceCreateUI.controller";
-import { useVehiclesQuery } from "@/services/vehiculo.service";
+import { useMyVehiclesQuery } from "@/services/vehiculo.service";
 import { useWorkshopsQuery } from "@/services/taller.service";
 import { useLocalStorage } from "@/store/useLocalStorage";
 import type { DefaultOptionType } from "antd/es/select";
@@ -26,7 +26,7 @@ export const useMaintenanceListUI = (): IMaintenanceListUI => {
   const [manuallySelectedVehicleId, setManuallySelectedVehicleId] = useState<string>();
   const [manuallySelectedWorkshopId, setManuallySelectedWorkshopId] = useState<string>();
   const { favoriteVehiclesId } = useLocalStorage();
-  const { data: vehiclesOptions = [] } = useVehiclesQuery();
+  const { data: vehiclesOptions = [] } = useMyVehiclesQuery();
   const { data: workshopsOptions = [] } = useWorkshopsQuery();
 
   const normalizedVehiclesOptions = useMemo(() => {

@@ -7,7 +7,7 @@ import {
   useUpdateMaintenanceMutation,
   type MaintenanceRecord,
 } from "@/services/maintenance.service";
-import { useVehiclesQuery } from "@/services/vehiculo.service";
+import { useMyVehiclesQuery } from "@/services/vehiculo.service";
 import { useWorkshopsQuery } from "@/services/taller.service";
 import { isoToDatetimeLocal, useMaintenanceForm } from "../form/MaintenanceFormUI.hook";
 import type { IMaintenanceUpdateUIProps } from "./MaintenanceUpdateUI.controller";
@@ -29,7 +29,7 @@ export const useMaintenanceUpdateUI = (props: IMaintenanceUpdateUIProps): IMaint
   const { control, handleSubmit, reset } = methods;
   const { mutate: updateMaintenance, isPending: isUpdatingMaintenance } = useUpdateMaintenanceMutation();
   const queryClient = useQueryClient();
-  const { data: vehicles = [] } = useVehiclesQuery();
+  const { data: vehicles = [] } = useMyVehiclesQuery();
   const { data: workshops = [] } = useWorkshopsQuery();
 
   const vehicleOptions = useMemo(() => {
