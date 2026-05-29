@@ -60,7 +60,7 @@ export const useLoginUI = (): ILoginUI => {
   };
 
   const handleNavigate = () => {
-    navigateTo(PATHS.verifyEmail);
+    navigateTo(PATHS.registerUser);
   };
 
   return {

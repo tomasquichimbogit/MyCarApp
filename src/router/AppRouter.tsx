@@ -10,9 +10,14 @@ import { Error404 } from "../view/Main/Error404";
 import { RegisterUserUI } from "@/view/Security/Register/RegisterUserUI.controller";
 import { VerifyEmailUI } from "@/view/Security/VerifyEmail/VerifyEmailUI.controller";
 import { PATHS } from "./paths";
+import { isSignupAuthCallback } from "@/helper/authRedirect";
 
 export const AppRouter = () => {
   useForegroundMessages();
+
+  if (isSignupAuthCallback()) {
+    return <VerifyEmailUI />;
+  }
 
   return (
     <Routes>

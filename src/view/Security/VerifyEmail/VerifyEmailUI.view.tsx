@@ -1,18 +1,9 @@
-import { Moon, Sun, ArrowLeft, MailCheck } from "lucide-react";
-import { Button, FormInput } from "tomascomponents";
+import { Moon, Sun, CheckCircle2, XCircle, Loader2 } from "lucide-react";
 import logoUrl from "../../../assets/logo.png";
 import { Button as ButtonAntd } from "antd";
 import type { IVerifyEmailUI } from "./VerifyEmailUI.hook";
 
-export const VerifyEmailUIView = ({
-  control,
-  handleFormSubmit,
-  isVerifyPending,
-  toggleMode,
-  mode,
-  handleNavigate,
-  isProcessingLink,
-}: IVerifyEmailUI) => {
+export const VerifyEmailUIView = ({ status, toggleMode, mode }: IVerifyEmailUI) => {
   return (
     <div className="flex flex-col w-full min-h-screen">
       <div className="flex justify-end w-full p-2">
@@ -22,66 +13,39 @@ export const VerifyEmailUIView = ({
         </ButtonAntd>
       </div>
       <div className="flex-1 min-h-0 flex items-center justify-center p-4">
-        <form className="flex flex-col gap-2 border border-gray-800 rounded-4xl p-4 pb-12 w-full md:w-[500px]">
-          <div className="flex flex-col items-center justify-center gap-2 mb-4">
-            <img
-              src={logoUrl}
-              alt="Logo"
-              className="h-32 w-auto max-w-[400px] object-contain mx-auto rounded-md"
-              draggable={false}
-            />
-          </div>
-          <div className="flex w-full justify-center items-center">
-            <div className="flex flex-col gap-0.5 w-full md:w-1/2">
-              <p className="text-sm text-gray-500 mb-2 text-center">
-                {isProcessingLink
-                  ? "Confirmando tu correo..."
-                  : "Ingresa el código que te enviamos por correo para activar tu cuenta."}
-              </p>
-              {!isProcessingLink && (
-                <>
-                  <FormInput label="Email" control={control} name="email" placeholder="Email" />
-                  <FormInput
-                    label="Código"
-                    control={control}
-                    name="verificationCode"
-                    placeholder="Código de confirmación"
-                  />
-                </>
-              )}
-            </div>
-          </div>
-          {!isProcessingLink && (
-            <div className="flex flex-col gap-2 w-full justify-center items-center">
-              <div className="flex flex-col gap-2 w-full md:w-1/2">
-                <Button
-                  variant="solid"
-                  onClick={handleFormSubmit}
-                  color="primary"
-                  title={
-                    <div className="flex items-center gap-2">
-                      <MailCheck className="w-4 h-4" />
-                      <span>Verificar correo</span>
-                    </div>
-                  }
-                  loading={isVerifyPending}
-                />
+        <div className="flex flex-col items-center gap-4 border border-gray-800 rounded-4xl p-8 w-full md:w-[500px] text-center">
+          <img
+            src={logoUrl}
+            alt="Logo"
+            className="h-32 w-auto max-w-[400px] object-contain mx-auto rounded-md"
+            draggable={false}
+          />
 
-                <Button
-                  type="link"
-                  title={
-                    <div className="flex flex-row items-center gap-2">
-                      <ArrowLeft className="w-4 h-4" />
-                      Iniciar sesión
-                    </div>
-                  }
-                  onClick={handleNavigate}
-                  variant="link"
-                />
-              </div>
-            </div>
+          {status === "loading" && (
+            <>
+              <Loader2 className="w-10 h-10 animate-spin text-primary" />
+              <p className="text-sm text-gray-500">Verificando tu correo...</p>
+            </>
           )}
-        </form>
+
+          {status === "success" && (
+            <>
+              <CheckCircle2 className="w-12 h-12 text-green-500" />
+              <h1 className="text-xl font-semibold">Verificado correctamente</h1>
+              <p className="text-sm text-gray-500">Tu cuenta ya está activa. Ya puedes iniciar sesión.</p>
+            </>
+          )}
+
+          {status === "error" && (
+            <>
+              <XCircle className="w-12 h-12 text-red-500" />
+              <h1 className="text-xl font-semibold">No se pudo verificar</h1>
+              <p className="text-sm text-gray-500">
+                El enlace no es válido o expiró. Regístrate de nuevo o solicita un nuevo correo.
+              </p>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

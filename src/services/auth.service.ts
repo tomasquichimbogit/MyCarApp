@@ -1,19 +1,13 @@
 import { API_KEY_SUPABASE, SUPABASE, SUPABASE_URL } from "../constants";
 import type { ILoginForm } from "../view/Security/Login/interface";
 import type { IRegisterUserForm } from "../view/Security/Register/interface";
-import { useMutation } from "@tanstack/react-query";
 import { useApiPostMutation } from "../config/axiosMethods";
 import { PATHS } from "@/router/paths";
+import { getAuthRedirectUrl } from "@/helper/authRedirect";
 
 type SignInData = Awaited<ReturnType<typeof SUPABASE.auth.signInWithPassword>>["data"];
 type RefreshSessionData = Awaited<ReturnType<typeof SUPABASE.auth.refreshSession>>["data"];
 type SignUpData = Awaited<ReturnType<typeof SUPABASE.auth.signUp>>["data"];
-type VerifyOtpData = Awaited<ReturnType<typeof SUPABASE.auth.verifyOtp>>["data"];
-
-interface VerifySignupOtpPayload {
-  email: string;
-  token: string;
-}
 
 export const refreshSupabaseSession = async (): Promise<RefreshSessionData> => {
   const { data, error } = await SUPABASE.auth.refreshSession();
@@ -57,7 +51,7 @@ export const useSignUpMutation = () => {
         email: dataSignUp.email,
         password: dataSignUp.password,
         options: {
-          emailRedirectTo: `${window.location.origin}${PATHS.verifyEmail}`,
+          emailRedirectTo: getAuthRedirectUrl(PATHS.verifyEmail),
         },
       });
       if (error) throw error;
@@ -65,19 +59,4 @@ export const useSignUpMutation = () => {
     },
     "sign-up",
   );
-};
-
-export const useVerifySignupOtpMutation = () => {
-  return useMutation({
-    mutationKey: ["POST", "verify-signup-otp"],
-    mutationFn: async ({ email, token }: VerifySignupOtpPayload): Promise<VerifyOtpData> => {
-      const { data, error } = await SUPABASE.auth.verifyOtp({
-        email,
-        token,
-        type: "signup",
-      });
-      if (error) throw error;
-      return data;
-    },
-  });
 };

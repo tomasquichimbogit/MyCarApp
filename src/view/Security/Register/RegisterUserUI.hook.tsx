@@ -50,9 +50,9 @@ export const useRegisterUserUI = (): IRegisterUserUI => {
           }
 
           notify("success", {
-            title: "Te enviamos un código de confirmación al correo",
+            title: "Revisa tu correo y confirma tu cuenta con el enlace que te enviamos",
           });
-          navigateTo(`${PATHS.verifyEmail}?email=${encodeURIComponent(data.email)}`);
+          navigateTo(PATHS.login);
         },
       },
     );
