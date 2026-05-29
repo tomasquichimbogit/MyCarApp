@@ -1,17 +1,16 @@
 import { useForm, type Control } from "react-hook-form";
-import type { ILoginForm } from "./interface";
-import { loginFormSchema } from "./loginForm.schema";
+import { registerUserFormSchema, type IRegisterUserForm } from "./interface";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useSignIn } from "../../../services/auth.service";
 import { useThemeMode } from "../../../provider/Provider";
 import { useState } from "react";
-import { useNotify } from "tomascomponents";
 import { useAppNavigation } from "../../../hooks/useAppNavigation.hook";
-import { useAuthStore } from "../../../store/useAuthStore";
 import { PATHS } from "@/router/paths";
+import { useSignUpMutation } from "../../../services/auth.service";
+import { useNotify } from "tomascomponents";
+import { useAuthStore } from "../../../store/useAuthStore";
 
-export interface ILoginUI {
-  control: Control<ILoginForm>;
+export interface IRegisterUserUI {
+  control: Control<IRegisterUserForm>;
   handleFormSubmit: () => void;
   isSignInPending: boolean;
   visiblePassword: boolean;
@@ -20,34 +19,40 @@ export interface ILoginUI {
   mode: "light" | "dark";
   handleNavigate: () => void;
 }
-export const useLoginUI = (): ILoginUI => {
+export const useRegisterUserUI = (): IRegisterUserUI => {
   const [visiblePassword, setVisiblePassword] = useState(false);
-  const { mutate: signInMutate, isPending: isSignInPending } = useSignIn();
-  const { notify } = useNotify();
   const { mode, toggleMode } = useThemeMode();
   const { navigateTo } = useAppNavigation();
+  const { notify } = useNotify();
   const { setToken } = useAuthStore();
-  const methods = useForm<ILoginForm>({
-    resolver: zodResolver(loginFormSchema),
+  const { mutate: signUpMutate, isPending: isSignUpPending } = useSignUpMutation();
+  const methods = useForm<IRegisterUserForm>({
+    resolver: zodResolver(registerUserFormSchema),
   });
 
   const { control, handleSubmit } = methods;
 
-  const onSubmit = (data: ILoginForm) => {
-    signInMutate(
+  const onSubmit = (data: IRegisterUserForm) => {
+    signUpMutate(
       {
         email: data.email,
         password: data.password,
       },
       {
-        onSuccess: (data) => {
-          if (data.session?.access_token) {
-            setToken(data.session.access_token);
+        onSuccess: (response) => {
+          if (response.session?.access_token) {
+            setToken(response.session.access_token);
+            notify("success", {
+              title: "Registro exitoso",
+            });
+            navigateTo(PATHS.home, true);
+            return;
           }
+
           notify("success", {
-            title: "Login successful",
+            title: "Te enviamos un código de confirmación al correo",
           });
-          navigateTo("/", true);
+          navigateTo(`${PATHS.verifyEmail}?email=${encodeURIComponent(data.email)}`);
         },
       },
     );
@@ -60,13 +65,13 @@ export const useLoginUI = (): ILoginUI => {
   };
 
   const handleNavigate = () => {
-    navigateTo(PATHS.verifyEmail);
+    navigateTo(PATHS.login);
   };
 
   return {
     control,
     handleFormSubmit,
-    isSignInPending,
+    isSignInPending: isSignUpPending,
     visiblePassword,
     setVisiblePassword,
     toggleMode,

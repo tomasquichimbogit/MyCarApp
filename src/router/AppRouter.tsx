@@ -7,16 +7,21 @@ import { RecoveryPasswordUI } from "../view/Security/RecoveryPassword/RecoveryPa
 import { AppLayout } from "../view/Main/AppLayout";
 import { HomeUI } from "../view/Main/Home/HomeUI.controller";
 import { Error404 } from "../view/Main/Error404";
+import { RegisterUserUI } from "@/view/Security/Register/RegisterUserUI.controller";
+import { VerifyEmailUI } from "@/view/Security/VerifyEmail/VerifyEmailUI.controller";
+import { PATHS } from "./paths";
 
 export const AppRouter = () => {
   useForegroundMessages();
 
   return (
     <Routes>
-      <Route path="/login" element={<LoginUI />} />
-      <Route path="/recovery-password" element={<RecoveryPasswordUI />} />
+      <Route path={PATHS.login} element={<LoginUI />} />
+      <Route path={PATHS.recoveryPassword} element={<RecoveryPasswordUI />} />
+      <Route path={PATHS.registerUser} element={<RegisterUserUI />} />
+      <Route path={PATHS.verifyEmail} element={<VerifyEmailUI />} />
       <Route
-        path="/"
+        path={PATHS.home}
         element={
           <AppGuard>
             <AppLayout />
@@ -27,7 +32,7 @@ export const AppRouter = () => {
         <Route path="home" element={<HomeUI />} />
         <Route path="*" element={<Error404 />} />
       </Route>
-      <Route path="*" element={<Navigate to="/login" replace />} />
+      <Route path="*" element={<Navigate to={PATHS.login} replace />} />
     </Routes>
   );
 };

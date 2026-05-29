@@ -1,7 +1,7 @@
 import { Button, FormInput } from "tomascomponents";
 import type { ILoginUI } from "./LoginUI.hook";
-import { IconCarSuv } from "../../../assets";
-import { Moon, Sun, User2 } from "lucide-react";
+import logoUrl from "../../../assets/logo.png";
+import { Moon, Sun, User2, ArrowRight } from "lucide-react";
 import { Button as ButtonAntd } from "antd";
 
 export const LoginUIView = ({
@@ -11,6 +11,7 @@ export const LoginUIView = ({
   visiblePassword,
   toggleMode,
   mode,
+  handleNavigate,
 }: ILoginUI) => {
   return (
     <div className="flex flex-col w-full min-h-screen">
@@ -21,13 +22,17 @@ export const LoginUIView = ({
         </ButtonAntd>
       </div>
       <div className="flex-1 min-h-0 flex items-center justify-center p-4">
-        <form className="flex flex-col gap-4 border border-gray-800 rounded-4xl p-4 pb-12 w-full md:w-[500px]">
-          <div className="flex flex-col items-center justify-center gap-0 rotate-12 mb-2">
-            <IconCarSuv width={100} height={100} color={mode === "dark" ? "white" : "black"} />
-            <div className="w-full h-0.5 -mt-6" />
+        <form className="flex flex-col gap-2 border border-gray-800 rounded-4xl p-4 pb-12 w-full md:w-[500px]">
+          <div className="flex flex-col items-center justify-center gap-2 mb-4">
+            <img
+              src={logoUrl}
+              alt="Logo"
+              className="h-32 w-auto max-w-[400px] object-contain mx-auto rounded-md"
+              draggable={false}
+            />
           </div>
           <div className="flex w-full justify-center items-center">
-            <div className="flex flex-col gap-2 w-full md:w-1/2">
+            <div className="flex flex-col gap-0.5 w-full md:w-1/2">
               <FormInput label="Email" control={control} name="email" placeholder="Email" />
               <FormInput
                 type={visiblePassword ? "text" : "password"}
@@ -52,20 +57,17 @@ export const LoginUIView = ({
                 }
                 loading={isSignInPending}
               />
+
               <Button
-                variant="outlined"
-                onClick={handleFormSubmit}
+                type="link"
                 title={
-                  <div className="flex items-center gap-2">
-                    <img
-                      className="h-4 w-4"
-                      src="https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/login/googleFavicon.png"
-                      alt="googleFavicon"
-                    />
-                    <span>Iniciar sesión con Google</span>
+                  <div className="flex flex-row items-center gap-2">
+                    Registrarse
+                    <ArrowRight className="w-4 h-4" />
                   </div>
                 }
-                loading={isSignInPending}
+                onClick={handleNavigate}
+                variant="link"
               />
             </div>
           </div>
