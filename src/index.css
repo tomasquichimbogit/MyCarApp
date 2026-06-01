@@ -1,1 +1,37 @@
 @import "tailwindcss";
+
+/*
+  MyCarApp — paleta rally
+  Uso: text-orange-rally, bg-carbon-black, border-red-dakar, etc.
+*/
+@theme {
+  /* Naranja Rally — botones principales, CTA */
+  --color-orange-rally: #e65a1e;
+
+  /* Rojo Dakar — estados importantes, acentos */
+  --color-red-dakar: #c63b27;
+
+  /* Negro Carbón — sidebar, header */
+  --color-carbon-black: #121212;
+
+  /* Gris Grafito — fondos secundarios */
+  --color-graphite-gray: #2a2a2a;
+
+  /* Arena Desierto — fondos suaves */
+  --color-desert-sand: #d9b07a;
+
+  /* Beige Claro — cards y áreas limpias */
+  --color-light-beige: #f2e6d8;
+
+  /* Amarillo LED — indicadores, badges */
+  --color-led-yellow: #d8ff28;
+
+  /* Blanco Arena — texto sobre fondos oscuros */
+  --color-sand-white: #faf7f2;
+
+  /* Helmet blue (azul casco) */
+  --color-helmet-blue: #19425f;
+
+  /* Beacon yellow (amarillo faro) */
+  --color-beacon-yellow: #e5d977;
+}

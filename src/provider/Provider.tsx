@@ -1,18 +1,11 @@
 import { ConfigProvider, theme } from 'antd';
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { QueryProvider } from './QueryProvider';
 import { ModalProvider, NotificationProvider } from 'tomascomponents';
 import { LocalStorageProvider } from '../store/useLocalStorage';
+import { THEME_STORAGE_KEY, ThemeModeContext, type ThemeMode } from '@/hooks/useThemeMode';
 
-type ThemeMode = 'light' | 'dark';
 
-interface ThemeModeContextValue {
-    mode: ThemeMode;
-    toggleMode: () => void;
-}
-
-const THEME_STORAGE_KEY = 'mycarapp-theme-mode';
-const ThemeModeContext = createContext<ThemeModeContextValue | undefined>(undefined);
 
 const getInitialMode = (): ThemeMode => {
     if (typeof window === 'undefined') return 'light';
@@ -23,13 +16,7 @@ const getInitialMode = (): ThemeMode => {
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 };
 
-export const useThemeMode = (): ThemeModeContextValue => {
-    const context = useContext(ThemeModeContext);
-    if (!context) {
-        throw new Error('useThemeMode must be used within Provider');
-    }
-    return context;
-};
+
 
 export const Provider = ({ children }: { children: React.ReactNode }) => {
     const { defaultAlgorithm, darkAlgorithm, compactAlgorithm } = theme;
@@ -47,7 +34,7 @@ export const Provider = ({ children }: { children: React.ReactNode }) => {
         [mode],
     );
 
-    const isDarkMode = mode === 'dark';
+    const isDarkMode = mode === "dark";
 
     return (
       <ThemeModeContext.Provider value={themeModeContextValue}>
@@ -64,15 +51,15 @@ export const Provider = ({ children }: { children: React.ReactNode }) => {
           <QueryProvider>
             <ModalProvider>
               <LocalStorageProvider>
-                <div
+                {/* <div
                   style={{
                     minHeight: "100vh",
                     backgroundColor: isDarkMode ? "#141414" : "#f5f5f5",
                     color: isDarkMode ? "rgba(255, 255, 255, 0.85)" : "rgba(0, 0, 0, 0.88)",
                   }}
-                >
+                > */}
                   {children}
-                </div>
+                {/* </div> */}
               </LocalStorageProvider>
             </ModalProvider>
           </QueryProvider>
