@@ -33,5 +33,7 @@
   --color-helmet-blue: #19425f;
 
   /* Beacon yellow (amarillo faro) */
-  --color-beacon-yellow: #e5d977;
+  --color-beacon-yellow: #f9f045;
+  /* Azul carroseria auto*/
+  --color-blue-bodywork: #090d15;
 }

@@ -17,6 +17,7 @@ export interface IUseLoginUIHook {
     mode: ThemeMode;
     toggleMode: () => void;
     handleNavigateToRegister: () => void;
+    handleNavigateToForgotPassword: () => void;
 }
 
 export const useLoginUI = (): IUseLoginUIHook => {
@@ -33,11 +34,16 @@ export const useLoginUI = (): IUseLoginUIHook => {
         navigate(PATHS.registerUser);
     }
 
+    const handleNavigateToForgotPassword = () => {
+        navigate(PATHS.recoveryPassword);
+    }
+
 
     return {
         control,
         mode,
         toggleMode,
         handleNavigateToRegister,
+        handleNavigateToForgotPassword,
     }
 }
