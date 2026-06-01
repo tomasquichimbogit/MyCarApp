@@ -4,20 +4,28 @@ import { useAuthStore } from "../store/useAuthStore";
 import { refreshSupabaseSession } from "../services/auth.service";
 import { PATHS } from "./paths";
 
-interface AppGuardProps {
+interface AppGuardSecurityProps {
   children: ReactElement;
 }
 
-export const AppGuard = ({ children }: AppGuardProps) => {
+/** Guest-only routes: redirect to app when session/token is valid. */
+export const AppGuardSecurity = ({ children }: AppGuardSecurityProps) => {
+  const token = useAuthStore((state) => state.token);
   const { getToken, setUser, logout } = useAuthStore();
   const [isValidated, setIsValidated] = useState(false);
   const hasValidatedSession = useRef(false);
 
   useEffect(() => {
-    if (hasValidatedSession.current && getToken() !== null) {
+    if (!getToken()) {
       setIsValidated(true);
       return;
-    };
+    }
+
+    if (hasValidatedSession.current) {
+      setIsValidated(true);
+      return;
+    }
+
     hasValidatedSession.current = true;
 
     const validateSession = async () => {
@@ -38,14 +46,14 @@ export const AppGuard = ({ children }: AppGuardProps) => {
     };
 
     validateSession();
-  }, [getToken, setUser, logout]);
+  }, [token, getToken, setUser, logout]);
 
   if (!isValidated) {
     return createElement("div", null, "Validando sesión...");
   }
 
-  if (!getToken()) {
-    return createElement(Navigate, { to: PATHS.login, replace: true });
+  if (getToken()) {
+    return createElement(Navigate, { to: PATHS.home, replace: true });
   }
 
   return children;

@@ -1,18 +1,22 @@
 import { API_KEY_SUPABASE, SUPABASE, SUPABASE_URL } from "../constants";
-import type { ILoginForm } from "../view/Security/Login/interface";
+import type { ILoginForm, ISignInResponse } from "../view/Security/Login/interface";
 import type { IRegisterUserForm } from "../view/Security/Register/interface";
 import { useApiPostMutation } from "../config/axiosMethods";
 import { PATHS } from "@/router/paths";
 import { getAuthRedirectUrl } from "@/helper/authRedirect";
 
-type SignInData = Awaited<ReturnType<typeof SUPABASE.auth.signInWithPassword>>["data"];
-type RefreshSessionData = Awaited<ReturnType<typeof SUPABASE.auth.refreshSession>>["data"];
 type SignUpData = Awaited<ReturnType<typeof SUPABASE.auth.signUp>>["data"];
 
-export const refreshSupabaseSession = async (): Promise<RefreshSessionData> => {
+const functionAsyncSignInWithPassword = async (dataSignIn: ILoginForm): Promise<ISignInResponse> => {
+  const { data, error } = await SUPABASE.auth.signInWithPassword(dataSignIn);
+  if (error) throw error;
+  return data as unknown as ISignInResponse;
+};
+
+export const refreshSupabaseSession = async (): Promise<ISignInResponse> => {
   const { data, error } = await SUPABASE.auth.refreshSession();
   if (error) throw error;
-  return data;
+  return data as unknown as ISignInResponse;
 };
 
 export const signOutSupabase = async (): Promise<void> => {
@@ -21,24 +25,20 @@ export const signOutSupabase = async (): Promise<void> => {
 };
 
 export const useSignIn = () => {
-  return useApiPostMutation<ILoginForm, SignInData>(
+  return useApiPostMutation<ILoginForm, ISignInResponse>(
     true,
-    async (dataSignIn) => {
-      const { data, error } = await SUPABASE.auth.signInWithPassword(dataSignIn);
-      if (error) throw error;
-      return data;
-    },
+    async (dataSignIn) => functionAsyncSignInWithPassword(dataSignIn),
     "sign-in",
   );
 };
 
-export const useRefreshSession = (showErrorNotification = false) => {
-  return useApiPostMutation<void, RefreshSessionData>(
-    showErrorNotification,
-    refreshSupabaseSession,
-    "refresh-session",
-  );
-};
+// export const useRefreshSession = (showErrorNotification = false) => {
+//   return useApiPostMutation<void, RefreshSessionData>(
+//     showErrorNotification,
+//     refreshSupabaseSession,
+//     "refresh-session",
+//   );
+// };
 
 export const useSignUpMutation = () => {
   return useApiPostMutation<IRegisterUserForm, SignUpData>(

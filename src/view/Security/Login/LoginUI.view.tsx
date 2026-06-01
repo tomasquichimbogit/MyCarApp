@@ -6,7 +6,7 @@ import { Button as ButtonAntd, Divider } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { IconCarSuv, IconMotorcycle } from "@/assets/svg";
 
-export const LoginView = ({ control, handleNavigateToRegister, handleNavigateToForgotPassword }: IUseLoginUIHook) => {
+export const LoginView = ({ control, handleNavigateToRegister, isPending, handleNavigateToForgotPassword, handleFormSubmit }: IUseLoginUIHook) => {
   return (
     <div className="grid h-screen w-screen grid-rows-[35vh_1fr] md:grid-rows-1 md:grid-cols-2 bg-blue-bodywork">
       <div
@@ -22,7 +22,7 @@ export const LoginView = ({ control, handleNavigateToRegister, handleNavigateToF
           </div>
         </div>
         <div className="flex flex-col min-h-0 flex-1 h-full w-full justify-center items-center">
-          <div className="flex flex-col gap-4 w-full max-w-md md:border border-orange-rally rounded-2xl p-4">
+          <div className="flex flex-col gap-4 w-full max-w-md md:border border-orange-rally/20 rounded-2xl p-2">
             <div className="flex items-center justify-center rounded-full text-orange-rally">
               <UserOutlined style={{ fontSize: 32 }} />
             </div>
@@ -37,15 +37,15 @@ export const LoginView = ({ control, handleNavigateToRegister, handleNavigateToF
               required
             />
             <div className="flex flex-col gap-2">
-              <Button title="Iniciar sesión" onClick={() => {}} />
-              <ButtonAntd type="link" onClick={handleNavigateToRegister}>
+              <Button title="Iniciar sesión" onClick={handleFormSubmit} loading={isPending} />
+              <Divider />
+              <ButtonAntd type="link" onClick={handleNavigateToRegister} loading={isPending}>
                 <div className="flex flex-row items-center">
                   <span className="text-orange-rally">Registrarme</span>
                   <IconShockAbsorberRow className="size-18 text-orange-rally" rotate={90} />
                 </div>
               </ButtonAntd>
-              <Divider />
-              <ButtonAntd type="link" onClick={handleNavigateToForgotPassword}>
+              <ButtonAntd type="link" onClick={handleNavigateToForgotPassword} loading={isPending}>
                 <span className="text-white">Olvidé mi contraseña</span>
               </ButtonAntd>
             </div>

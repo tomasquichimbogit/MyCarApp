@@ -2,6 +2,7 @@ import { useForegroundMessages } from "../hooks/useForegroundMessages.hook";
 import { LoginUI } from "../view/Security/Login/LoginUI.controller";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { AppGuard } from "./AppGuard";
+import { AppGuardSecurity } from "./AppSecurity";
 import { AppLayout } from "../view/Main/AppLayout";
 import { ErrorPage } from "../view/Main/Error";
 import { PATHS } from "./paths";
@@ -9,6 +10,7 @@ import { HomeUI } from "@/view/Main/Home";
 import { RecoveryPasswordUI } from "@/view/Security/RecoveryPassword/RecoveryPasswordUI.controller";
 import { RegisterUI } from "@/view/Security/Register/RegisterUI.controller";
 import { VerifyEmailUI } from "@/view/Security/VerifyEmail/VerifyEmailUI.controller";
+import { SecurityLayout } from "@/view/Security";
 
 export const AppRouter = () => {
   useForegroundMessages();
@@ -16,10 +18,19 @@ export const AppRouter = () => {
 
   return (
     <Routes>
-      <Route path={PATHS.login} element={<LoginUI />} />
-      <Route path={PATHS.recoveryPassword} element={<RecoveryPasswordUI />} />
-      <Route path={PATHS.registerUser} element={<RegisterUI />} />
-      <Route path={PATHS.verifyEmail} element={<VerifyEmailUI />} />
+      <Route
+        element={
+          <AppGuardSecurity>
+            <SecurityLayout />
+          </AppGuardSecurity>
+        }
+      >
+        <Route path={PATHS.login} element={<LoginUI />} />
+        <Route path={PATHS.recoveryPassword} element={<RecoveryPasswordUI />} />
+        <Route path={PATHS.registerUser} element={<RegisterUI />} />
+        <Route path={PATHS.verifyEmail} element={<VerifyEmailUI />} />
+      </Route>
+
       <Route
         path={PATHS.home}
         element={

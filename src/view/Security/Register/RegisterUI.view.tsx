@@ -1,6 +1,6 @@
 import fondoLogin from "@/assets/images/fondo-login-5.png";
 import { Button, FormInput } from "tomascomponents";
-import { Button as ButtonAntd } from "antd";
+import { Button as ButtonAntd, Divider } from "antd";
 import { UserAddOutlined } from "@ant-design/icons";
 import type { IUseRegisterUIHook } from "./RegisterUI.hook";
 import { IconCarSuv, IconMotorcycle } from "@/assets/svg";
@@ -24,7 +24,7 @@ export const RegisterView = ({ control, handleNavigateToLogin }: IUseRegisterUIH
           </div>
         </div>
         <div className="flex flex-col min-h-0 flex-1 h-full w-full justify-center items-center">
-          <div className="flex flex-col gap-4 w-full max-w-md border border-orange-rally rounded-2xl p-4">
+          <div className="flex flex-col gap-4 w-full max-w-md md:border border-orange-rally/20 rounded-2xl p-2">
             <div className="flex items-center justify-center rounded-full text-orange-rally">
               <UserAddOutlined style={{ fontSize: 32 }} />
             </div>
@@ -38,6 +38,8 @@ export const RegisterView = ({ control, handleNavigateToLogin }: IUseRegisterUIH
               type="password"
               required
             />
+            <FormInput name="name" label="Nombre" control={control} placeholder="Nombre" required />
+            <Divider />
             <div className="flex flex-col gap-2">
               <Button title="Registrarme" onClick={() => {}} />
               <ButtonAntd type="link" onClick={handleNavigateToLogin}>

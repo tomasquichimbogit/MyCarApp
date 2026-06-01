@@ -5,12 +5,13 @@ import { z } from "zod";
 import { useThemeMode, type ThemeMode } from "@/hooks/useThemeMode";
 import { useNavigate } from "react-router-dom";
 import { PATHS } from "@/router/paths";
+import { useSignIn } from "@/services/auth.service";
+import { useAuthStore } from "@/store/useAuthStore";
 
 const loginSchema = z.object({
-    email: z.string().email("Email inválido"),
-    password: z.string().min(8, "La contraseña debe tener al menos 8 caracteres"),
+    email: z.string({error: "Email es requerido"}).email("Email inválido"),
+    password: z.string({error: "Contraseña es requerida"}).min(6, "La contraseña debe tener al menos 8 caracteres"),
 });
-
 
 export interface IUseLoginUIHook {
     control: Control<ILoginForm>;
@@ -18,13 +19,16 @@ export interface IUseLoginUIHook {
     toggleMode: () => void;
     handleNavigateToRegister: () => void;
     handleNavigateToForgotPassword: () => void;
+    handleFormSubmit: () => void;
+    isPending: boolean;
 }
 
 export const useLoginUI = (): IUseLoginUIHook => {
     const { mode, toggleMode } = useThemeMode();
     const navigate = useNavigate();
-
-    const {control} = useForm<ILoginForm>({
+    const { setUser } = useAuthStore();
+    const { mutate: signIn, isPending } = useSignIn();
+    const { control, handleSubmit } = useForm<ILoginForm>({
         resolver: zodResolver(loginSchema),
         mode: "onChange",
         reValidateMode: "onChange",
@@ -38,6 +42,19 @@ export const useLoginUI = (): IUseLoginUIHook => {
         navigate(PATHS.recoveryPassword);
     }
 
+    const onSubmit = (data: ILoginForm) => {
+        signIn(data, {
+            onSuccess: (response) => {
+                setUser(response);
+                navigate(PATHS.home, { replace: true });
+            },
+        });
+    }
+
+    const handleFormSubmit = () => {
+        handleSubmit(onSubmit)();
+    };
+
 
     return {
         control,
@@ -45,5 +62,7 @@ export const useLoginUI = (): IUseLoginUIHook => {
         toggleMode,
         handleNavigateToRegister,
         handleNavigateToForgotPassword,
+        handleFormSubmit,
+        isPending,
     }
 }

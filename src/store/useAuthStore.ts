@@ -1,29 +1,26 @@
 
+import type { ISignInResponse } from "@/view/Security/Login/interface";
 import { create } from "zustand";
 export interface IAuthStore {
-    token: string | null;
-    setToken: (token: string) => void;
-    removeToken: () => void;
-    getToken: () => string | null;
-    logout: () => void;
+  token?: string;
+  user?: ISignInResponse;
+  getToken: () => string | undefined;
+  setUser: (user: ISignInResponse) => void;
+  logout: () => void;
 }
 
 export const useAuthStore = create<IAuthStore>((set, get) => ({
-    token: localStorage.getItem("token"),
-    setToken: (token: string) => {
-        localStorage.setItem("token", token);
-        set({ token });
-    },
-    removeToken: () => {
-        localStorage.removeItem("token");
-        set({ token: null });
+    user: undefined,
+    token: undefined,
+    setUser: (user: ISignInResponse) => {
+        set({ user });
     },
     getToken: () => {
-        return get().token ?? localStorage.getItem("token");
+        const user = get().user?.access_token;
+        return user;
     },
     logout: () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("fcm_token");
-        set({ token: null });
+        set({ user: undefined });
     }
+
 })) 
