@@ -13,8 +13,10 @@ const functionAsyncSignInWithPassword = async (dataSignIn: ILoginForm): Promise<
   return data as unknown as ISignInResponse;
 };
 
-export const refreshSupabaseSession = async (): Promise<ISignInResponse> => {
-  const { data, error } = await SUPABASE.auth.refreshSession();
+export const refreshSupabaseSession = async (refreshToken: string): Promise<ISignInResponse> => {
+  const { data, error } = await SUPABASE.auth.refreshSession({
+    refresh_token: refreshToken,
+  });
   if (error) throw error;
   return data as unknown as ISignInResponse;
 };

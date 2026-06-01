@@ -1,8 +1,8 @@
-
+import { LOCAL_STORAGE_KEYS } from "@/constants";
 import type { ISignInResponse } from "@/view/Security/Login/interface";
 import { create } from "zustand";
+
 export interface IAuthStore {
-  token?: string;
   user?: ISignInResponse;
   getToken: () => string | undefined;
   setUser: (user: ISignInResponse) => void;
@@ -10,17 +10,15 @@ export interface IAuthStore {
 }
 
 export const useAuthStore = create<IAuthStore>((set, get) => ({
-    user: undefined,
-    token: undefined,
-    setUser: (user: ISignInResponse) => {
-        set({ user });
-    },
-    getToken: () => {
-        const user = get().user?.access_token;
-        return user;
-    },
-    logout: () => {
-        set({ user: undefined });
-    }
-
-})) 
+  user: undefined,
+  setUser: (user: ISignInResponse) => {
+    set({ user });
+  },
+  getToken: () => {
+    return get().user?.session.access_token;
+  },
+  logout: () => {
+    localStorage.removeItem(LOCAL_STORAGE_KEYS.REFRESH_TOKEN);
+    set({ user: undefined });
+  },
+}));
