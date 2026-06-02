@@ -16,9 +16,9 @@ export const HeaderView = ({ userOptions, userName, toggleOpen }: IHeaderUIHook)
               </div>
             </Button>
           </div>
-          <div className="flex items-center gap-2 pl-2">
+          <div className="items-center gap-2 pl-2 hidden md:flex">
             <span className="font-bold text-orange-rally">MotCarApp</span>
-            <div className="items-center gap-2 hidden md:flex">
+            <div className="flex flex-row items-center gap-2">
               <IconCarSuv className="w-10 h-10 text-desert-sand" transform="scale(-1, 1)" />
               <IconMotorcycle className="w-7 h-7 text-desert-sand" />
             </div>
