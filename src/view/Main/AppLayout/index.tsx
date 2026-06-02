@@ -5,7 +5,7 @@ import { Main } from "./Main";
 
 export const AppLayout = () => {
   return (
-    <div className="flex-1 min-h-0 h-[calc(100vh-64px)] w-full ">
+    <div className="flex-1">
       <HeaderUI />
       <SidebarUI />
       <Main>
