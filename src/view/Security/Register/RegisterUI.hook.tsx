@@ -6,9 +6,8 @@ import { useThemeMode, type ThemeMode } from "@/hooks/useThemeMode";
 import { useNavigate } from "react-router-dom";
 import { PATHS } from "@/router/paths";
 import { registerSchema } from "./interface";
-import { useNotify } from "tomascomponents";
-import { normalizeErrorForm } from "@/helper";
-import React from "react";
+import { useFormController } from "@/hooks/useFormController";
+import { useSignUpMutation } from "@/services/auth.service";
 
 export interface IUseRegisterUIHook {
     control: Control<IRegisterUserForm>;
@@ -16,13 +15,15 @@ export interface IUseRegisterUIHook {
     toggleMode: () => void;
     handleNavigateToLogin: () => void;
     handleFormSubmit: () => void;
+    isPendingSignUp: boolean;
 }
 
 
 
 export const useRegisterUI = (): IUseRegisterUIHook => {
     const { mode, toggleMode } = useThemeMode();
-    const { notify } = useNotify();
+    const { errorForm } = useFormController();
+    const { mutate: signUpMutation, isPending: isPendingSignUp } = useSignUpMutation();
     const navigate = useNavigate();
     const { control, handleSubmit } = useForm<IRegisterUserForm>({
         resolver: zodResolver(registerSchema),
@@ -35,25 +36,15 @@ export const useRegisterUI = (): IUseRegisterUIHook => {
     }
 
     const onSubmit = (data: IRegisterUserForm) => {
-        console.log(data);
+        signUpMutation(data, {
+            onSuccess: (response) => {
+                navigate(PATHS.verifyEmail, { state: { email: response.user.email } });
+            },
+        });
     }
 
     const handleFormSubmit = () => {
-        handleSubmit(onSubmit,(erros)=>{
-            const messages = normalizeErrorForm(erros);
-            notify("error", {
-                title: "Error al registrar el usuario",
-                description: React.createElement(
-                    "span",
-                    null,
-                    ...messages.flatMap((msg, i) =>
-                        i < messages.length - 1
-                            ? [msg, React.createElement("br", { key: i })]
-                            : [msg]
-                    )
-                ),
-            });
-        })();
+        handleSubmit(onSubmit,errorForm)();
     }
 
     return {
@@ -62,5 +53,6 @@ export const useRegisterUI = (): IUseRegisterUIHook => {
         toggleMode,
         handleNavigateToLogin,
         handleFormSubmit,
+        isPendingSignUp,
     }
 }
