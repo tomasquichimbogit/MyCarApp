@@ -11,11 +11,12 @@ import { RecoveryPasswordUI } from "@/view/Security/RecoveryPassword/RecoveryPas
 import { RegisterUI } from "@/view/Security/Register/RegisterUI.controller";
 import { VerifyEmailUI } from "@/view/Security/VerifyEmail/VerifyEmailUI.controller";
 import { SecurityLayout } from "@/view/Security";
+import { VehiclesUI } from "@/view/Vehicles/VehiclesUI.controller";
+import { MaintenanceUI } from "@/view/Maintenance/MaintenanceUI.controller";
+import { WorkshopsUI } from "@/view/Workshops/WorkshopsUI.controller";
 
 export const AppRouter = () => {
   useForegroundMessages();
-
-
   return (
     <Routes>
       <Route
@@ -40,7 +41,10 @@ export const AppRouter = () => {
         }
       >
         <Route index element={<HomeUI />} />
-        <Route path="home" element={<HomeUI />} />
+        <Route path={PATHS.home} element={<HomeUI />} />
+        <Route path={PATHS.vehicles} element={<VehiclesUI />} />
+        <Route path={PATHS.maintenance} element={<MaintenanceUI />} />
+        <Route path={PATHS.workshops} element={<WorkshopsUI />} />
         <Route path="*" element={<ErrorPage />} />
       </Route>
       <Route path="*" element={<Navigate to={PATHS.login} replace />} />

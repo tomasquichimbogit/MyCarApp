@@ -10,8 +10,8 @@ export const HeaderView = ({ userOptions, userName, toggleOpen }: IHeaderUIHook)
       <div className="bg-blue-bodywork flex justify-between items-center p-2">
         <div className="flex items-center gap-2">
           <div className=" pl-2">
-            <Button onClick={toggleOpen} variant="text">
-              <div className="flex flex-row items-center justify-between gap-2">
+            <Button onClick={toggleOpen} variant="text" type="text">
+              <div className="flex flex-row items-center justify-between gap-2 text-orange-rally">
                 <MenuIcon className="w-4 h-4" />
               </div>
             </Button>
@@ -26,7 +26,7 @@ export const HeaderView = ({ userOptions, userName, toggleOpen }: IHeaderUIHook)
         </div>
         <div className="pr-2">
           <Dropdown menu={{ items: userOptions }} placement="bottomRight" trigger={["click"]}>
-            <Button variant="outlined">
+            <Button variant="outlined" type="primary">
               <Space>
                 {userName}
                 <DownOutlined />

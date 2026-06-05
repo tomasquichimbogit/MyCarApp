@@ -1,4 +1,4 @@
-import { ConfigProvider, theme } from 'antd';
+import { ConfigProvider } from 'antd';
 import { useEffect, useMemo, useState } from 'react';
 import { QueryProvider } from './QueryProvider';
 import { ModalProvider, NotificationProvider } from 'tomascomponents';
@@ -19,7 +19,7 @@ const getInitialMode = (): ThemeMode => {
 
 
 export const Provider = ({ children }: { children: React.ReactNode }) => {
-    const { defaultAlgorithm, darkAlgorithm, compactAlgorithm } = theme;
+    // const { defaultAlgorithm, darkAlgorithm, compactAlgorithm } = theme;
     const [mode, setMode] = useState<ThemeMode>(getInitialMode);
     useEffect(() => {
         window.localStorage.setItem(THEME_STORAGE_KEY, mode);
@@ -34,17 +34,17 @@ export const Provider = ({ children }: { children: React.ReactNode }) => {
         [mode],
     );
 
-    const isDarkMode = mode === "dark";
+    // const isDarkMode = mode === "dark";
 
     return (
       <ThemeModeContext.Provider value={themeModeContextValue}>
         <ConfigProvider
-          theme={{
-            algorithm: [isDarkMode ? darkAlgorithm : defaultAlgorithm, compactAlgorithm],
-            token: {
-              colorLink: "#1890ff",
-            },
-          }}
+          // theme={{
+          //   algorithm: [isDarkMode ? darkAlgorithm : defaultAlgorithm, compactAlgorithm],
+          //   token: {
+          //     colorLink: "#1890ff",
+          //   },
+          // }}
         >
           {/* Portal único de notificaciones; en el resto de la app usar useNotify() */}
           <NotificationProvider>
