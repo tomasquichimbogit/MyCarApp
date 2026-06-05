@@ -5,7 +5,7 @@ import type { IUseRegisterUIHook } from "./RegisterUI.hook";
 import { IconShockAbsorberRow } from "@/assets/icons";
 import { SecurityAuthLayout } from "../components";
 
-export const RegisterView = ({ control, handleNavigateToLogin, handleFormSubmit }: IUseRegisterUIHook) => {
+export const RegisterView = ({ control, isPendingSignUp, handleNavigateToLogin, handleFormSubmit }: IUseRegisterUIHook) => {
   return (
     <SecurityAuthLayout title="Registrarme" icon={<UserAddOutlined style={{ fontSize: 32 }} />}>
       <form onSubmit={handleFormSubmit}>
@@ -13,7 +13,7 @@ export const RegisterView = ({ control, handleNavigateToLogin, handleFormSubmit 
         <FormInput name="password" label="Contraseña" control={control} placeholder="Contraseña" type="password" required />
         <FormInput name="confirmPassword" label="Confirmar Contraseña" control={control} placeholder="Confirmar Contraseña" type="password" required />
         <div className="flex flex-col gap-2 pt-2">
-          <Button title="Registrarme" onClick={handleFormSubmit} />
+          <Button title="Registrarme" onClick={handleFormSubmit} loading={isPendingSignUp} />
           <Divider />
           <ButtonAntd type="link" onClick={handleNavigateToLogin}>
             <div className="flex flex-row items-center">
