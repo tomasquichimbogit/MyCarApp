@@ -1,9 +1,9 @@
-import { useHeaderUI } from "./HeaderUI.hook";
-import { HeaderUIView } from "./HeaderUI.view"
+import { HeaderUIHook } from "./HeaderUI.hook";
+import { HeaderView } from "./HeaderUI.view"
 
-export const HeaderUI = () => {
-    const hook = useHeaderUI();
+export const HeaderUI = () => { 
+    const hook = HeaderUIHook();
     return (
-        <HeaderUIView {...hook} />
+        <HeaderView { ...hook } />
     )
 }

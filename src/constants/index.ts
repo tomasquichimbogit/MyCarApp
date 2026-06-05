@@ -10,3 +10,7 @@ export const MESSAGING_SENDER_ID_FIREBASE = import.meta.env.VITE_MESSAGING_SENDE
 export const API_KEY_FIREBASE = import.meta.env.VITE_FIREBASE_API_KEY as string;
 export const VAPID_KEY_FIREBASE = import.meta.env.VITE_FIREBASE_VAPID_KEY as string;
 export const APP_ID_FIREBASE = import.meta.env.VITE_APP_ID as string;
+
+export const LOCAL_STORAGE_KEYS = {
+    REFRESH_TOKEN: 'refresh_token',
+}
