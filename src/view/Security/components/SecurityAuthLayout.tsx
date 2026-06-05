@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import fondoLogin from "@/assets/images/fondo-login-5.png";
 import { IconCarSuv, IconMotorcycle } from "@/assets/svg";
 
 interface SecurityAuthLayoutProps {
@@ -15,7 +14,7 @@ export const SecurityAuthLayout = ({ title, icon, children }: SecurityAuthLayout
     <div className="grid h-screen w-screen grid-rows-[35vh_1fr] md:grid-rows-1 md:grid-cols-2 bg-blue-bodywork">
       <div
         className="order-1 md:order-2 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${fondoLogin})` }}
+        style={{ backgroundImage: `url(https://raw.githubusercontent.com/tomasquichimbogit/motcarapp-images/main/fondo-login-5.png)` }}
       />
       <div className="order-2 md:order-1 flex flex-col items-center rounded-t-4xl md:rounded-none md:mt-0 relative z-10">
         <div className="flex justify-center w-full pt-2 pr-2">
