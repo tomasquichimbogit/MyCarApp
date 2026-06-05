@@ -1,3 +1,6 @@
+import type { FieldErrors, FieldValues } from "react-hook-form";
+
+
 export const normalizeNumber = (value: string | number | null | undefined): number | undefined => {
     if (value === null || value === undefined || value === "null") {
         return undefined;
@@ -40,3 +43,9 @@ export const cleanObjectData = (data: any): any => {
 
     return cleanData;
 };
+
+export const normalizeErrorForm = (errors: FieldErrors<FieldValues>): string[] => {
+    return Object.values(errors)
+        .map((error) => (typeof error?.message === "string" ? error.message : ""))
+        .filter(Boolean);
+}
