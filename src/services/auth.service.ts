@@ -34,14 +34,6 @@ export const useSignIn = () => {
   );
 };
 
-// export const useRefreshSession = (showErrorNotification = false) => {
-//   return useApiPostMutation<void, RefreshSessionData>(
-//     showErrorNotification,
-//     refreshSupabaseSession,
-//     "refresh-session",
-//   );
-// };
-
 export const useSignUpMutation = () => {
   return useApiPostMutation<IRegisterUserForm, SignUpData>(
     true,

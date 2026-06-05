@@ -6,9 +6,6 @@ yarn add tomascomponents@0.0.6
 
 "tomascomponents": "C:\\GitHub\\TomasComponents\\tomascomponents-b2.tgz",
 
-
-
-
 Imagenes login
 https://objetos-xlk.estaticos-marca.com/uploads/2024/11/20/17055877788546.jpeg
 

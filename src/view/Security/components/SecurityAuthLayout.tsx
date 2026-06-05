@@ -34,6 +34,7 @@ export const SecurityAuthLayout = ({ title, icon, children }: SecurityAuthLayout
           </div>
         </div>
 
+          <div className="p-0.5">
           <div className="flex flex-row gap-2 items-center justify-center text-desert-sand bg-gray-100/10 p-2 rounded-2xl">
             {features.map((feature, index) => (
               <span key={feature} className="flex gap-2">
@@ -41,6 +42,7 @@ export const SecurityAuthLayout = ({ title, icon, children }: SecurityAuthLayout
                 {index < features.length - 1 && <small>-</small>}
               </span>
             ))}
+          </div>
           </div>
       </div>
     </div>
