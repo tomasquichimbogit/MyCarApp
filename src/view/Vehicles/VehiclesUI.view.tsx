@@ -4,7 +4,7 @@ import { ItemVehicleUI } from "./components/ItemVehicleUI.view";
 
 export const VehiclesUIView = ({ vehicles }: IUseVehiclesUIHook) => {
   return (
-    <CentralContainerUI title="Mis vehículos">
+    <CentralContainerUI title="Mis vehículos" onAddClick={() => {}} addButtonTitle="Agregar vehículo">
       <div className="flex w-full flex-col gap-4">
         {vehicles.map((vehicle) => (
           <ItemVehicleUI key={vehicle.id} vehicle={vehicle} />

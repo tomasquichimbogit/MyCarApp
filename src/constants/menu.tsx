@@ -1,5 +1,5 @@
 import { PATHS } from "@/router/paths";
-import { CarIcon, FilePenLine, HomeIcon, WrenchIcon } from "lucide-react";
+import { CarIcon, FilePenLine, HomeIcon, MapPinIcon, WrenchIcon } from "lucide-react";
 
 
 
@@ -32,6 +32,13 @@ export const getMenuItems = (classNames?: string, onClick?: (path: string) => vo
         path: PATHS.workshops,
         icon: <WrenchIcon className={classNames} />,
         onClick: () => onClick?.(PATHS.workshops),
+      },
+      {
+        label: "Aventura",
+        key: PATHS.adventure,
+        path: PATHS.adventure,
+        icon: <MapPinIcon className={classNames} />,
+        onClick: () => onClick?.(PATHS.adventure),
       },
     ];
 };

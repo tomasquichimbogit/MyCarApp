@@ -19,18 +19,6 @@ export const useVehiclesUIHook = (): IUseVehiclesUIHook => {
                 fuelType: "Eléctrico",
                 mileage: 12300,
                 nextMaintenance: "9 feb",
-            },
-            {
-                id: "2",
-                brand: "Toyota",
-                model: "Corolla",
-                year: 2024,
-                color: "Azul",
-                plate: "TOY-002",
-                status: "Activo",
-                fuelType: "Gasolina",
-                mileage: 10000,
-                nextMaintenance: "10 mar",
             }
         ],
     }
