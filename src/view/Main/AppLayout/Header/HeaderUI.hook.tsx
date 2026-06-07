@@ -3,6 +3,9 @@ import type { MenuProps } from "antd";
 import { useAuthStore } from "@/store/useAuthStore";
 import { PowerOff } from "lucide-react";
 import { useSidebarStore } from "@/store/useSidebarStore";
+import { useNavigate } from "react-router-dom";
+import { PATHS } from "@/router/paths";
+import { useCurrentPerson } from "@/services/person/person.services";
 
 export interface IHeaderUIHook {
     userOptions: MenuProps["items"];
@@ -12,12 +15,16 @@ export interface IHeaderUIHook {
 
 
 export const HeaderUIHook = (): IHeaderUIHook => {
+      const navigate = useNavigate();
       const { logout, user } = useAuthStore();
       const { toggleOpen } = useSidebarStore();
-      const userName = user?.user.email;
+      const { data: person } = useCurrentPerson();
+      const userName = person?.names
+        ? `${person.names} ${person.last_names ?? ""}`.trim()
+        : user?.user.email;
 
-      const testNotification = async () => {
-        console.log("Test Notification");
+      const handleNavigateToUserInformation = () => {
+        navigate(PATHS.userInformation);
       };
 
       const handleLogout = async () => {
@@ -31,8 +38,8 @@ export const HeaderUIHook = (): IHeaderUIHook => {
 
    const userOptions: MenuProps["items"] = [
      {
-       label: <div>User information</div>,
-       onClick: testNotification,
+       label: <div>Mi información</div>,
+       onClick: handleNavigateToUserInformation,
        key: "1",
      },
      {

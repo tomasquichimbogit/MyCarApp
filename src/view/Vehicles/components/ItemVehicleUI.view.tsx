@@ -1,4 +1,4 @@
-import type { IVehicles } from "../intefaces";
+import type { IVehicles } from "../list/intefaces";
 import { Calendar, MoreVertical } from "lucide-react";
 import defaultVehicleImage from "@/assets/images/fondo-login-4.jpg";
 import { Button } from "tomascomponents";

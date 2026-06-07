@@ -1,7 +1,7 @@
 import { createElement, type ReactElement, useEffect, useRef, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
-import { refreshSupabaseSession } from "../services/auth.service";
+import { refreshSupabaseSession, syncSupabaseSession } from "../services/auth.service";
 import { PATHS } from "./paths";
 import { LOCAL_STORAGE_KEYS } from "@/constants";
 
@@ -17,6 +17,16 @@ export const AppGuard = ({ children }: AppGuardProps) => {
 
   useEffect(() => {
     if (token) {
+      const session = useAuthStore.getState().user?.session;
+      if (session) {
+        syncSupabaseSession(session)
+          .then(() => setIsValidated(true))
+          .catch(() => {
+            logout();
+            setIsValidated(true);
+          });
+        return;
+      }
       setIsValidated(true);
       return;
     }
@@ -39,6 +49,7 @@ export const AppGuard = ({ children }: AppGuardProps) => {
 
         if (accessToken) {
           localStorage.setItem(LOCAL_STORAGE_KEYS.REFRESH_TOKEN, data.session.refresh_token);
+          await syncSupabaseSession(data.session);
           setUser(data);
         } else {
           logout();

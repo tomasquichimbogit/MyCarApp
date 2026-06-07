@@ -6,6 +6,8 @@ export const PATHS = {
     vehicles: "/vehicles",
     maintenance: "/maintenance",
     workshops: "/workshops",
+    adventure: "/adventure",
+    userInformation: "/user-information",
     home: "/",
     error404: "*",
 }

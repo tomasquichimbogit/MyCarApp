@@ -1,11 +1,10 @@
 import { MailOutlined } from "@ant-design/icons";
-import { Button } from "tomascomponents";
 import { Button as ButtonAntd, Divider } from "antd";
 import { SecurityAuthLayout } from "../components";
 import { IconShockAbsorberRow } from "@/assets/icons";
 import type { IUseVerifyEmailUIHook } from "./VerifyEmailUI.hook";
 
-export const VerifyEmailView = ({ email, handleResendEmail, handleNavigateToLogin, isPending }: IUseVerifyEmailUIHook) => {
+export const VerifyEmailView = ({ email, handleNavigateToLogin, isPending }: IUseVerifyEmailUIHook) => {
     return (
         <SecurityAuthLayout title="Verifica tu correo" icon={<MailOutlined style={{ fontSize: 32 }} />}>
             <div className="flex flex-col items-center gap-3 text-center">
@@ -23,7 +22,7 @@ export const VerifyEmailView = ({ email, handleResendEmail, handleNavigateToLogi
                     </p>
                 </div>
                 <div className="flex flex-col gap-2 w-full pt-2">
-                    <Button title="Reenviar correo" onClick={handleResendEmail} loading={isPending} />
+                    {/* <Button title="Reenviar correo" onClick={handleResendEmail} loading={isPending} /> */}
                     <Divider />
                     <ButtonAntd type="link" onClick={handleNavigateToLogin} disabled={isPending}>
                         <div className="flex flex-row items-center">

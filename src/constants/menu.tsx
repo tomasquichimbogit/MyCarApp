@@ -1,5 +1,6 @@
+import { IconCarSuv } from "@/assets/svg";
 import { PATHS } from "@/router/paths";
-import { CarIcon, FilePenLine, HomeIcon, WrenchIcon } from "lucide-react";
+import { FilePenLine, HomeIcon, MapPinIcon, UserIcon, WrenchIcon } from "lucide-react";
 
 
 
@@ -16,7 +17,7 @@ export const getMenuItems = (classNames?: string, onClick?: (path: string) => vo
         label: "Mis vehiculos",
         key: PATHS.vehicles,
         path: PATHS.vehicles,
-        icon: <CarIcon className={classNames} />,
+        icon: <IconCarSuv className={classNames} transform="scale(-1, 1)" />,
         onClick: () => onClick?.(PATHS.vehicles),
       },
       {
@@ -32,6 +33,20 @@ export const getMenuItems = (classNames?: string, onClick?: (path: string) => vo
         path: PATHS.workshops,
         icon: <WrenchIcon className={classNames} />,
         onClick: () => onClick?.(PATHS.workshops),
+      },
+      {
+        label: "Aventura",
+        key: PATHS.adventure,
+        path: PATHS.adventure,
+        icon: <MapPinIcon className={classNames} />,
+        onClick: () => onClick?.(PATHS.adventure),
+      },
+      {
+        label: "Mi información",
+        key: PATHS.userInformation,
+        path: PATHS.userInformation,
+        icon: <UserIcon className={classNames} />,
+        onClick: () => onClick?.(PATHS.userInformation),
       },
     ];
 };
