@@ -1,52 +1,37 @@
-import { Moon, Sun, CheckCircle2, XCircle, Loader2 } from "lucide-react";
-import logoUrl from "../../../assets/logo.png";
-import { Button as ButtonAntd } from "antd";
-import type { IVerifyEmailUI } from "./VerifyEmailUI.hook";
+import { MailOutlined } from "@ant-design/icons";
+import { Button as ButtonAntd, Divider } from "antd";
+import { SecurityAuthLayout } from "../components";
+import { IconShockAbsorberRow } from "@/assets/icons";
+import type { IUseVerifyEmailUIHook } from "./VerifyEmailUI.hook";
 
-export const VerifyEmailUIView = ({ status, toggleMode, mode }: IVerifyEmailUI) => {
-  return (
-    <div className="flex flex-col w-full min-h-screen">
-      <div className="flex justify-end w-full p-2">
-        <ButtonAntd onClick={toggleMode} variant="outlined">
-          {mode === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-          <span className="ml-1">{mode === "dark" ? "Light" : "Dark"}</span>
-        </ButtonAntd>
-      </div>
-      <div className="flex-1 min-h-0 flex items-center justify-center p-4">
-        <div className="flex flex-col items-center gap-4 border border-gray-800 rounded-4xl p-8 w-full md:w-[500px] text-center">
-          <img
-            src={logoUrl}
-            alt="Logo"
-            className="h-32 w-auto max-w-[400px] object-contain mx-auto rounded-md"
-            draggable={false}
-          />
-
-          {status === "loading" && (
-            <>
-              <Loader2 className="w-10 h-10 animate-spin text-primary" />
-              <p className="text-sm text-gray-500">Verificando tu correo...</p>
-            </>
-          )}
-
-          {status === "success" && (
-            <>
-              <CheckCircle2 className="w-12 h-12 text-green-500" />
-              <h1 className="text-xl font-semibold">Verificado correctamente</h1>
-              <p className="text-sm text-gray-500">Tu cuenta ya está activa. Ya puedes iniciar sesión.</p>
-            </>
-          )}
-
-          {status === "error" && (
-            <>
-              <XCircle className="w-12 h-12 text-red-500" />
-              <h1 className="text-xl font-semibold">No se pudo verificar</h1>
-              <p className="text-sm text-gray-500">
-                El enlace no es válido o expiró. Regístrate de nuevo o solicita un nuevo correo.
-              </p>
-            </>
-          )}
-        </div>
-      </div>
-    </div>
-  );
+export const VerifyEmailView = ({ email, handleNavigateToLogin, isPending }: IUseVerifyEmailUIHook) => {
+    return (
+        <SecurityAuthLayout title="Verifica tu correo" icon={<MailOutlined style={{ fontSize: 32 }} />}>
+            <div className="flex flex-col items-center gap-3 text-center">
+                <div className="flex flex-col items-center gap-2">
+                    <p className="text-desert-sand text-sm">
+                        Hemos enviado un enlace de verificación a:
+                    </p>
+                    {email && (
+                        <span className="text-orange-rally font-semibold text-sm break-all px-2 py-1 bg-orange-rally/10 rounded-lg">
+                            {email}
+                        </span>
+                    )}
+                    <p className="text-desert-sand/70 text-xs mt-1 leading-relaxed">
+                        Revisa tu bandeja de entrada y haz clic en el enlace para activar tu cuenta. Si no lo encuentras, revisa la carpeta de spam.
+                    </p>
+                </div>
+                <div className="flex flex-col gap-2 w-full pt-2">
+                    {/* <Button title="Reenviar correo" onClick={handleResendEmail} loading={isPending} /> */}
+                    <Divider />
+                    <ButtonAntd type="link" onClick={handleNavigateToLogin} disabled={isPending}>
+                        <div className="flex flex-row items-center">
+                            <IconShockAbsorberRow className="size-18 text-orange-rally" rotate={-90} />
+                            <span className="text-orange-rally">Volver a Iniciar sesión</span>
+                        </div>
+                    </ButtonAntd>
+                </div>
+            </div>
+        </SecurityAuthLayout>
+    );
 };

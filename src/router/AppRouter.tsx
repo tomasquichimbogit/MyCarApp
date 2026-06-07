@@ -1,30 +1,39 @@
 import { useForegroundMessages } from "../hooks/useForegroundMessages.hook";
 import { LoginUI } from "../view/Security/Login/LoginUI.controller";
-
 import { Routes, Route, Navigate } from "react-router-dom";
 import { AppGuard } from "./AppGuard";
-import { RecoveryPasswordUI } from "../view/Security/RecoveryPassword/RecoveryPasswordUI.controller";
+import { AppGuardSecurity } from "./AppSecurity";
 import { AppLayout } from "../view/Main/AppLayout";
-import { HomeUI } from "../view/Main/Home/HomeUI.controller";
-import { Error404 } from "../view/Main/Error404";
-import { RegisterUserUI } from "@/view/Security/Register/RegisterUserUI.controller";
-import { VerifyEmailUI } from "@/view/Security/VerifyEmail/VerifyEmailUI.controller";
+import { ErrorPage } from "../view/Main/Error";
 import { PATHS } from "./paths";
-import { isSignupAuthCallback } from "@/helper/authRedirect";
+import { HomeUI } from "@/view/Main/Home";
+import { RecoveryPasswordUI } from "@/view/Security/RecoveryPassword/RecoveryPasswordUI.controller";
+import { RegisterUI } from "@/view/Security/Register/RegisterUI.controller";
+import { VerifyEmailUI } from "@/view/Security/VerifyEmail/VerifyEmailUI.controller";
+import { SecurityLayout } from "@/view/Security";
+import { VehiclesUI } from "@/view/Vehicles/list/VehiclesUI.controller";
+import { MaintenanceUI } from "@/view/Maintenance/MaintenanceUI.controller";
+import { WorkshopsUI } from "@/view/Workshops/WorkshopsUI.controller";
+import { AdventurePostsUI } from "@/view/AdventurePosts/AdventurePostsUI.controller";
+import { UserInformationUI } from "@/view/UserInformation/UserInformationUI.controller";
 
 export const AppRouter = () => {
   useForegroundMessages();
-
-  if (isSignupAuthCallback()) {
-    return <VerifyEmailUI />;
-  }
-
   return (
     <Routes>
-      <Route path={PATHS.login} element={<LoginUI />} />
-      <Route path={PATHS.recoveryPassword} element={<RecoveryPasswordUI />} />
-      <Route path={PATHS.registerUser} element={<RegisterUserUI />} />
-      <Route path={PATHS.verifyEmail} element={<VerifyEmailUI />} />
+      <Route
+        element={
+          <AppGuardSecurity>
+            <SecurityLayout />
+          </AppGuardSecurity>
+        }
+      >
+        <Route path={PATHS.login} element={<LoginUI />} />
+        <Route path={PATHS.recoveryPassword} element={<RecoveryPasswordUI />} />
+        <Route path={PATHS.registerUser} element={<RegisterUI />} />
+        <Route path={PATHS.verifyEmail} element={<VerifyEmailUI />} />
+      </Route>
+
       <Route
         path={PATHS.home}
         element={
@@ -34,8 +43,13 @@ export const AppRouter = () => {
         }
       >
         <Route index element={<HomeUI />} />
-        <Route path="home" element={<HomeUI />} />
-        <Route path="*" element={<Error404 />} />
+        <Route path={PATHS.home} element={<HomeUI />} />
+        <Route path={PATHS.vehicles} element={<VehiclesUI />} />
+        <Route path={PATHS.maintenance} element={<MaintenanceUI />} />
+        <Route path={PATHS.workshops} element={<WorkshopsUI />} />
+        <Route path={PATHS.adventure} element={<AdventurePostsUI />} />
+        <Route path={PATHS.userInformation} element={<UserInformationUI />} />
+        <Route path="*" element={<ErrorPage />} />
       </Route>
       <Route path="*" element={<Navigate to={PATHS.login} replace />} />
     </Routes>

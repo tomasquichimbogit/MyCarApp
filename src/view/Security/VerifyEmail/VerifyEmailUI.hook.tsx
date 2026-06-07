@@ -1,56 +1,50 @@
-import { useEffect, useState } from "react";
-import { useThemeMode } from "../../../provider/Provider";
-import { SUPABASE } from "../../../constants";
-import { cleanAuthHashUrl, parseAuthHashParams } from "../../../helper/authRedirect";
+import { useLocation, useNavigate } from "react-router-dom";
 import { PATHS } from "@/router/paths";
-import { useAuthStore } from "../../../store/useAuthStore";
+import { useResendVerificationEmail } from "@/services/auth.service";
+import { useNotify } from "tomascomponents";
 
-export type VerifyEmailStatus = "loading" | "success" | "error";
-
-export interface IVerifyEmailUI {
-  status: VerifyEmailStatus;
-  toggleMode: () => void;
-  mode: "light" | "dark";
+export interface IUseVerifyEmailUIHook {
+    email: string;
+    handleResendEmail: () => void;
+    handleNavigateToLogin: () => void;
+    isPending: boolean;
 }
 
-export const useVerifyEmailUI = (): IVerifyEmailUI => {
-  const { mode, toggleMode } = useThemeMode();
-  const { setToken } = useAuthStore();
-  const [status, setStatus] = useState<VerifyEmailStatus>("loading");
+export const useVerifyEmailUI = (): IUseVerifyEmailUIHook => {
+    const navigate = useNavigate();
+    const { notify } = useNotify();
+    const location = useLocation();
+    const email = (location.state as { email?: string })?.email ?? "";
+    const { mutate: resendMutation, isPending } = useResendVerificationEmail();
 
-  useEffect(() => {
-    const confirmSignupFromEmailLink = async () => {
-      const params = parseAuthHashParams();
-      const type = params?.get("type");
-      const accessToken = params?.get("access_token");
-      const refreshToken = params?.get("refresh_token");
-
-      if (type !== "signup" || !accessToken || !refreshToken) {
-        setStatus("error");
-        return;
-      }
-
-      const { error } = await SUPABASE.auth.setSession({
-        access_token: accessToken,
-        refresh_token: refreshToken,
-      });
-
-      if (error) {
-        setStatus("error");
-        return;
-      }
-
-      setToken(accessToken);
-      cleanAuthHashUrl(PATHS.verifyEmail);
-      setStatus("success");
+    const handleNavigateToLogin = () => {
+        navigate(PATHS.login);
     };
 
-    void confirmSignupFromEmailLink();
-  }, [setToken]);
+    const handleResendEmail = () => {
+        if (!email) {
+            notify("error", { title: "No se encontró el correo electrónico" });
+            return;
+        }
+        resendMutation(email, {
+            onSuccess: () => {
+                notify("success", {
+                    title: "Correo reenviado",
+                    description: `Se ha reenviado el enlace de verificación a ${email}`,
+                });
+            },
+            onError: () => {
+                notify("error", { title: "Error al reenviar el correo de verificación" });
+            },
+        });
+    };
 
-  return {
-    status,
-    toggleMode,
-    mode,
-  };
+ 
+
+    return {
+        email,
+        handleResendEmail,
+        handleNavigateToLogin, 
+        isPending,
+    };
 };

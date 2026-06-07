@@ -1,1 +1,106 @@
 @import "tailwindcss";
+
+/*
+  MyCarApp — paleta rally
+  Uso: text-orange-rally, bg-carbon-black, border-red-dakar, etc.
+*/
+@theme {
+  /* Naranja Rally — botones principales, CTA */
+  --color-orange-rally: #e65a1e;
+
+  /* Rojo Dakar — estados importantes, acentos */
+  --color-red-dakar: #c63b27;
+
+  /* Negro Carbón — sidebar, header */
+  --color-carbon-black: #121212;
+
+  /* Gris Grafito — fondos secundarios */
+  --color-graphite-gray: #2a2a2a;
+
+  /* Arena Desierto — fondos suaves */
+  --color-desert-sand: #d9b07a;
+
+  /* Beige Claro — cards y áreas limpias */
+  --color-light-beige: #f2e6d8;
+
+  /* Amarillo LED — indicadores, badges */
+  --color-led-yellow: #d8ff28;
+
+  /* Blanco Arena — texto sobre fondos oscuros */
+  --color-sand-white: #faf7f2;
+
+  /* Helmet blue (azul casco) */
+  --color-helmet-blue: #19425f;
+
+  /* Beacon yellow (amarillo faro) */
+  --color-beacon-yellow: #f9f045;
+  /* Azul carroseria auto*/
+  --color-blue-bodywork: #090d15;
+}
+
+.ant-drawer .ant-drawer-header,
+.ant-drawer .ant-drawer-body,
+.ant-drawer .ant-drawer-footer {
+  background-color: var(--color-blue-bodywork);
+}
+
+.ant-drawer .ant-drawer-header {
+  border-bottom-color: var(white);
+}
+
+.ant-drawer .ant-drawer-footer {
+  border-top-color: var(white);
+}
+
+.ant-drawer .ant-drawer-title,
+.ant-drawer .ant-drawer-close {
+  color: var(--color-orange-rally);
+}
+
+.ant-drawer .sidebar-menu.ant-menu,
+.ant-drawer .sidebar-menu .ant-menu-item,
+.ant-drawer .sidebar-menu .ant-menu-submenu-title {
+  background-color: transparent !important;
+  color: var(--color-desert-sand) !important;
+}
+.ant-drawer .sidebar-menu .ant-menu-item-selected {
+  background-color: var(--color-desert-sand) !important;
+  color: var(--color-carbon-black) !important;
+}
+
+.ant-drawer .sidebar-menu .ant-menu-item-selected .ant-menu-title-content,
+.ant-drawer .sidebar-menu .ant-menu-item-selected svg {
+  color: var(--color-carbon-black) !important;
+}
+
+.ant-drawer .sidebar-menu .ant-menu-item:not(.ant-menu-item-selected):hover {
+  background-color: color-mix(in srgb, var(--color-desert-sand) 20%, transparent) !important;
+  color: var(--color-orange-rally) !important;
+}
+
+.home-explore-divider.ant-divider {
+  border-color: var(--color-desert-sand);
+  margin-inline: 0;
+  min-width: 0;
+}
+
+.home-explore-divider.ant-divider::before,
+.home-explore-divider.ant-divider::after {
+  border-block-start-color: var(--color-desert-sand) !important;
+}
+
+.adventure-location-select.ant-select {
+  border: 1px solid var(--color-orange-rally);
+  border-radius: 8px;
+}
+
+.adventure-location-select.ant-select:hover,
+.adventure-location-select.ant-select.ant-select-focused {
+  border-color: var(--color-orange-rally);
+}
+
+.adventure-location-select-popup .ant-select-item-option-active,
+.adventure-location-select-popup .ant-select-item-option-selected {
+  background-color: color-mix(in srgb, var(--color-orange-rally) 12%, white) !important;
+  color: var(--color-orange-rally) !important;
+}

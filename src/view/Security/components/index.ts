@@ -1,0 +1,1 @@
+export { SecurityAuthLayout } from "./SecurityAuthLayout";

@@ -1,76 +1,70 @@
-import { useForm, type Control } from "react-hook-form";
 import type { ILoginForm } from "./interface";
-import { loginFormSchema } from "./loginForm.schema";
+import { useForm, type Control } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useSignIn } from "../../../services/auth.service";
-import { useThemeMode } from "../../../provider/Provider";
-import { useState } from "react";
-import { useNotify } from "tomascomponents";
-import { useAppNavigation } from "../../../hooks/useAppNavigation.hook";
-import { useAuthStore } from "../../../store/useAuthStore";
+import { z } from "zod";
+import { useThemeMode, type ThemeMode } from "@/hooks/useThemeMode";
+import { useNavigate } from "react-router-dom";
 import { PATHS } from "@/router/paths";
+import { syncSupabaseSession, useSignIn } from "@/services/auth.service";
+import { useAuthStore } from "@/store/useAuthStore";
+import { LOCAL_STORAGE_KEYS } from "@/constants";
 
-export interface ILoginUI {
+const loginSchema = z.object({
+  email: z.string({ error: "Email es requerido" }).email("Email inválido"),
+  password: z.string({ error: "Contraseña es requerida" }).min(6, "La contraseña debe tener al menos 8 caracteres"),
+});
+
+export interface IUseLoginUIHook {
   control: Control<ILoginForm>;
-  handleFormSubmit: () => void;
-  isSignInPending: boolean;
-  visiblePassword: boolean;
-  setVisiblePassword: (visible: boolean) => void;
+  mode: ThemeMode;
   toggleMode: () => void;
-  mode: "light" | "dark";
-  handleNavigate: () => void;
+  handleNavigateToRegister: () => void;
+  handleNavigateToForgotPassword: () => void;
+  handleFormSubmit: () => void;
+  isPending: boolean;
 }
-export const useLoginUI = (): ILoginUI => {
-  const [visiblePassword, setVisiblePassword] = useState(false);
-  const { mutate: signInMutate, isPending: isSignInPending } = useSignIn();
-  const { notify } = useNotify();
+
+export const useLoginUI = (): IUseLoginUIHook => {
   const { mode, toggleMode } = useThemeMode();
-  const { navigateTo } = useAppNavigation();
-  const { setToken } = useAuthStore();
-  const methods = useForm<ILoginForm>({
-    resolver: zodResolver(loginFormSchema),
+  const navigate = useNavigate();
+  const { setUser } = useAuthStore();
+  const { mutate: signIn, isPending } = useSignIn();
+  const { control, handleSubmit } = useForm<ILoginForm>({
+    resolver: zodResolver(loginSchema),
+    mode: "onChange",
+    reValidateMode: "onChange",
   });
 
-  const { control, handleSubmit } = methods;
+  const handleNavigateToRegister = () => {
+    navigate(PATHS.registerUser);
+  };
+
+  const handleNavigateToForgotPassword = () => {
+    navigate(PATHS.recoveryPassword);
+  };
 
   const onSubmit = (data: ILoginForm) => {
-    signInMutate(
-      {
-        email: data.email,
-        password: data.password,
+    signIn(data, {
+      onSuccess: async (response) => {
+        localStorage.setItem(LOCAL_STORAGE_KEYS.REFRESH_TOKEN, response.session.refresh_token);
+        await syncSupabaseSession(response.session);
+        setUser(response);
+        navigate(PATHS.home, { replace: true });
       },
-      {
-        onSuccess: (data) => {
-          if (data.session?.access_token) {
-            setToken(data.session.access_token);
-          }
-          notify("success", {
-            title: "Login successful",
-          });
-          navigateTo("/", true);
-        },
-      },
-    );
+    });
   };
 
   const handleFormSubmit = () => {
-    handleSubmit(onSubmit, (errors) => {
-      console.log(errors);
-    })();
-  };
-
-  const handleNavigate = () => {
-    navigateTo(PATHS.registerUser);
+    handleSubmit(onSubmit)();
   };
 
   return {
     control,
-    handleFormSubmit,
-    isSignInPending,
-    visiblePassword,
-    setVisiblePassword,
-    toggleMode,
     mode,
-    handleNavigate,
+    toggleMode,
+    handleNavigateToRegister,
+    handleNavigateToForgotPassword,
+    handleFormSubmit,
+    isPending,
   };
 };

@@ -1,7 +1,7 @@
 import { useVerifyEmailUI } from "./VerifyEmailUI.hook";
-import { VerifyEmailUIView } from "./VerifyEmailUI.view";
+import { VerifyEmailView } from "./VerifyEmailUI.view";
 
 export const VerifyEmailUI = () => {
-  const hook = useVerifyEmailUI();
-  return <VerifyEmailUIView {...hook} />;
+    const hookProps = useVerifyEmailUI();
+    return <VerifyEmailView {...hookProps} />;
 };

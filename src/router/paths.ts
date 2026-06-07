@@ -3,6 +3,11 @@ export const PATHS = {
     registerUser: "/register-user",
     recoveryPassword: "/recovery-password",
     verifyEmail: "/verify-email",
+    vehicles: "/vehicles",
+    maintenance: "/maintenance",
+    workshops: "/workshops",
+    adventure: "/adventure",
+    userInformation: "/user-information",
     home: "/",
     error404: "*",
 }
