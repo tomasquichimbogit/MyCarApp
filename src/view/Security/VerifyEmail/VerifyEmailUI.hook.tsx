@@ -39,10 +39,12 @@ export const useVerifyEmailUI = (): IUseVerifyEmailUIHook => {
         });
     };
 
+ 
+
     return {
         email,
         handleResendEmail,
-        handleNavigateToLogin,
+        handleNavigateToLogin, 
         isPending,
     };
 };

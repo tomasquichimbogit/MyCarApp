@@ -26,7 +26,7 @@ export const HeaderView = ({ userOptions, userName, toggleOpen }: IHeaderUIHook)
         </div>
         <div className="pr-2">
           <Dropdown menu={{ items: userOptions }} placement="bottomRight" trigger={["click"]}>
-            <Button variant="outlined" type="primary">
+            <Button variant="solid" color="orange">
               <Space>
                 {userName}
                 <DownOutlined />

@@ -11,7 +11,7 @@ import { RecoveryPasswordUI } from "@/view/Security/RecoveryPassword/RecoveryPas
 import { RegisterUI } from "@/view/Security/Register/RegisterUI.controller";
 import { VerifyEmailUI } from "@/view/Security/VerifyEmail/VerifyEmailUI.controller";
 import { SecurityLayout } from "@/view/Security";
-import { VehiclesUI } from "@/view/Vehicles/VehiclesUI.controller";
+import { VehiclesUI } from "@/view/Vehicles/list/VehiclesUI.controller";
 import { MaintenanceUI } from "@/view/Maintenance/MaintenanceUI.controller";
 import { WorkshopsUI } from "@/view/Workshops/WorkshopsUI.controller";
 import { AdventurePostsUI } from "@/view/AdventurePosts/AdventurePostsUI.controller";

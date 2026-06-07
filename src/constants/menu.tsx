@@ -1,5 +1,6 @@
+import { IconCarSuv } from "@/assets/svg";
 import { PATHS } from "@/router/paths";
-import { CarIcon, FilePenLine, HomeIcon, MapPinIcon, WrenchIcon } from "lucide-react";
+import { FilePenLine, HomeIcon, MapPinIcon, WrenchIcon } from "lucide-react";
 
 
 
@@ -16,7 +17,7 @@ export const getMenuItems = (classNames?: string, onClick?: (path: string) => vo
         label: "Mis vehiculos",
         key: PATHS.vehicles,
         path: PATHS.vehicles,
-        icon: <CarIcon className={classNames} />,
+        icon: <IconCarSuv className={classNames} transform="scale(-1, 1)" />,
         onClick: () => onClick?.(PATHS.vehicles),
       },
       {

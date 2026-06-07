@@ -1,16 +1,15 @@
 import { CentralContainerUI } from "@/components/Render/CentralContainerUI";
-import { Compass } from "lucide-react";
 import type { IUseAdventurePostsUIHook } from "./AdventurePostsUI.hook";
 import { AdventurePostCard } from "./components/AdventurePostCard";
 
 export const AdventurePostsUIView = ({ posts, isLoading, isError }: IUseAdventurePostsUIHook) => {
   return (
-    <CentralContainerUI title="Aventura">
-      <div className="flex w-full flex-col gap-2 pb-2">
-        <p className="flex items-start gap-2 rounded-xl border border-desert-sand/40 bg-white px-4 py-3 text-sm text-gray-600">
+    <CentralContainerUI title="Aventura" subtitle="Explora rutas, rallies y aventuras sobre ruedas. Comparte la pasión por el camino.">
+      <div className="flex w-full flex-col gap-0.5 pb-2">
+        {/* <p className="flex items-start gap-2 rounded-xl border border-desert-sand/40 bg-white px-4 py-3 text-sm text-gray-600">
           <Compass className="mt-0.5 h-4 w-4 shrink-0 text-orange-rally" />
           <span>Explora rutas, rallies y aventuras sobre ruedas. Comparte la pasión por el camino.</span>
-        </p>
+        </p> */}
         {isLoading && (
           <p className="rounded-xl border border-desert-sand/40 bg-white px-4 py-6 text-center text-sm text-gray-500">
             Cargando aventuras...

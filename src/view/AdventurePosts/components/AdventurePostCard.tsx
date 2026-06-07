@@ -1,9 +1,10 @@
+import { useEffect, useRef, useState } from "react";
 import { Heart, MapPin, MessageCircle, Share2 } from "lucide-react";
-import type { IAdventurePost } from "../interfaces";
 import { YouTubeEmbed } from "./YouTubeEmbed";
+import type { IAdventurePostRow } from "@/services/adventure-posts/adventurePosts.services";
 
 interface AdventurePostCardProps {
-  post: IAdventurePost;
+  post: IAdventurePostRow;
 }
 
 const formatRelativeTime = (dateString: string) => {
@@ -33,29 +34,34 @@ const getInitials = (name: string) =>
     .toUpperCase();
 
 export const AdventurePostCard = ({ post }: AdventurePostCardProps) => {
-  const { author, content, videoId, location, createdAt, likes, comments, tags } = post;
+  const { author_name, author_role, content, video_id, location, created_at, likes, comments } = post;
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [isTruncated, setIsTruncated] = useState(false);
+  const contentRef = useRef<HTMLParagraphElement>(null);
+
+  useEffect(() => {
+    const el = contentRef.current;
+    if (!el || !content || isExpanded) return;
+    setIsTruncated(el.scrollHeight > el.clientHeight);
+  }, [content, isExpanded]);
 
   return (
     <article className="w-full overflow-hidden rounded-2xl border border-orange-rally/25 bg-white shadow-sm transition-shadow hover:shadow-md">
-      <header className="flex items-start gap-3 px-4 pt-4 pb-3">
+      <header className="flex items-start gap-2 px-4 pt-4 pb-3">
         <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full bg-linear-to-br from-orange-rally to-red-dakar text-sm font-bold text-sand-white">
-          {author.avatar ? (
-            <img src={author.avatar} alt={author.name} className="h-full w-full object-cover" />
-          ) : (
-            getInitials(author.name)
-          )}
+          {author_name && getInitials(author_name)}
         </div>
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
-            <h3 className="truncate text-sm font-bold text-gray-900">{author.name}</h3>
-            {author.role && (
+            <h3 className="truncate text-sm font-bold text-gray-900">{author_name}</h3>
+            {author_role && (
               <span className="rounded-full bg-light-beige px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-orange-rally">
-                {author.role}
+                {author_role}
               </span>
             )}
           </div>
           <div className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-gray-500">
-            <time dateTime={createdAt}>{formatRelativeTime(createdAt)}</time>
+            <time dateTime={created_at}>{formatRelativeTime(created_at)}</time>
             {location && (
               <>
                 <span aria-hidden>·</span>
@@ -70,33 +76,42 @@ export const AdventurePostCard = ({ post }: AdventurePostCardProps) => {
       </header>
 
       <div className="px-4 pb-3">
-        <p className="text-sm leading-relaxed text-gray-800">{content}</p>
-        {tags && tags.length > 0 && (
-          <div className="mt-2 flex flex-wrap gap-1.5">
-            {tags.map((tag) => (
-              <span
-                key={tag}
-                className="rounded-full bg-desert-sand/20 px-2.5 py-0.5 text-xs font-medium text-helmet-blue"
+        {content && (
+          <>
+            <p
+              ref={contentRef}
+              className={`text-sm leading-relaxed text-gray-800 ${isExpanded ? "" : "line-clamp-1"}`}
+            >
+              {content}
+            </p>
+            {(isTruncated || isExpanded) && (
+              <button
+                type="button"
+                onClick={() => setIsExpanded((prev) => !prev)}
+                className="mt-1 text-xs font-semibold text-orange-rally transition-colors hover:text-red-dakar"
               >
-                #{tag}
-              </span>
-            ))}
-          </div>
+                {isExpanded ? "Ver menos" : "Ver más"}
+              </button>
+            )}
+          </>
         )}
+       
       </div>
 
-      <div className="px-4 pb-3">
-        <YouTubeEmbed videoId={videoId} title={content} />
-      </div>
+      {video_id && (
+        <div className="w-full">
+          <YouTubeEmbed videoId={video_id} title={content ?? ""} />
+        </div>
+      )}
 
       <div className="flex items-center justify-between border-t border-gray-100 px-4 py-2 text-xs text-gray-500">
         <span className="flex items-center gap-1">
           <span className="flex h-5 w-5 items-center justify-center rounded-full bg-orange-rally/15 text-orange-rally">
             <Heart className="h-3 w-3 fill-orange-rally" />
           </span>
-          {formatCount(likes)} me gusta
+          {formatCount(likes.length)} me gusta
         </span>
-        <span>{formatCount(comments)} comentarios</span>
+        <span>{formatCount(comments.length)} comentarios</span>
       </div>
 
       <footer className="grid grid-cols-3 border-t border-gray-100">
@@ -125,3 +140,20 @@ export const AdventurePostCard = ({ post }: AdventurePostCardProps) => {
     </article>
   );
 };
+
+
+/*
+
+ {tags && tags.length > 0 && (
+          <div className="mt-2 flex flex-wrap gap-1.5">
+            {tags.map((tag) => (
+              <span
+                key={tag}
+                className="rounded-full bg-desert-sand/20 px-2.5 py-0.5 text-xs font-medium text-helmet-blue"
+              >
+                #{tag}
+              </span>
+            ))}
+          </div>
+        )}
+*/

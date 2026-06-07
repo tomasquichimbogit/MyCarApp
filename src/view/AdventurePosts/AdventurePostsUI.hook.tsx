@@ -1,8 +1,7 @@
-import { useAdventurePosts } from "@/services/adventure-posts/adventurePosts.services";
-import type { IAdventurePost } from "./interfaces";
+import { useAdventurePosts, type IAdventurePostRow } from "@/services/adventure-posts/adventurePosts.services";
 
 export interface IUseAdventurePostsUIHook {
-  posts: IAdventurePost[];
+  posts: IAdventurePostRow[];
   isLoading: boolean;
   isError: boolean;
 }

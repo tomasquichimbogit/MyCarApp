@@ -37,3 +37,54 @@
   /* Azul carroseria auto*/
   --color-blue-bodywork: #090d15;
 }
+
+.ant-drawer .ant-drawer-header,
+.ant-drawer .ant-drawer-body,
+.ant-drawer .ant-drawer-footer {
+  background-color: var(--color-blue-bodywork);
+}
+
+.ant-drawer .ant-drawer-header {
+  border-bottom-color: var(white);
+}
+
+.ant-drawer .ant-drawer-footer {
+  border-top-color: var(white);
+}
+
+.ant-drawer .ant-drawer-title,
+.ant-drawer .ant-drawer-close {
+  color: var(--color-orange-rally);
+}
+
+.ant-drawer .sidebar-menu.ant-menu,
+.ant-drawer .sidebar-menu .ant-menu-item,
+.ant-drawer .sidebar-menu .ant-menu-submenu-title {
+  background-color: transparent !important;
+  color: var(--color-desert-sand) !important;
+}
+.ant-drawer .sidebar-menu .ant-menu-item-selected {
+  background-color: var(--color-desert-sand) !important;
+  color: var(--color-carbon-black) !important;
+}
+
+.ant-drawer .sidebar-menu .ant-menu-item-selected .ant-menu-title-content,
+.ant-drawer .sidebar-menu .ant-menu-item-selected svg {
+  color: var(--color-carbon-black) !important;
+}
+
+.ant-drawer .sidebar-menu .ant-menu-item:not(.ant-menu-item-selected):hover {
+  background-color: color-mix(in srgb, var(--color-desert-sand) 20%, transparent) !important;
+  color: var(--color-orange-rally) !important;
+}
+
+.home-explore-divider.ant-divider {
+  border-color: var(--color-desert-sand);
+  margin-inline: 0;
+  min-width: 0;
+}
+
+.home-explore-divider.ant-divider::before,
+.home-explore-divider.ant-divider::after {
+  border-block-start-color: var(--color-desert-sand) !important;
+}
