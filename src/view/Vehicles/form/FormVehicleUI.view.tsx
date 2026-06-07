@@ -9,6 +9,7 @@ export const FormVehicleUIView = ({
   colorsOptions,
   loadingResources,
   errorResources,
+  missingProfile,
   isSubmitting,
   isModelDisabled,
   handleFormSubmit,
@@ -25,7 +26,11 @@ export const FormVehicleUIView = ({
     return (
       <Alert
         message="Error"
-        description="No se pudieron cargar los datos del formulario. Intenta de nuevo."
+        description={
+          missingProfile
+            ? "Primero debes completar tu información personal en Mi información."
+            : "No se pudieron cargar los datos del formulario. Intenta de nuevo."
+        }
         type="error"
         showIcon
       />

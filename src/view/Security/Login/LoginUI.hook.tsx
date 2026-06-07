@@ -5,7 +5,7 @@ import { z } from "zod";
 import { useThemeMode, type ThemeMode } from "@/hooks/useThemeMode";
 import { useNavigate } from "react-router-dom";
 import { PATHS } from "@/router/paths";
-import { useSignIn } from "@/services/auth.service";
+import { syncSupabaseSession, useSignIn } from "@/services/auth.service";
 import { useAuthStore } from "@/store/useAuthStore";
 import { LOCAL_STORAGE_KEYS } from "@/constants";
 
@@ -45,8 +45,9 @@ export const useLoginUI = (): IUseLoginUIHook => {
 
   const onSubmit = (data: ILoginForm) => {
     signIn(data, {
-      onSuccess: (response) => {
+      onSuccess: async (response) => {
         localStorage.setItem(LOCAL_STORAGE_KEYS.REFRESH_TOKEN, response.session.refresh_token);
+        await syncSupabaseSession(response.session);
         setUser(response);
         navigate(PATHS.home, { replace: true });
       },

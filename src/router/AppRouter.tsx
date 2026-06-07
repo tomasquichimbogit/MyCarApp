@@ -15,6 +15,7 @@ import { VehiclesUI } from "@/view/Vehicles/list/VehiclesUI.controller";
 import { MaintenanceUI } from "@/view/Maintenance/MaintenanceUI.controller";
 import { WorkshopsUI } from "@/view/Workshops/WorkshopsUI.controller";
 import { AdventurePostsUI } from "@/view/AdventurePosts/AdventurePostsUI.controller";
+import { UserInformationUI } from "@/view/UserInformation/UserInformationUI.controller";
 
 export const AppRouter = () => {
   useForegroundMessages();
@@ -47,6 +48,7 @@ export const AppRouter = () => {
         <Route path={PATHS.maintenance} element={<MaintenanceUI />} />
         <Route path={PATHS.workshops} element={<WorkshopsUI />} />
         <Route path={PATHS.adventure} element={<AdventurePostsUI />} />
+        <Route path={PATHS.userInformation} element={<UserInformationUI />} />
         <Route path="*" element={<ErrorPage />} />
       </Route>
       <Route path="*" element={<Navigate to={PATHS.login} replace />} />

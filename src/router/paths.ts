@@ -7,6 +7,7 @@ export const PATHS = {
     maintenance: "/maintenance",
     workshops: "/workshops",
     adventure: "/adventure",
+    userInformation: "/user-information",
     home: "/",
     error404: "*",
 }

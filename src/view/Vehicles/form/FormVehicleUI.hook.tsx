@@ -13,6 +13,7 @@ export interface IUseFormVehicleUIHook {
   control: Control<TSchemaFormVehicleUI>;
   loadingResources: boolean;
   errorResources: boolean;
+  missingProfile: boolean;
   brandsOptions: DefaultOptionType[];
   modelsOptions: DefaultOptionType[];
   colorsOptions: DefaultOptionType[];
@@ -70,7 +71,8 @@ export const useFormVehicleUIHook = () => {
   }, [selectedBrand, setValue]);
 
   const loadingResources = isLoadingCatalogs || isLoadingPerson;
-  const errorResources = isErrorCatalogs || isErrorPerson;
+  const missingProfile = !isLoadingPerson && !isErrorPerson && !person;
+  const errorResources = isErrorCatalogs || isErrorPerson || missingProfile;
   const isModelDisabled = !selectedBrand || selectedBrand <= 0;
 
   const onSubmit = (data: TSchemaFormVehicleUI) => {
@@ -103,6 +105,7 @@ export const useFormVehicleUIHook = () => {
     control,
     loadingResources,
     errorResources,
+    missingProfile,
     brandsOptions,
     modelsOptions,
     colorsOptions,
