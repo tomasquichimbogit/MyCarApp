@@ -22,7 +22,7 @@ export const HomeUI = () => {
 
   return (
     <div className="flex min-h-full h-full w-full flex-col items-center justify-center p-2 mt-8">
-      <div className="flex w-full max-w-md flex-col gap-4">
+      <div className="flex w-full max-w-md flex-col gap-0.5">
       <div className="grid grid-cols-2 gap-2">
         {filterHome.map((item) => (
           <div
@@ -52,7 +52,7 @@ export const HomeUI = () => {
             }
             variant="link"
             color="orange"
-            onClick={() => handleNavigate(PATHS.adventure)}
+            onClick={() => handleNavigate(PATHS.workshops)}
           />
         </div>
         {/* Latoneria */}
