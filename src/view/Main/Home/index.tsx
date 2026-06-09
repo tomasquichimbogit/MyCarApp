@@ -47,12 +47,12 @@ export const HomeUI = () => {
             title={
               <div className="flex items-center gap-2">
                 <WrenchIcon className="w-6 h-6" />
-                <span className="font-bold text-2xl">Talleres</span>
+                <span className="font-bold text-2xl">Talleres de confianza</span>
               </div>
             }
             variant="link"
             color="orange"
-            onClick={() => handleNavigate(PATHS.adventure)}
+            onClick={() => handleNavigate(PATHS.workshops)}
           />
         </div>
         {/* Latoneria */}

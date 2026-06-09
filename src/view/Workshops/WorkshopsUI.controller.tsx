@@ -1,7 +1,5 @@
-import { WorkshopsUIView } from "./WorkshopsUI.view"
-import { useWorkshopsUIHook } from "./WorkshopsUI.hook"
+import { WorkshopsListUI } from "./list/WorkshopsListUI.controller";
 
 export const WorkshopsUI = () => {
-    const hook = useWorkshopsUIHook()
-    return <WorkshopsUIView { ...hook } />
-}
+  return <WorkshopsListUI />;
+};
