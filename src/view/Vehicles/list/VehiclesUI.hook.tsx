@@ -18,6 +18,8 @@ export const useVehiclesUIHook = (): IUseVehiclesUIHook => {
     openModal({
       title: "Agregar vehículo",
       content: <VehicleCreateUIView />,
+      width: "500px	",
+      height: "auto",
     });
   };
 

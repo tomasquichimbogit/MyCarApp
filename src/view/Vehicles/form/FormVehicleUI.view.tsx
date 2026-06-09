@@ -38,7 +38,7 @@ export const FormVehicleUIView = ({
   }
 
   return (
-    <div className="flex flex-col gap-3 p-1">
+    <div className="flex flex-col gap-3 p-2">
       <FormSelect
         label="Marca"
         name="brand"

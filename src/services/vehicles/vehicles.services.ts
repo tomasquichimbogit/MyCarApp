@@ -1,5 +1,6 @@
 import { useApiGetQuery, useApiPostMutation } from "@/config/axiosMethods";
 import { SUPABASE } from "@/constants";
+import { ensureSupabaseAuthSession } from "@/services/auth.service";
 import type { IVehicles } from "@/view/Vehicles/list/intefaces";
 import { useQueryClient } from "@tanstack/react-query";
 import { vehiclesKeys } from "./vehiclesKeys";
@@ -59,6 +60,8 @@ const mapVehicle = (row: IVehicleRow): IVehicles => ({
 export const createVehicle = async (
   payload: ICreateVehiclePayload,
 ): Promise<IVehicleRow> => {
+  await ensureSupabaseAuthSession();
+
   const { data, error } = await SUPABASE
     .from("vehicle")
     .insert({
