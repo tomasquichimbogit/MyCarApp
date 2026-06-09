@@ -45,11 +45,11 @@
 }
 
 .ant-drawer .ant-drawer-header {
-  border-bottom-color: var(white);
+  border-bottom-color: white;
 }
 
 .ant-drawer .ant-drawer-footer {
-  border-top-color: var(white);
+  border-top-color: white;
 }
 
 .ant-drawer .ant-drawer-title,

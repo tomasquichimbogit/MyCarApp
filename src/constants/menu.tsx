@@ -28,7 +28,7 @@ export const getMenuItems = (classNames?: string, onClick?: (path: string) => vo
         onClick: () => onClick?.(PATHS.maintenance),
       },
       {
-        label: "Mis talleres de confianza",
+        label: "Talleres",
         key: PATHS.workshops,
         path: PATHS.workshops,
         icon: <WrenchIcon className={classNames} />,

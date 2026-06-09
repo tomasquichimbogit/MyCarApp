@@ -1,5 +1,5 @@
 import { useWorkshops } from "@/services/workshops/workshops.services";
-import type { IWorkshop } from "../form/interfaces";
+import type { IWorkshop } from "./interfaces";
 
 export interface IUseWorkshopsListUIHook {
   workshops: IWorkshop[];
