@@ -27,14 +27,6 @@ const ensureValidItemKey = (itemKey: string): void => {
   }
 };
 
-const sanitizeFileName = (fileName: string): string => {
-  return fileName
-    .trim()
-    .replace(/\s+/g, "-")
-    .replace(/[^a-zA-Z0-9._-]/g, "")
-    .toLowerCase();
-};
-
 const validateImageFile = (file: File): void => {
   if (!ALLOWED_MIME_TYPES.has(file.type)) {
     throw new Error(`Formato no permitido para ${file.name}. Usa JPG, PNG o WEBP.`);
@@ -163,11 +155,10 @@ export const uploadVehicleImages = async ({
     validateImageFile(file);
     const compressedFile = await compressImageForUpload(file);
 
-    const safeName = sanitizeFileName(compressedFile.name);
-    const filePath = `${cleanItemKey}-${safeName}`;
+    const filePath = `${cleanItemKey}.webp`;
 
     const { error: uploadError } = await SUPABASE.storage.from(bucketName).upload(filePath, compressedFile, {
-      upsert: false,
+      upsert: true,
       contentType: compressedFile.type,
       cacheControl: "3600",
     });
@@ -182,7 +173,7 @@ export const uploadVehicleImages = async ({
       bucket: bucketName,
       path: filePath,
       signedUrl,
-      fileName: compressedFile.name,
+      fileName: `${cleanItemKey}.webp`,
     });
   }
 

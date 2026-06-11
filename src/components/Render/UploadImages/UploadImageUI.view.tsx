@@ -11,7 +11,7 @@ interface UploadImageUIProps {
   onCancel?: () => void;
   itemKey: string;
   bucketName?: string;
-  onUploaded?: (data: { bucket: string; path: string; signedUrl: string; fileName: string }[]) => void;
+  onUploaded?: (data: { bucket: string; path: string; signedUrl: string; fileName: string }[]) => Promise<void> | void;
 }
 
 export const UploadImageUI = ({ maxFiles = MAX_FILES, onCancel, itemKey, bucketName, onUploaded }: UploadImageUIProps) => {
@@ -102,7 +102,7 @@ export const UploadImageUI = ({ maxFiles = MAX_FILES, onCancel, itemKey, bucketN
       });
 
       console.log("Imagenes cargadas a Supabase:", uploadedFiles);
-      onUploaded?.(uploadedFiles);
+      await onUploaded?.(uploadedFiles);
       onCancel?.();
     } catch (error) {
       console.error("Error al cargar imagenes en Supabase:", error);
