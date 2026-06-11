@@ -202,7 +202,7 @@ export const UploadImageUI = ({ maxFiles = MAX_FILES, onCancel, itemKey, bucketN
         ) : null}
       </section>
       <div className="flex flex-row gap-2 justify-end w-full">
-        <Button onClick={onCancel}>Cancelar</Button>
+        <Button onClick={onCancel} disabled={isUploading}>Cancelar</Button>
         <Button type="primary" onClick={handleUpload} disabled={disableUploadButton} loading={isUploading}>
           Guardar
         </Button>

@@ -4,7 +4,6 @@ import { QueryProvider } from './QueryProvider';
 import { ModalProvider, NotificationProvider } from 'tomascomponents';
 import { LocalStorageProvider } from '../store/useLocalStorage';
 import { THEME_STORAGE_KEY, ThemeModeContext, type ThemeMode } from '@/hooks/useThemeMode';
-import { theme } from 'antd';
 
 
 
@@ -20,7 +19,7 @@ const getInitialMode = (): ThemeMode => {
 
 
 export const Provider = ({ children }: { children: React.ReactNode }) => {
-    const { defaultAlgorithm, darkAlgorithm, compactAlgorithm } = theme;
+    // const { defaultAlgorithm, darkAlgorithm, compactAlgorithm } = theme;
     const [mode, setMode] = useState<ThemeMode>(getInitialMode);
     useEffect(() => {
         window.localStorage.setItem(THEME_STORAGE_KEY, mode);
@@ -35,13 +34,13 @@ export const Provider = ({ children }: { children: React.ReactNode }) => {
         [mode],
     );
 
-    const isDarkMode = mode === "dark";
+    // const isDarkMode = mode === "dark";
 
     return (
       <ThemeModeContext.Provider value={themeModeContextValue}>
         <ConfigProvider
           theme={{
-            algorithm: [isDarkMode ? darkAlgorithm : defaultAlgorithm, compactAlgorithm],
+            // algorithm: [isDarkMode ? darkAlgorithm : defaultAlgorithm, compactAlgorithm],
             token: {
               colorLink: "#1890ff",
             },
