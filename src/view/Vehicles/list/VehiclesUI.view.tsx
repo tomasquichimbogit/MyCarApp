@@ -27,7 +27,7 @@ export const VehiclesUIView = ({ vehicles, isLoading, handleAddClick, isError, s
           <Empty description={<span className="text-white">No hay vehículos registrados</span>} />
         )}
 
-        <div className="flex flex-col gap-2 max-h-[calc(100dvh-164px)] overflow-y-auto">
+        <div className="flex flex-col gap-2 max-h-[calc(100dvh-136px)] md:max-h-[calc(100dvh-156px)] overflow-y-auto">
           {vehicles.map((vehicle) => (
             <ItemVehicleUI key={vehicle.id} vehicle={vehicle} />
           ))}

@@ -33,6 +33,7 @@ export const ItemVehicleUI = ({ vehicle }: ItemVehicleUIProps) => {
       content: <VehicleUpdateUIView vehicleId={vehicleId} />,
       width: "500px	",
       height: "auto",
+      closable: false,
     });
   };
 
