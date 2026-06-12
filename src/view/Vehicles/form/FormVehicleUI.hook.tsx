@@ -5,9 +5,14 @@ import { schemaFormVehicleUI, type TSchemaFormVehicleUI } from "./interface";
 import type { DefaultOptionType } from "antd/es/select";
 import { useFormVehicleResources } from "@/hooks/useFormVehicleResources";
 import { useCurrentPerson } from "@/services/person/person.services";
-import { useCreateVehicle } from "@/services/vehicles/vehicles.services";
+import { useCreateVehicle, useUpdateVehicle, useVehicleById } from "@/services/vehicles/vehicles.services";
 import { useFormController } from "@/hooks/useFormController";
 import { useModal, useNotify } from "tomascomponents";
+
+interface UseFormVehicleUIHookProps {
+  mode?: "create" | "update";
+  vehicleId?: number;
+}
 
 export interface IUseFormVehicleUIHook {
   control: Control<TSchemaFormVehicleUI>;
@@ -20,18 +25,26 @@ export interface IUseFormVehicleUIHook {
   isSubmitting: boolean;
   isModelDisabled: boolean;
   handleFormSubmit: () => void;
+  submitLabel: string;
+  closeModal: () => void;
+  isUpdateMode: boolean;
+  vehicleImageItemKey: string | number;
+  vehicleImageTitle: string;
 }
 
-export const useFormVehicleUIHook = () => {
+export const useFormVehicleUIHook = ({ mode = "create", vehicleId }: UseFormVehicleUIHookProps) => {
+  const isUpdateMode = mode === "update" && !!vehicleId;
   const { closeModal } = useModal();
   const { notify } = useNotify();
   const { errorForm } = useFormController();
-  const { mutate: createVehicle, isPending: isSubmitting } = useCreateVehicle();
+  const { mutate: createVehicle, isPending: isCreating } = useCreateVehicle();
+  const { mutate: updateVehicle, isPending: isUpdating } = useUpdateVehicle();
+  const { data: person, isLoading: isLoadingPerson, isError: isErrorPerson } = useCurrentPerson();
   const {
-    data: person,
-    isLoading: isLoadingPerson,
-    isError: isErrorPerson,
-  } = useCurrentPerson();
+    data: vehicleDetail,
+    isLoading: isLoadingVehicle,
+    isError: isErrorVehicle,
+  } = useVehicleById(vehicleId ?? 0, isUpdateMode);
 
   const methods = useForm<TSchemaFormVehicleUI>({
     resolver: zodResolver(schemaFormVehicleUI),
@@ -67,34 +80,60 @@ export const useFormVehicleUIHook = () => {
   }, [person, setValue]);
 
   useEffect(() => {
-    setValue("model", 0);
-  }, [selectedBrand, setValue]);
+    if (!vehicleDetail) return;
+    setValue("brand", vehicleDetail.brand);
+    setValue("model", vehicleDetail.model);
+    setValue("year", vehicleDetail.year);
+    setValue("color", vehicleDetail.color);
+    setValue("person_id", vehicleDetail.person_id);
+    setValue("license_plate", vehicleDetail.license_plate);
+  }, [vehicleDetail, setValue]);
 
-  const loadingResources = isLoadingCatalogs || isLoadingPerson;
+  const loadingResources = isLoadingCatalogs || isLoadingPerson || isLoadingVehicle;
   const missingProfile = !isLoadingPerson && !isErrorPerson && !person;
-  const errorResources = isErrorCatalogs || isErrorPerson || missingProfile;
+  const errorResources = isErrorCatalogs || isErrorPerson || isErrorVehicle || missingProfile;
   const isModelDisabled = !selectedBrand || selectedBrand <= 0;
+  const isSubmitting = isCreating || isUpdating;
+  const submitLabel = isUpdateMode ? "Actualizar vehículo" : "Guardar vehículo";
 
   const onSubmit = (data: TSchemaFormVehicleUI) => {
-    createVehicle(
-      {
-        brand: data.brand,
-        model: data.model,
-        year: data.year,
-        color: data.color,
-        person_id: data.person_id,
-        license_plate: data.license_plate.trim().toUpperCase(),
-      },
-      {
-        onSuccess: () => {
-          notify("success", {
-            title: "Vehículo creado",
-            description: "El vehículo se registró correctamente.",
-          });
-          closeModal();
+    const payload = {
+      brand: data.brand,
+      model: data.model,
+      year: data.year,
+      color: data.color,
+      person_id: data.person_id,
+      license_plate: data.license_plate.trim().toUpperCase(),
+    };
+
+    if (isUpdateMode && vehicleId) {
+      updateVehicle(
+        {
+          id: vehicleId,
+          ...payload,
         },
+        {
+          onSuccess: () => {
+            notify("success", {
+              title: "Vehículo actualizado",
+              description: "El vehículo se actualizó correctamente.",
+            });
+            closeModal();
+          },
+        },
+      );
+      return;
+    }
+
+    createVehicle(payload, {
+      onSuccess: () => {
+        notify("success", {
+          title: "Vehículo creado",
+          description: "El vehículo se registró correctamente.",
+        });
+        closeModal();
       },
-    );
+    });
   };
 
   const handleFormSubmit = () => {
@@ -112,5 +151,10 @@ export const useFormVehicleUIHook = () => {
     isSubmitting,
     isModelDisabled,
     handleFormSubmit,
+    submitLabel,
+    closeModal,
+    isUpdateMode,
+    vehicleImageItemKey: vehicleId ?? -1,
+    vehicleImageTitle: `Actualizar imagen - ${vehicleDetail?.license_plate ?? "vehículo"}`,
   };
 };

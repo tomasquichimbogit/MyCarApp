@@ -10,6 +10,13 @@ interface UseTokenBuketAccessParams {
   reloadKey?: number;
 }
 
+interface ITokenBucketAccessCacheParams {
+  bucketName: string;
+  itemKey: string | number;
+  extension?: string;
+  expiresIn?: number;
+}
+
 interface ITokenBucketStorageCache {
   signedUrl: string;
   expiresAtMs: number;
@@ -98,6 +105,33 @@ const clearInvalidSignedUrlCaches = (): void => {
   keysToRemove.forEach((key) => localStorage.removeItem(key));
 };
 
+export const invalidateTokenBuketAccessCache = ({
+  bucketName,
+  itemKey,
+  extension = "webp",
+}: ITokenBucketAccessCacheParams): void => {
+  const cacheKey = getCacheKey(bucketName, itemKey, extension);
+  localStorage.removeItem(cacheKey);
+};
+
+export const refreshTokenBuketAccessCache = async ({
+  bucketName,
+  itemKey,
+  extension = "webp",
+  expiresIn,
+}: ITokenBucketAccessCacheParams): Promise<string> => {
+  const cacheKey = getCacheKey(bucketName, itemKey, extension);
+  invalidateTokenBuketAccessCache({ bucketName, itemKey, extension });
+
+  const signedUrl = await getSignedVehicleImageUrl(
+    `${itemKey}.${extension}`,
+    bucketName,
+    expiresIn,
+  );
+  writeSignedUrlCache(cacheKey, signedUrl);
+  return signedUrl;
+};
+
 export const useTokenBuketAccess = ({
   bucketName,
   itemKey,
@@ -109,6 +143,7 @@ export const useTokenBuketAccess = ({
   const [isError, setIsError] = useState(false);
 
   useEffect(() => {
+    if (itemKey === -1) return;
     let isCancelled = false;
     const cacheKey = getCacheKey(bucketName, itemKey, extension);
     clearInvalidSignedUrlCaches();

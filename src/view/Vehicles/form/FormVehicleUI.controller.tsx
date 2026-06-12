@@ -1,7 +1,12 @@
 import { useFormVehicleUIHook } from "./FormVehicleUI.hook";
 import { FormVehicleUIView } from "./FormVehicleUI.view";
 
-export const FormVehicleUI = () => {
-    const hook = useFormVehicleUIHook();
-  return <FormVehicleUIView { ...hook } />
+interface FormVehicleUIProps {
+  mode?: "create" | "update";
+  vehicleId?: number;
+}
+
+export const FormVehicleUI = ({ mode = "create", vehicleId }: FormVehicleUIProps) => {
+  const hook = useFormVehicleUIHook({ mode, vehicleId });
+  return <FormVehicleUIView {...hook} />;
 };
