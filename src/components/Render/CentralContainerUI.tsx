@@ -4,7 +4,7 @@ import { HomeIcon, Plus } from "lucide-react";
 import { PATHS } from "@/router/paths";
 import { useNavigate } from "react-router-dom";
 import { Button as AntdButton } from "antd";
-
+import { useMemo } from "react";
 interface ICentralContainerUIProps {
   children: ReactNode;
   title?: string;
@@ -19,10 +19,15 @@ export const CentralContainerUI = ({ children, title, onAddClick, addButtonTitle
   const handleNavigateToHome = () => {
     navigate(PATHS.home);
   };
+
+  const classHeader = useMemo(() => {
+    return showAddButton ? "3" : "2"; 
+  }, [showAddButton]);
+
   return (
     <div className="w-full min-h-full h-full p-4">
       <div className="mx-auto flex w-full max-w-2xl flex-col items-stretch gap-0">
-        <div className="grid grid-cols-3 gap-2">
+        <div className={`grid grid-cols-${classHeader} gap-2`}>
           <div className="col-span-2 flex flex-row gap-2">
             <div className="flex items-center justify-center pt-1">
               <AntdButton
@@ -56,7 +61,7 @@ export const CentralContainerUI = ({ children, title, onAddClick, addButtonTitle
           </div>
         </div>
         <div>{subtitle && <small className="text-xs md:text-sm text-gray-500">{subtitle}</small>}</div>
-        <div className="max-h-[calc(84vh-2rem)] overflow-y-auto">{children}</div>
+        <div className="">{children}</div>
       </div>
     </div>
   );
