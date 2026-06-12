@@ -3637,10 +3637,10 @@ tinyglobby@^0.2.15:
     fdir "^6.5.0"
     picomatch "^4.0.3"
 
-tomascomponents@^0.0.7:
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/tomascomponents/-/tomascomponents-0.0.7.tgz#ea8e3e181d673d8b4bb43b201c599dc23d64d73b"
-  integrity sha512-H56azXzOWVNI+eJb0Se5SkoR3LzA48M+pGkGz3rpUeHO3yAIuMwPGJt2T4x6y09oUUifdb4dxzuVAzLe67OnNQ==
+tomascomponents@^0.0.8:
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/tomascomponents/-/tomascomponents-0.0.8.tgz#398747cdf00fbfe7d981d386edbb31ce0b1beca7"
+  integrity sha512-4XHwbV46XKKWJIhYLbrbuxMFpQm3j86kiA3FwzmGASgANlinwCofcJ/6ORTcId/PppWZpiuUwjkFGXeQmvm8zA==
   dependencies:
     "@ant-design/icons" "^5.4.0"
     "@hookform/resolvers" "^5.2.2"

@@ -47,15 +47,7 @@ export const useFormVehicleUIHook = ({ mode = "create", vehicleId }: UseFormVehi
   } = useVehicleById(vehicleId ?? 0, isUpdateMode);
 
   const methods = useForm<TSchemaFormVehicleUI>({
-    resolver: zodResolver(schemaFormVehicleUI),
-    defaultValues: {
-      brand: 0,
-      model: 0,
-      year: new Date().getFullYear(),
-      color: "",
-      person_id: 0,
-      license_plate: "",
-    },
+    resolver: zodResolver(schemaFormVehicleUI),   
   });
 
   const { control, handleSubmit, setValue } = methods;

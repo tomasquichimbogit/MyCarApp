@@ -1,6 +1,6 @@
 import { Button, FormInput, FormNumberInput, FormSelect } from "tomascomponents";
 import type { IUseFormVehicleUIHook } from "./FormVehicleUI.hook";
-import { Alert, Spin } from "antd";
+import { Alert } from "antd";
 import { BucketName } from "@/enums";
 import { vehiclesKeys } from "@/services/vehicles/vehiclesKeys";
 import { StorageImageManagerUI } from "@/components/Render/StorageImageManagerUI.view";
@@ -22,13 +22,13 @@ export const FormVehicleUIView = ({
   vehicleImageItemKey,
   vehicleImageTitle,
 }: IUseFormVehicleUIHook) => {
-  if (loadingResources) {
-    return (
-      <div className="flex justify-center py-8">
-        <Spin spinning />
-      </div>
-    );
-  }
+  // if (loadingResources) {
+  //   return (
+  //     <div className="flex justify-center py-8">
+  //       <Spin spinning />
+  //     </div>
+  //   );
+  // }
 
   if (errorResources) {
     return (
@@ -61,7 +61,7 @@ export const FormVehicleUIView = ({
           placeholder="Selecciona un modelo"
           control={control}
           options={modelsOptions}
-          disabled={isModelDisabled}
+          disabled={isModelDisabled || loadingResources}
         />
         <FormNumberInput label="Año" name="year" placeholder="Año" control={control} required />
         <FormSelect
@@ -86,7 +86,7 @@ export const FormVehicleUIView = ({
       </div>
       <div className="flex flex-row gap-2 justify-end">
         <Button title="Cancelar" onClick={closeModal} variant="outlined" />
-        <Button title={submitLabel} onClick={handleFormSubmit} loading={isSubmitting} />
+        <Button title={submitLabel} onClick={handleFormSubmit} loading={isSubmitting || loadingResources} />
       </div>
     </div>
   );

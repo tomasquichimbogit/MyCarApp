@@ -15,6 +15,11 @@ export interface ICreateVehiclePayload {
   license_plate: string;
 }
 
+export interface ICreateSimpleVehiclePayload {
+  person_id: number;
+  license_plate: string;
+}
+
 export interface IUpdateVehiclePayload extends ICreateVehiclePayload {
   id: number;
 }
@@ -74,6 +79,24 @@ const mapVehicle = (row: IVehicleRow): IVehicles => ({
   color: row.color ?? "-",
   plate: row.license_plate ?? "Sin placa",
 });
+
+
+export const createSimpleVehicle = async (payload: ICreateSimpleVehiclePayload): Promise<IVehicleDetailRow> => {
+  await ensureSupabaseAuthSession();
+
+  const { data, error } = await SUPABASE.from("vehicle")
+    .insert({
+      person_id: payload.person_id,
+      license_plate: payload.license_plate,
+    })
+    .select()
+    .single();
+
+  if (error) throw error;
+  return data as IVehicleDetailRow;
+};
+
+
 
 export const createVehicle = async (
   payload: ICreateVehiclePayload,
@@ -144,6 +167,18 @@ export const deleteVehicle = async (vehicleId: number): Promise<void> => {
 
   if (error) throw error;
 };
+
+
+export const useCreateSimpleVehicle = () => {
+  const queryClient = useQueryClient();
+
+  return useApiPostMutation<ICreateSimpleVehiclePayload, IVehicleDetailRow>(true, createSimpleVehicle, "create-simple-vehicle", {
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: vehiclesKeys.init });
+    },
+  });
+};
+
 
 export const useCreateVehicle = () => {
   const queryClient = useQueryClient();
