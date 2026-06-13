@@ -5,6 +5,7 @@ export const PATHS = {
     verifyEmail: "/verify-email",
     vehicles: "/vehicles",
     maintenance: "/maintenance",
+    maintenanceCreate: "/maintenance/create",
     workshops: "/workshops",
     adventure: "/adventure",
     userInformation: "/user-information",
