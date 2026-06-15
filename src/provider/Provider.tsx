@@ -19,7 +19,7 @@ const getInitialMode = (): ThemeMode => {
 
 
 export const Provider = ({ children }: { children: React.ReactNode }) => {
-    // const { defaultAlgorithm, darkAlgorithm, compactAlgorithm } = theme;
+    // const { darkAlgorithm } = theme;
     const [mode, setMode] = useState<ThemeMode>(getInitialMode);
     useEffect(() => {
         window.localStorage.setItem(THEME_STORAGE_KEY, mode);
@@ -39,27 +39,28 @@ export const Provider = ({ children }: { children: React.ReactNode }) => {
     return (
       <ThemeModeContext.Provider value={themeModeContextValue}>
         <ConfigProvider
-          theme={{
-            // algorithm: [isDarkMode ? darkAlgorithm : defaultAlgorithm, compactAlgorithm],
-            token: {
-              colorLink: "#1890ff",
-            },
-          }}
+          // theme={{
+          //   // algorithm: [isDarkMode ? darkAlgorithm : defaultAlgorithm, compactAlgorithm],
+          //   // algorithm: darkAlgorithm,
+          //   // token: {
+          //   //   colorLink: "#1890ff",
+          //   // },
+          // }}
         >
           {/* Portal único de notificaciones; en el resto de la app usar useNotify() */}
           <NotificationProvider>
           <QueryProvider>
             <ModalProvider>
               <LocalStorageProvider>
-                {/* <div
+                <div
                   style={{
                     minHeight: "100vh",
-                    backgroundColor: isDarkMode ? "#141414" : "#f5f5f5",
-                    color: isDarkMode ? "rgba(255, 255, 255, 0.85)" : "rgba(0, 0, 0, 0.88)",
+                      backgroundColor: "#19425f",//isDarkMode ? "#141414" : "#f5f5f5",
+                    // color: isDarkMode ? "rgba(255, 255, 255, 0.85)" : "rgba(0, 0, 0, 0.88)",
                   }}
-                > */}
+                >
                   {children}
-                {/* </div> */}
+                </div>
               </LocalStorageProvider>
             </ModalProvider>
           </QueryProvider>

@@ -21,17 +21,20 @@ export interface IWorkshop {
   rating?: number;
   rating_count?: number;
   is_active?: boolean;
-  created_at?: Date;
-  updated_at?: Date;
+  created_at?: string;
+  updated_at?: string;
   deleted_at?: null;
 }
 
-export interface ISchedule {
-  friday: string;
-  monday: string;
-  sunday: null;
-  tuesday: string;
-  saturday: string;
-  thursday: string;
-  wednesday: string;
-}
+export type ISchedule = Partial<
+  Record<
+    | "monday"
+    | "tuesday"
+    | "wednesday"
+    | "thursday"
+    | "friday"
+    | "saturday"
+    | "sunday",
+    string | null
+  >
+>;

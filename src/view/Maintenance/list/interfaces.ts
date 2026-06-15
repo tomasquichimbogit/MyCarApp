@@ -1,8 +1,10 @@
 export interface IMaintenance {
-    id: string
-    vehiclePlate: string
-    description: string
-    date: string
-    mileage: number
-    cost: number
+  id: string;
+  vehiclePlate: string;
+  workshopName?: string;
+  maintenanceType: string;
+  description: string;
+  date: string;
+  mileage: number;
+  cost: number;
 }
