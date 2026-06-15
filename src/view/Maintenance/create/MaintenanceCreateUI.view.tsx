@@ -1,18 +1,25 @@
-import { Button, FormInput, FormNumberInput, FormSelect } from "tomascomponents";
+import { Button } from "tomascomponents";
 import type { IUseMaintenanceCreateUIHook } from "./MaintenanceCreateUI.hook";
 import { CentralContainerUI } from "@/components/Render/CentralContainerUI";
 import { Alert } from "antd";
+import { StepOneUI } from "./components/StepOneUI.view";
+import { StepTwoUI } from "./components/StepTwoUI.view";
+import { StepThreeUI } from "./components/StepThreeUI.view";
+import { StepFourUI } from "./components/StepFourUI.view";
+import { StepFiveUI } from "./components/StepFiveUI.view";
+import { FormProvider } from "react-hook-form";
 
 export const MaintenanceCreateUIView = ({
   handleCancel,
   handleFormSubmit,
-  control,
-  vehiclesOptions,
-  workshopsOptions,
-  maintenanceTypeOptions,
+  // control,
+  // vehiclesOptions,
+  // workshopsOptions,
+  // maintenanceTypeOptions,
   isLoadingResources,
   isErrorResources,
   isSubmitting,
+  methods,
 }: IUseMaintenanceCreateUIHook) => {
   if (isErrorResources) {
     return (
@@ -28,9 +35,11 @@ export const MaintenanceCreateUIView = ({
   }
 
   return (
-    <CentralContainerUI title="Nuevo Mantenimiento">
-      <div className="flex flex-col gap-2 bg-white rounded-lg p-2">
-        <form className="flex flex-col gap-0.5">
+    <CentralContainerUI title="Nuevo Mantenimiento" subtitle="Sigue los pasos. Es muy fácil.">
+      <div className="flex flex-col gap-2">
+        <FormProvider {...methods}>
+          {/* 
+        
           <FormSelect
             label="Vehículo"
             name="vehicle_id"
@@ -38,15 +47,13 @@ export const MaintenanceCreateUIView = ({
             options={vehiclesOptions}
             control={control}
             disabled={isLoadingResources}
-          />
-          <FormSelect
-            label="Taller"
-            name="workshop_id"
-            placeholder="Selecciona un taller"
-            options={workshopsOptions}
-            control={control}
-            disabled={isLoadingResources}
-          />
+          /> */}
+          <StepOneUI />
+          <StepTwoUI />
+          <StepThreeUI />
+          <StepFourUI />
+          <StepFiveUI />
+          {/* <FormSelect
           <FormSelect
             label="Tipo"
             name="maintenance_type"
@@ -81,8 +88,8 @@ export const MaintenanceCreateUIView = ({
             placeholder="YYYY-MM-DD"
             control={control}
             required
-          />
-        </form>
+          /> */}
+        </FormProvider>
         <div className="flex flex-row gap-2 justify-end">
           <Button variant="outlined" title="Cancelar" onClick={handleCancel} />
           <Button

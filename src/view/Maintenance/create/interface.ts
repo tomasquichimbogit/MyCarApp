@@ -6,7 +6,7 @@ export const schemaCreateMaintenanceUI = z.object({
   maintenance_type: z
     .string()
     .min(1, "El tipo de mantenimiento es requerido"),
-  description: z.string().min(1, "La descripción es requerida"),
+  description: z.string().optional(),
   mileage: z.number().min(0, "El kilometraje no puede ser negativo"),
   cost: z.number().min(0, "El costo no puede ser negativo"),
   maintenance_date: z.string().min(1, "La fecha de mantenimiento es requerida"),

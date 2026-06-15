@@ -5,7 +5,7 @@ import { useWorkshops } from "@/services/workshops/workshops.services";
 import { useFormController } from "@/hooks/useFormController";
 import type { DefaultOptionType } from "antd/es/select";
 import { useMemo } from "react";
-import { useForm, type Control } from "react-hook-form";
+import { useForm, type Control, type UseFormReturn } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useNotify } from "tomascomponents";
 import { schemaCreateMaintenanceUI, type ICreateMaintenanceUI } from "./interface";
@@ -21,6 +21,7 @@ export interface IUseMaintenanceCreateUIHook {
   isLoadingResources: boolean;
   isErrorResources: boolean;
   isSubmitting: boolean;
+  methods: UseFormReturn<ICreateMaintenanceUI>;
 }
 
 export const useMaintenanceCreateUIHook = (): IUseMaintenanceCreateUIHook => {
@@ -39,15 +40,18 @@ export const useMaintenanceCreateUIHook = (): IUseMaintenanceCreateUIHook => {
     isError: isErrorWorkshops,
   } = useWorkshops();
 
-  const { control, handleSubmit } = useForm<ICreateMaintenanceUI>({
+  const methods = useForm<ICreateMaintenanceUI>({
     resolver: zodResolver(schemaCreateMaintenanceUI),
     defaultValues: {
       maintenance_date: new Date().toISOString().slice(0, 10),
-      maintenance_type: "Preventivo",
+      maintenance_type: "",
+      description: "",
       mileage: 0,
       cost: 0,
     },
   });
+
+  const { control, handleSubmit } = methods;
 
   const vehiclesOptions = useMemo<DefaultOptionType[]>(
     () =>
@@ -108,5 +112,6 @@ export const useMaintenanceCreateUIHook = (): IUseMaintenanceCreateUIHook => {
     isLoadingResources: isLoadingVehicles || isLoadingWorkshops,
     isErrorResources: isErrorVehicles || isErrorWorkshops,
     isSubmitting: isPending,
+    methods,
   };
 };
