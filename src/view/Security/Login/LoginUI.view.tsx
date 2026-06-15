@@ -1,5 +1,5 @@
 import { IconShockAbsorberRow } from "@/assets/icons";
-import { FormInput, Button } from "tomascomponents";
+import { FormInput, Button, FormPasswordInput } from "tomascomponents";
 import type { IUseLoginUIHook } from "./LoginUI.hook";
 import { Button as ButtonAntd, Divider } from "antd";
 import { UserOutlined } from "@ant-design/icons";
@@ -11,12 +11,11 @@ export const LoginView = ({ control, handleNavigateToRegister, isPending, handle
       <div className="flex flex-col gap-2 p-4">
         <div className="flex flex-col gap-0.5">
           <FormInput name="email" label="Email" control={control} placeholder="Email" type="email" required />
-          <FormInput
+          <FormPasswordInput
             name="password"
             label="Password"
             control={control}
             placeholder="Password"
-            type="password"
             required
           />
         </div>
@@ -26,7 +25,7 @@ export const LoginView = ({ control, handleNavigateToRegister, isPending, handle
           <ButtonAntd type="link" onClick={handleNavigateToRegister} loading={isPending}>
             <div className="flex flex-row items-center">
               <span className="text-orange-rally">Registrarme</span>
-              <IconShockAbsorberRow className="size-18 text-orange-rally" rotate={90} />
+              <IconShockAbsorberRow className="size-18 text-led-yellow" rotate={90} />
             </div>
           </ButtonAntd>
           <ButtonAntd type="link" onClick={handleNavigateToForgotPassword} loading={isPending}>

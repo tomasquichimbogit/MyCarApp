@@ -36,7 +36,7 @@ export const HomeUI = () => {
         ))}
       </div>
       <Divider plain className="home-explore-divider w-full">
-        <div className="flex flex-row items-center gap-2 text-orange-rally">
+        <div className="flex flex-row items-center gap-2 text-led-yellow">
           <IconCarSuv className="w-8 h-8" transform="scale(-1, 1)" />
           Explorar
         </div>

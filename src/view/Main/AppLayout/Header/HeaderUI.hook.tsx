@@ -25,6 +25,7 @@ export const HeaderUIHook = (): IHeaderUIHook => {
 
       const handleNavigateToUserInformation = () => {
         navigate(PATHS.userInformation);
+        //amigo aqui podemos olvidar el token de las imagenes
       };
 
       const handleLogout = async () => {

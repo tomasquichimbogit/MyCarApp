@@ -1,9 +1,13 @@
 import { FormVehicleUI } from "../form/FormVehicleUI.controller";
 
-export const VehicleUpdateUIView = () => {
+interface VehicleUpdateUIViewProps {
+  vehicleId: number;
+}
+
+export const VehicleUpdateUIView = ({ vehicleId }: VehicleUpdateUIViewProps) => {
   return (
     <div>
-      <FormVehicleUI />
+      <FormVehicleUI mode="update" vehicleId={vehicleId} />
     </div>
   );
 };
