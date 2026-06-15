@@ -33,7 +33,7 @@ export const RegisterView = ({ control, isPendingSignUp, handleNavigateToLogin, 
           <Divider />
           <ButtonAntd type="link" onClick={handleNavigateToLogin}>
             <div className="flex flex-row items-center">
-              <IconShockAbsorberRow className="size-18 text-orange-rally" rotate={-90} />
+              <IconShockAbsorberRow className="size-18 text-led-yellow" rotate={-90} />
               <span className="text-orange-rally">Volver a Iniciar sesión</span>
             </div>
           </ButtonAntd>

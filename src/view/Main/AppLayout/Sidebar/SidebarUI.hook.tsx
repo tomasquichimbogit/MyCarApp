@@ -14,6 +14,7 @@ export const useSidebarUI = (): ISidebarUI => {
   const navigate = useNavigate();
   const handleNavigate = (path: string) => {
     navigate(path);
+    toggleOpen();
   };
   return { open, toggleOpen, handleNavigate, selectedKeys: [pathname] };
 };

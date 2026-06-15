@@ -39,12 +39,12 @@ export const Provider = ({ children }: { children: React.ReactNode }) => {
     return (
       <ThemeModeContext.Provider value={themeModeContextValue}>
         <ConfigProvider
-          // theme={{
-          //   algorithm: [isDarkMode ? darkAlgorithm : defaultAlgorithm, compactAlgorithm],
-          //   token: {
-          //     colorLink: "#1890ff",
-          //   },
-          // }}
+          theme={{
+            // algorithm: [isDarkMode ? darkAlgorithm : defaultAlgorithm, compactAlgorithm],
+            token: {
+              colorLink: "#1890ff",
+            },
+          }}
         >
           {/* Portal único de notificaciones; en el resto de la app usar useNotify() */}
           <NotificationProvider>

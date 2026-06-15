@@ -12,10 +12,11 @@ import { RegisterUI } from "@/view/Security/Register/RegisterUI.controller";
 import { VerifyEmailUI } from "@/view/Security/VerifyEmail/VerifyEmailUI.controller";
 import { SecurityLayout } from "@/view/Security";
 import { VehiclesUI } from "@/view/Vehicles/list/VehiclesUI.controller";
-import { MaintenanceUI } from "@/view/Maintenance/MaintenanceUI.controller";
+import { MaintenanceUI } from "@/view/Maintenance/list/MaintenanceUI.controller";
 import { AdventurePostsUI } from "@/view/AdventurePosts/AdventurePostsUI.controller";
 import { UserInformationUI } from "@/view/UserInformation/UserInformationUI.controller";
 import { WorkshopsListUI } from "@/view/Workshops/list/WorkshopsListUI.controller";
+import { MaintenanceCreateUI } from "@/view/Maintenance/create/MaintenanceCreateUI.controller";
 
 export const AppRouter = () => {
   useForegroundMessages();
@@ -46,6 +47,7 @@ export const AppRouter = () => {
         <Route path={PATHS.home} element={<HomeUI />} />
         <Route path={PATHS.vehicles} element={<VehiclesUI />} />
         <Route path={PATHS.maintenance} element={<MaintenanceUI />} />
+        <Route path={PATHS.maintenanceCreate} element={<MaintenanceCreateUI />} />
         <Route path={PATHS.workshops} element={<WorkshopsListUI />} />
         <Route path={PATHS.adventure} element={<AdventurePostsUI />} />
         <Route path={PATHS.userInformation} element={<UserInformationUI />} />
