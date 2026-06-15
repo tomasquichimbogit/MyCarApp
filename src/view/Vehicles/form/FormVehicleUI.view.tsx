@@ -1,7 +1,7 @@
 import { Button, FormInput, FormNumberInput, FormSelect } from "tomascomponents";
 import type { IUseFormVehicleUIHook } from "./FormVehicleUI.hook";
 import { Alert } from "antd";
-import { BucketName } from "@/enums";
+import { BucketName } from "@/constants";
 import { vehiclesKeys } from "@/services/vehicles/vehiclesKeys";
 import { StorageImageManagerUI } from "@/components/Render/StorageImageManagerUI.view";
 
