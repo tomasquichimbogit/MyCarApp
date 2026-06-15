@@ -36,67 +36,28 @@ export const MaintenanceCreateUIView = ({
 
   return (
     <CentralContainerUI title="Nuevo Mantenimiento" subtitle="Sigue los pasos. Es muy fácil.">
-      <div className="flex flex-col gap-2">
-        <FormProvider {...methods}>
-          {/* 
-        
-          <FormSelect
-            label="Vehículo"
-            name="vehicle_id"
-            placeholder="Selecciona un vehículo"
-            options={vehiclesOptions}
-            control={control}
-            disabled={isLoadingResources}
-          /> */}
-          <StepOneUI />
-          <StepTwoUI />
-          <StepThreeUI />
-          <StepFourUI />
-          <StepFiveUI />
-          {/* <FormSelect
-          <FormSelect
-            label="Tipo"
-            name="maintenance_type"
-            placeholder="Selecciona un tipo"
-            options={maintenanceTypeOptions}
-            control={control}
-          />
+      <div className="flex max-h-[calc(100dvh-160px)] flex-col md:max-h-[calc(100dvh-180px)]">
+        <div className="min-h-0 flex-1 overflow-y-auto pr-1">
+          <FormProvider {...methods}>
+            <div className="flex flex-col gap-1">
+              <StepOneUI />
+              <StepTwoUI />
+              <StepThreeUI />
+              <StepFourUI />
+              <StepFiveUI />
+            </div>
+          </FormProvider>
+        </div>
 
-          <FormInput
-            label="Descripción"
-            name="description"
-            placeholder="Descripción del mantenimiento"
-            control={control}
-          />
-          <FormNumberInput
-            label="Kilometraje"
-            name="mileage"
-            placeholder="Kilometraje"
-            control={control}
-            required
-          />
-          <FormNumberInput
-            label="Costo"
-            name="cost"
-            placeholder="Costo"
-            control={control}
-            required
-          />
-          <FormInput
-            label="Fecha"
-            name="maintenance_date"
-            placeholder="YYYY-MM-DD"
-            control={control}
-            required
-          /> */}
-        </FormProvider>
-        <div className="flex flex-row gap-2 justify-end">
-          <Button variant="outlined" title="Cancelar" onClick={handleCancel} />
-          <Button
-            title="Guardar"
-            onClick={handleFormSubmit}
-            loading={isSubmitting || isLoadingResources}
-          />
+        <div className="shrink-0 pt-3">
+          <div className="flex flex-row gap-2 justify-end">
+            <Button variant="outlined" title="Cancelar" onClick={handleCancel} />
+            <Button
+              title="Guardar"
+              onClick={handleFormSubmit}
+              loading={isSubmitting || isLoadingResources}
+            />
+          </div>
         </div>
       </div>
     </CentralContainerUI>
