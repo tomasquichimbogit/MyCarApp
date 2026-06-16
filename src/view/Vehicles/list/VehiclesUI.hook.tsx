@@ -44,7 +44,6 @@ export const useVehiclesUIHook = (): IUseVehiclesUIHook => {
     );
   }, [vehicles, search]);
 
-  console.log('filteredVehicles =>',filteredVehicles);
 
   return {
     vehicles: filteredVehicles,

@@ -1,8 +1,7 @@
 import { PATHS } from "@/router/paths";
 import { useCreateMaintenance } from "@/services/maintenance/maintenance.services";
-import { useVehicles } from "@/services/vehicles/vehicles.services";
-import { useWorkshops } from "@/services/workshops/workshops.services";
 import { useFormController } from "@/hooks/useFormController";
+import { useRouteQueryParams } from "@/hooks/useRouteQueryParams";
 import type { DefaultOptionType } from "antd/es/select";
 import { useMemo } from "react";
 import { useForm, type Control, type UseFormReturn } from "react-hook-form";
@@ -15,11 +14,7 @@ export interface IUseMaintenanceCreateUIHook {
   handleCancel: () => void;
   handleFormSubmit: () => void;
   control: Control<ICreateMaintenanceUI>;
-  vehiclesOptions: DefaultOptionType[];
-  workshopsOptions: DefaultOptionType[];
   maintenanceTypeOptions: DefaultOptionType[];
-  isLoadingResources: boolean;
-  isErrorResources: boolean;
   isSubmitting: boolean;
   methods: UseFormReturn<ICreateMaintenanceUI>;
 }
@@ -29,16 +24,9 @@ export const useMaintenanceCreateUIHook = (): IUseMaintenanceCreateUIHook => {
   const { notify } = useNotify();
   const { errorForm } = useFormController();
   const { mutate: createMaintenance, isPending } = useCreateMaintenance();
-  const {
-    data: vehicles = [],
-    isLoading: isLoadingVehicles,
-    isError: isErrorVehicles,
-  } = useVehicles();
-  const {
-    data: workshops = [],
-    isLoading: isLoadingWorkshops,
-    isError: isErrorWorkshops,
-  } = useWorkshops();
+  const { getNumberParam } = useRouteQueryParams();
+  const vehicleId = getNumberParam("vehicleId");
+
 
   const methods = useForm<ICreateMaintenanceUI>({
     resolver: zodResolver(schemaCreateMaintenanceUI),
@@ -48,28 +36,11 @@ export const useMaintenanceCreateUIHook = (): IUseMaintenanceCreateUIHook => {
       description: "",
       mileage: 0,
       cost: 0,
+      vehicle_id: vehicleId,
     },
   });
 
   const { control, handleSubmit } = methods;
-
-  const vehiclesOptions = useMemo<DefaultOptionType[]>(
-    () =>
-      vehicles.map((vehicle) => ({
-        label: vehicle.plate,
-        value: Number(vehicle.id),
-      })),
-    [vehicles],
-  );
-
-  const workshopsOptions = useMemo<DefaultOptionType[]>(
-    () =>
-      workshops.map((workshop) => ({
-        label: workshop.name,
-        value: workshop.id,
-      })),
-    [workshops],
-  );
 
   const maintenanceTypeOptions = useMemo<DefaultOptionType[]>(
     () => [
@@ -83,7 +54,8 @@ export const useMaintenanceCreateUIHook = (): IUseMaintenanceCreateUIHook => {
   );
 
   const handleCancel = () => {
-    navigate(PATHS.maintenance);
+    const navigatePath = vehicleId ? `${PATHS.maintenance}?vehicleId=${vehicleId}` : PATHS.maintenance;
+    navigate(navigatePath);
   };
 
   const onSubmit = (data: ICreateMaintenanceUI) => {
@@ -106,11 +78,7 @@ export const useMaintenanceCreateUIHook = (): IUseMaintenanceCreateUIHook => {
     handleCancel,
     handleFormSubmit,
     control,
-    vehiclesOptions,
-    workshopsOptions,
     maintenanceTypeOptions,
-    isLoadingResources: isLoadingVehicles || isLoadingWorkshops,
-    isErrorResources: isErrorVehicles || isErrorWorkshops,
     isSubmitting: isPending,
     methods,
   };

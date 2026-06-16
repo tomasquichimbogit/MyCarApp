@@ -1,7 +1,6 @@
 import { Button } from "tomascomponents";
 import type { IUseMaintenanceCreateUIHook } from "./MaintenanceCreateUI.hook";
 import { CentralContainerUI } from "@/components/Render/CentralContainerUI";
-import { Alert } from "antd";
 import { StepOneUI } from "./components/StepOneUI.view";
 import { StepTwoUI } from "./components/StepTwoUI.view";
 import { StepThreeUI } from "./components/StepThreeUI.view";
@@ -12,27 +11,9 @@ import { FormProvider } from "react-hook-form";
 export const MaintenanceCreateUIView = ({
   handleCancel,
   handleFormSubmit,
-  // control,
-  // vehiclesOptions,
-  // workshopsOptions,
-  // maintenanceTypeOptions,
-  isLoadingResources,
-  isErrorResources,
   isSubmitting,
   methods,
 }: IUseMaintenanceCreateUIHook) => {
-  if (isErrorResources) {
-    return (
-      <CentralContainerUI title="Nuevo Mantenimiento">
-        <Alert
-          message="Error"
-          description="No se pudieron cargar los talleres o vehículos. Intenta de nuevo."
-          type="error"
-          showIcon
-        />
-      </CentralContainerUI>
-    );
-  }
 
   return (
     <CentralContainerUI title="Nuevo Mantenimiento" subtitle="Sigue los pasos. Es muy fácil.">
@@ -55,7 +36,7 @@ export const MaintenanceCreateUIView = ({
             <Button
               title="Guardar"
               onClick={handleFormSubmit}
-              loading={isSubmitting || isLoadingResources}
+              loading={isSubmitting}
             />
           </div>
         </div>

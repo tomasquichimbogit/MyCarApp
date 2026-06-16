@@ -182,6 +182,20 @@ export const fetchMaintenances = async (): Promise<IMaintenance[]> => {
   return (data as IMaintenanceRow[]).map(mapMaintenance);
 };
 
+export const fetchMaintenancesByVehicleId = async (
+  vehicleId: number,
+): Promise<IMaintenance[]> => {
+  const { data, error } = await SUPABASE
+    .from("maintenance")
+    .select("*, vehicle(*), workshop(*)")
+    .eq("vehicle_id", vehicleId)
+    .is("deleted_at", null)
+    .order("maintenance_date", { ascending: false });
+
+  if (error) throw error;
+  return (data as IMaintenanceRow[]).map(mapMaintenance);
+};
+
 export const useCreateMaintenance = () => {
   const queryClient = useQueryClient();
 
@@ -206,6 +220,20 @@ export const useMaintenanceById = (maintenanceId: number, enabled = true) => {
     maintenanceKeys.detail(maintenanceId),
     () => fetchMaintenanceById(maintenanceId),
     { enabled: enabled && Number.isFinite(maintenanceId) && maintenanceId > 0 },
+  );
+};
+
+export const useMaintenancesByVehicleId = (
+  vehicleId?: number,
+  enabled = true,
+) => {
+  const isValidVehicleId =
+    Number.isFinite(vehicleId) && (vehicleId ?? 0) > 0;
+
+  return useApiGetQuery(
+    maintenanceKeys.listByVehicleId(vehicleId ?? 0),
+    () => fetchMaintenancesByVehicleId(vehicleId as number),
+    { enabled: enabled && isValidVehicleId },
   );
 };
 

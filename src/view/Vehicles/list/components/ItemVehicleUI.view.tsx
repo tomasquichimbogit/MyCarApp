@@ -27,13 +27,16 @@ export const ItemVehicleUI = ({ vehicle }: ItemVehicleUIProps) => {
     navigate(path);
   };
 
+  const handleNavigateToMaintenanceCreate = (vehicleId: number) => {
+    navigate(`${PATHS.maintenance}?vehicleId=${vehicleId}`);
+  };
+
   const openModalUpdateVehicle = () => {
     openModal({
       title: "Actualizar vehículo",
       content: <VehicleUpdateUIView vehicleId={vehicleId} />,
       width: "500px	",
       height: "auto",
-      // closable: false,
     });
   };
 
@@ -92,7 +95,7 @@ export const ItemVehicleUI = ({ vehicle }: ItemVehicleUIProps) => {
                     Ver mantenimientos <FilePenLine className="w-4 h-4" color="#b9c2d0" />
                   </div>
                 }
-                onClick={() => handleNavigateToPath(PATHS.maintenance)}
+                onClick={() => handleNavigateToMaintenanceCreate(vehicleId)}
               />
               <Button
                 type="primary"

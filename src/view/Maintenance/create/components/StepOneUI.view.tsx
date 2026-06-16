@@ -9,13 +9,16 @@ import { maintenanceSelectAppearance } from "./maintenanceSelectAppearance";
 
 
 export const StepOneUI = () => {
+
+    
     const {
         data: vehicles = [],
         isLoading: isLoadingVehicles,
         isError: isErrorVehicles,
     } = useVehicles();
 
-    const { setValue } = useFormContext<ICreateMaintenanceUI>();
+    const { setValue, watch } = useFormContext<ICreateMaintenanceUI>();
+    const selectedVehicleId = watch("vehicle_id");
 
     const renderLabel = (vehicle: IVehicles) => {
         return (
@@ -66,6 +69,7 @@ export const StepOneUI = () => {
                 options={normalizedVehicles}
                 placeholder="Toca aquí para elegir un vehículo"
                 loading={isLoadingVehicles}
+                value={selectedVehicleId || undefined}
                 onChange={(value) => setValue("vehicle_id", Number(value))}
                 disabled={isErrorVehicles}
                 allowClear
