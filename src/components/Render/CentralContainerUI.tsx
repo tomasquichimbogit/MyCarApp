@@ -21,7 +21,7 @@ export const CentralContainerUI = ({ children, title, onAddClick, addButtonTitle
   };
 
   return (
-    <div className="w-full min-h-full h-full p-0.5">
+    <div className="w-full min-h-full h-full p-0.5 pt-2">
       <div className="mx-auto flex w-full max-w-2xl flex-col items-stretch gap-0">
         <div className="flex items-start justify-between gap-2">
           <div className="flex min-w-0 flex-1 flex-row gap-2">

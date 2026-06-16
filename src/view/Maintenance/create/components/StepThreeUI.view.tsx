@@ -1,14 +1,26 @@
+import type { ComponentType } from "react";
 import { useFormContext } from "react-hook-form";
 import { Wrench } from "lucide-react";
+import { IconDiscBrake, IconOil, IconTireRotation } from "@/assets/svg";
 import type { ICreateMaintenanceUI } from "../interface";
 
-const MAINTENANCE_TYPES = [
-  "Cambio de aceite",
-  "Revisión de frenos",
-  "Cambio de llantas",
-  "Revisión general",
-  "Otro",
-] as const;
+type MaintenanceTypeIconProps = {
+  className?: string;
+};
+
+const MAINTENANCE_TYPE_OPTIONS: ReadonlyArray<{
+  value: string;
+  Icon?: ComponentType<MaintenanceTypeIconProps>;
+}> = [
+  { value: "Cambio de aceite", Icon: IconOil },
+  { value: "Revisión de frenos", Icon: IconDiscBrake },
+  { value: "Cambio de llantas", Icon: IconTireRotation },
+  { value: "Revisión general" },
+  { value: "Otro" },
+];
+
+const DEFAULT_MAINTENANCE_ICON = Wrench;
+const maintenanceTypeIconClassName = "h-6 w-6 shrink-0 text-orange-rally";
 
 export const StepThreeUI = () => {
   const { setValue, watch } = useFormContext<ICreateMaintenanceUI>();
@@ -29,15 +41,16 @@ export const StepThreeUI = () => {
       </div>
 
       <div className="flex flex-col gap-1">
-        {MAINTENANCE_TYPES.map((type) => {
-          const isSelected = selectedType === type;
+        {MAINTENANCE_TYPE_OPTIONS.map(({ value, Icon }) => {
+          const isSelected = selectedType === value;
+          const TypeIcon = Icon ?? DEFAULT_MAINTENANCE_ICON;
 
           return (
             <button
-              key={type}
+              key={value}
               type="button"
               onClick={() =>
-                setValue("maintenance_type", type, { shouldValidate: true })
+                setValue("maintenance_type", value, { shouldValidate: true })
               }
               className={`flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left transition-colors ${
                 isSelected
@@ -45,8 +58,8 @@ export const StepThreeUI = () => {
                   : "border border-transparent hover:bg-white/5"
               }`}
             >
-              <Wrench className="h-4 w-4 shrink-0 text-orange-rally" />
-              <span className="text-sm font-medium text-white">{type}</span>
+              <TypeIcon className={maintenanceTypeIconClassName} />
+              <span className="text-sm font-medium text-white">{value}</span>
             </button>
           );
         })}

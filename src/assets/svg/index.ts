@@ -1,9 +1,15 @@
-import { createElement, type SVGProps } from "react";
+import { createElement, type ImgHTMLAttributes, type SVGProps } from "react";
 import iconCarSuvSrc from "./car-suv.svg";
 import iconMotorcycleAppSrc from "./motorcycle.svg";
-// import iconReactSrc from "./react.svg";
+import iconBrakeSrc from "./brake_icon.svg";
+import iconDiscBrakeSrc from "./disc_brake_icon.svg";
+import iconOilSrc from "./oil_icon.svg";
+import iconTireRotationSrc from "./tire_rotation_icon.svg";
+import { tireRotationPath } from "./tireRotationPath";
 
 type SvgIconProps = SVGProps<SVGSVGElement>;
+
+type ImgIconProps = ImgHTMLAttributes<HTMLImageElement>;
 
 export const IconCarSuv = (props: SvgIconProps) =>
   createElement(
@@ -35,6 +41,103 @@ export const IconMotorcycle = (props: SvgIconProps) =>
     })
   );
 
+export const IconBrake = ({ className, alt = "", ...props }: ImgIconProps) =>
+  createElement("img", {
+    src: iconBrakeSrc,
+    alt,
+    className: className ?? "h-5 w-5 shrink-0 object-contain",
+    ...props,
+  });
 
+export const IconTireRotation = (props: SvgIconProps) =>
+  createElement(
+    "svg",
+    {
+      viewBox: "398 118 615 540",
+      xmlns: "http://www.w3.org/2000/svg",
+      fill: "currentColor",
+      ...props,
+    },
+    createElement("path", {
+      fillRule: "evenodd",
+      d: tireRotationPath,
+    }),
+  );
 
-export { iconCarSuvSrc, iconMotorcycleAppSrc };
+export const IconDiscBrake = (props: SvgIconProps) =>
+  createElement(
+    "svg",
+    {
+      viewBox: "0 0 512 512",
+      xmlns: "http://www.w3.org/2000/svg",
+      ...props,
+    },
+    createElement(
+      "g",
+      { fill: "currentColor", fillRule: "evenodd" },
+      createElement("polygon", {
+        points:
+          "232,242 223,246 214,255 210,264 210,279 214,288 223,297 232,301 247,301 256,297 265,288 269,279 269,264 265,255 256,246 247,242",
+      }),
+      createElement("polygon", {
+        points:
+          "227,182 210,186 193,194 177,206 168,216 153,245 150,259 150,284 154,301 162,318 174,334 184,343 213,358 227,361 252,361 269,357 286,349 302,337 311,327 326,298 329,284 329,259 325,242 317,225 305,209 295,200 266,185 252,182",
+      }),
+      createElement("polygon", {
+        points:
+          "230,212 254,213 272,221 290,239 299,262 298,286 290,304 272,322 249,331 225,330 207,322 189,304 180,281 181,257 189,239 207,221",
+      }),
+      createElement("polygon", {
+        points:
+          "219,32 171,41 123,61 84,88 56,116 29,155 9,203 1,241 0,292 9,340 29,388 56,427 84,455 123,482 171,502 209,510 260,511 301,504 338,491 381,466 416,435 446,395 464,358 476,315 479,272 405,272 395,268 390,261 388,234 379,203 367,181 357,168 330,144 308,132 277,123 250,121 243,116 239,106 239,32",
+      }),
+      createElement("polygon", {
+        points: "235,422 246,423 254,432 253,443 244,451 233,450 225,441 226,430",
+      }),
+      createElement("polygon", {
+        points: "354,373 365,376 371,385 369,396 360,403 353,403 347,400 341,390 343,381",
+      }),
+      createElement("polygon", {
+        points: "121,373 130,375 138,386 135,397 126,403 115,401 108,392 108,385 111,379",
+      }),
+      createElement("polygon", {
+        points: "70,257 81,258 89,267 88,278 79,286 68,285 60,276 61,265",
+      }),
+      createElement("polygon", {
+        points:
+          "226,152 253,152 273,156 297,166 312,176 331,194 345,214 355,238 359,258 359,285 355,305 345,329 335,344 317,363 297,377 273,387 253,391 226,391 206,387 182,377 167,367 148,349 134,329 124,305 120,285 120,258 124,238 134,214 144,199 162,180 182,166 206,156",
+      }),
+      createElement("polygon", {
+        points: "119,140 126,140 132,143 138,153 136,162 125,170 114,167 108,158 110,147",
+      }),
+      createElement("polygon", {
+        points:
+          "274,3 270,10 270,92 298,97 320,105 341,116 368,137 389,161 406,191 414,213 419,241 501,241 508,237 511,232 509,208 495,161 475,122 462,103 438,75 404,46 386,34 350,16 303,2 279,0",
+      }),
+    ),
+  );
+
+export const IconOil = (props: SvgIconProps) =>
+  createElement(
+    "svg",
+    {
+      viewBox: "477 96 453 575",
+      xmlns: "http://www.w3.org/2000/svg",
+      fill: "currentColor",
+      ...props,
+    },
+    createElement("path", {
+      d: "M 543 463 L 538 469 L 530 490 L 485 568 L 478 590 L 477 606 L 484 633 L 493 647 L 502 656 L 521 667 L 538 671 L 553 671 L 575 665 L 589 656 L 599 646 L 611 623 L 614 597 L 607 570 L 596 548 L 565 497 L 551 465 Z",
+    }),
+    createElement("path", {
+      d: "M 560 415 L 552 425 L 544 446 L 545 449 L 551 449 L 556 452 L 564 427 Z",
+    }),
+    createElement("path", {
+      d: "M 589 325 L 579 330 L 577 342 L 570 347 L 593 379 L 609 414 L 560 350 L 551 352 L 548 355 L 547 362 L 584 442 L 591 448 L 597 448 L 602 445 L 605 439 L 617 433 L 629 439 L 640 434 L 641 429 L 595 330 Z",
+    }),
+    createElement("path", {
+      d: "M 792 96 L 775 98 L 654 158 L 640 171 L 630 192 L 606 300 L 604 317 L 654 425 L 660 429 L 718 449 L 732 450 L 751 443 L 920 358 L 927 351 L 930 343 L 928 330 L 815 113 L 806 102 Z",
+    }),
+  );
+
+export { iconCarSuvSrc, iconMotorcycleAppSrc, iconBrakeSrc, iconDiscBrakeSrc, iconOilSrc, iconTireRotationSrc };

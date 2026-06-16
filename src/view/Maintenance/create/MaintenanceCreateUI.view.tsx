@@ -36,7 +36,7 @@ export const MaintenanceCreateUIView = ({
 
   return (
     <CentralContainerUI title="Nuevo Mantenimiento" subtitle="Sigue los pasos. Es muy fácil.">
-      <div className="flex max-h-[calc(100dvh-140px)] flex-col md:max-h-[calc(100dvh-150px)]">
+      <div className="flex max-h-[calc(100dvh-110px)] flex-col md:max-h-[calc(100dvh-115px)]">
         <div className="min-h-0 flex-1 overflow-y-auto pr-1">
           <FormProvider {...methods}>
             <div className="flex flex-col gap-1">

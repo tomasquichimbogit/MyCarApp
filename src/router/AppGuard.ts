@@ -4,6 +4,7 @@ import { useAuthStore } from "../store/useAuthStore";
 import { refreshSupabaseSession, syncSupabaseSession } from "../services/auth.service";
 import { PATHS } from "./paths";
 import { LOCAL_STORAGE_KEYS } from "@/constants";
+import { LoadingApp } from "@/components/Render/LoadingApp";
 
 interface AppGuardProps {
   children: ReactElement;
@@ -65,7 +66,7 @@ export const AppGuard = ({ children }: AppGuardProps) => {
   }, [token, setUser, logout]);
 
   if (!isValidated) {
-    return createElement("div", null, "Validando sesión...");
+    return createElement(LoadingApp, { fullScreen: true });
   }
 
   if (!token) {
