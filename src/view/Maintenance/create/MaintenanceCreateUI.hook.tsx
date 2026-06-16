@@ -71,7 +71,12 @@ export const useMaintenanceCreateUIHook = (): IUseMaintenanceCreateUIHook => {
   };
 
   const handleFormSubmit = () => {
-    handleSubmit(onSubmit, errorForm)();
+    const dataForm = methods.getValues();
+    console.log('TEST => ', dataForm);
+    handleSubmit(onSubmit, (errors) => {
+      console.log('errors =>',errors);
+      errorForm(errors);  
+    })();
   };
 
   return {

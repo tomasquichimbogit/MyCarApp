@@ -3,6 +3,7 @@ import { Empty } from "antd";
 import type { IUseMaintenanceUIHook } from "./MaintenanceUI.hook";
 import { ItemSelectVehicleUI } from "./components/ItemSelectVehicleUI.view";
 import { IconCarSuv } from "@/assets/svg";
+import { ItemListMaintenanceUIView } from "./components/ItemListMaintenanceUI.view";
 
 export const MaintenanceUIView = ({
   handleAddNewMaintenance,
@@ -50,32 +51,10 @@ export const MaintenanceUIView = ({
           )}
 
           {maintenances.map((maintenance) => (
-            <article
+            <ItemListMaintenanceUIView
               key={maintenance.id}
-              className="rounded-xl border border-desert-sand/40 bg-white p-3 shadow-sm"
-            >
-              <div className="flex items-start justify-between gap-2">
-                <div>
-                  <h3 className="font-semibold text-gray-900">
-                    {maintenance.vehiclePlate}
-                  </h3>
-                  <p className="text-sm text-gray-500">
-                    {maintenance.maintenanceType}
-                    {maintenance.workshopName ? ` - ${maintenance.workshopName}` : ""}
-                  </p>
-                </div>
-                <span className="text-sm font-semibold text-orange-rally">
-                  ${maintenance.cost}
-                </span>
-              </div>
-              <p className="mt-1 text-sm text-gray-600">
-                {maintenance.description}
-              </p>
-              <div className="mt-2 flex justify-between text-xs text-gray-500">
-                <span>{maintenance.date}</span>
-                <span>{maintenance.mileage} km</span>
-              </div>
-            </article>
+              maintenance={maintenance}
+            />
           ))}
         </div>}
       </div>

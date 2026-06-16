@@ -34,7 +34,7 @@ export const MaintenanceCreateUIView = ({
           <div className="flex flex-row gap-2 justify-center">
             <Button variant="outlined" title="Cancelar" onClick={handleCancel} />
             <Button
-              title="Guardar"
+              title="Guardar mantenimiento"
               onClick={handleFormSubmit}
               loading={isSubmitting}
             />
