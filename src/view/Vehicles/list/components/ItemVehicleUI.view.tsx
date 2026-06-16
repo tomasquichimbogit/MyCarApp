@@ -4,7 +4,7 @@ import { Button as AntdButton, Tag, Popconfirm } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Button, useModal } from "tomascomponents";
 import { PATHS } from "@/router/paths";
-import { BucketName } from "@/enums";
+import { BucketName } from "@/constants";
 import { VehicleUpdateUIView } from "../../update/VehicleUpdateUI.view";
 import { FilePenLine, PencilIcon, WrenchIcon } from "lucide-react";
 import { useDeleteVehicle } from "@/services/vehicles/vehicles.services";
@@ -33,7 +33,7 @@ export const ItemVehicleUI = ({ vehicle }: ItemVehicleUIProps) => {
       content: <VehicleUpdateUIView vehicleId={vehicleId} />,
       width: "500px	",
       height: "auto",
-      closable: false,
+      // closable: false,
     });
   };
 
