@@ -5,6 +5,7 @@ import { MapPin, Wrench } from "lucide-react";
 import { useMemo } from "react";
 import type { ICreateMaintenanceUI } from "../interface";
 import type { IWorkshop } from "@/view/Workshops/list/interfaces";
+import { maintenanceSelectAppearance } from "./maintenanceSelectAppearance";
 
 export const StepTwoUI = () => {
   const {
@@ -64,16 +65,17 @@ export const StepTwoUI = () => {
 
   return (
     <div className="flex flex-col gap-3 rounded-2xl bg-blue-bodywork p-4">
-      <div className="flex flex-row items-center gap-3">
+      <div className="flex flex-row items-start gap-3">
         <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-orange-rally text-sm font-bold text-white">
           2
         </div>
-        <h2 className="text-base font-bold text-white">¿Qué taller?</h2>
+        <div className="flex min-w-0 flex-col gap-0.5">
+          <h2 className="m-0 text-base font-bold leading-tight text-white">¿Qué taller?</h2>
+          <p className="m-0 text-sm text-desert-sand/70">
+            Selecciona el taller donde realizaste el mantenimiento.
+          </p>
+        </div>
       </div>
-
-      <p className="text-sm text-desert-sand/70">
-        Selecciona el taller donde realizaste el mantenimiento.
-      </p>
 
       <Select
         className="maintenance-vehicle-select w-full"
@@ -82,15 +84,12 @@ export const StepTwoUI = () => {
         loading={isLoadingWorkshops}
         onChange={(value) => setValue("workshop_id", Number(value))}
         disabled={isErrorWorkshops}
+        allowClear
         showSearch={{
           optionFilterProp: "searchText",
           filterOption,
         }}
-        classNames={{
-          popup: {
-            root: "maintenance-vehicle-select-popup",
-          },
-        }}
+        {...maintenanceSelectAppearance}
       />
     </div>
   );

@@ -126,8 +126,11 @@
   padding-inline: 16px;
 }
 
-.maintenance-vehicle-select.ant-select .ant-select-selection-placeholder {
-  color: color-mix(in srgb, var(--color-desert-sand) 55%, transparent);
+.maintenance-vehicle-select.ant-select .ant-select-selection-placeholder,
+.maintenance-vehicle-select.ant-select .ant-select-placeholder,
+.maintenance-vehicle-select-placeholder {
+  color: var(--color-sand-white) !important;
+  opacity: 0.5 !important;
 }
 
 .maintenance-vehicle-select.ant-select .ant-select-selection-item,

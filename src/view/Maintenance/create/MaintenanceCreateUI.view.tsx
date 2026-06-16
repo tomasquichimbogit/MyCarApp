@@ -36,7 +36,7 @@ export const MaintenanceCreateUIView = ({
 
   return (
     <CentralContainerUI title="Nuevo Mantenimiento" subtitle="Sigue los pasos. Es muy fácil.">
-      <div className="flex max-h-[calc(100dvh-160px)] flex-col md:max-h-[calc(100dvh-180px)]">
+      <div className="flex max-h-[calc(100dvh-140px)] flex-col md:max-h-[calc(100dvh-150px)]">
         <div className="min-h-0 flex-1 overflow-y-auto pr-1">
           <FormProvider {...methods}>
             <div className="flex flex-col gap-1">
@@ -50,7 +50,7 @@ export const MaintenanceCreateUIView = ({
         </div>
 
         <div className="shrink-0 pt-3">
-          <div className="flex flex-row gap-2 justify-end">
+          <div className="flex flex-row gap-2 justify-center">
             <Button variant="outlined" title="Cancelar" onClick={handleCancel} />
             <Button
               title="Guardar"

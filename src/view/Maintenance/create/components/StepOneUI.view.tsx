@@ -5,6 +5,7 @@ import { useMemo } from "react";
 import type { ICreateMaintenanceUI } from "../interface";
 import type { IVehicles } from "@/view/Vehicles/list/intefaces";
 import { IconCarSuv } from "@/assets/svg";
+import { maintenanceSelectAppearance } from "./maintenanceSelectAppearance";
 
 
 export const StepOneUI = () => {
@@ -48,16 +49,17 @@ export const StepOneUI = () => {
 
     return (
         <div className="flex flex-col gap-3 rounded-2xl bg-blue-bodywork p-4">
-            <div className="flex flex-row items-center gap-3">
+            <div className="flex flex-row items-start gap-3">
                 <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-orange-rally text-sm font-bold text-white">
                     1
                 </div>
-                <h2 className="text-base font-bold text-white">¿Qué vehículo?</h2>
+                <div className="flex min-w-0 flex-col gap-0.5">
+                    <h2 className="m-0 text-base font-bold leading-tight text-white">¿Qué vehículo?</h2>
+                    <p className="m-0 text-sm text-desert-sand/70">
+                        Selecciona la moto o el carro al que le hiciste el servicio.
+                    </p>
+                </div>
             </div>
-
-            <p className="text-sm text-desert-sand/70">
-                Selecciona la moto o el carro al que le hiciste el servicio.
-            </p>
 
             <Select
                 className="maintenance-vehicle-select w-full"
@@ -66,15 +68,12 @@ export const StepOneUI = () => {
                 loading={isLoadingVehicles}
                 onChange={(value) => setValue("vehicle_id", Number(value))}
                 disabled={isErrorVehicles}
+                allowClear
                 showSearch={{
                     optionFilterProp: "searchText",
                     filterOption,
                 }}
-                classNames={{
-                    popup: {
-                        root: "maintenance-vehicle-select-popup",
-                    },
-                }}
+                {...maintenanceSelectAppearance}
             />
         </div>
     );
