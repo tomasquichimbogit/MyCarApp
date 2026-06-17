@@ -4,12 +4,11 @@ import { Button as AntdButton, Tag, Popconfirm } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Button, useModal } from "tomascomponents";
 import { PATHS } from "@/router/paths";
-import { BucketName } from "@/constants";
 import { VehicleUpdateUIView } from "../../update/VehicleUpdateUI.view";
 import { FilePenLine, PencilIcon, WrenchIcon } from "lucide-react";
 import { useDeleteVehicle } from "@/services/vehicles/vehicles.services";
-import { vehiclesKeys } from "@/services/vehicles/vehiclesKeys";
-import { StorageImageManagerUI } from "@/components/Render/StorageImageManagerUI.view";
+import { ImageComponent } from "@/components/Render/ImageComponent";
+import { BucketName } from "@/constants";
 
 interface ItemVehicleUIProps {
   vehicle: IVehicles;
@@ -48,7 +47,7 @@ export const ItemVehicleUI = ({ vehicle }: ItemVehicleUIProps) => {
     <div className="w-full rounded-2xl border border-orange-rally bg-gray-100/50 shadow-sm">
       <div className="flex flex-row items-stretch justify-center gap-0.5">
         <div className="shrink-0 self-stretch w-28 sm:w-32">
-          <StorageImageManagerUI
+          {/* <StorageImageManagerUI
             itemKey={vehicle.id}
             bucketName={BucketName.VEHICLE_IMAGES}
             modalTitle={`Actualizar imagen - ${vehicleName}`}
@@ -56,7 +55,16 @@ export const ItemVehicleUI = ({ vehicle }: ItemVehicleUIProps) => {
             wrapperClassName="relative w-full h-full min-h-[150px] pt-0.5 pb-0.5"
             editButtonStyle={{ color: "#d8ff28" }}
             invalidateQueryKey={vehiclesKeys.list()}
-          />
+          /> */}
+          <div className="flex items-center justify-center w-full h-full pl-0.5">
+            <ImageComponent
+              bucket={BucketName.VEHICLE_IMAGES}
+              path={`${vehicle.id}.webp`}
+              alt="Imagen de ejemplo"
+              // width={100}
+              height="100%"
+            />
+          </div>
         </div>
 
         <div className="flex flex-1 flex-col self-stretch p-1">

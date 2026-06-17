@@ -9,6 +9,7 @@ export const PATHS = {
     workshops: "/workshops",
     adventure: "/adventure",
     userInformation: "/user-information",
+    testImages: "/test-images",
     home: "/",
     error404: "*",
 }

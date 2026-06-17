@@ -1,8 +1,7 @@
 import { CalendarDays, Car, DollarSign, Gauge, MapPin, Trash2 } from "lucide-react";
 import type { IMaintenance } from "../interfaces";
-import { useTokenBuketAccess } from "@/hooks/useTokenBuketAccess";
 import { BucketName } from "@/constants";
-import { IconCarSuv } from "@/assets/svg";
+import { ImageComponent } from "@/components/Render/ImageComponent";
 
 interface ItemListMaintenanceUIViewProps {
     maintenance: IMaintenance;
@@ -36,23 +35,20 @@ export const ItemListMaintenanceUIView = ({
     onDelete,
 }: ItemListMaintenanceUIViewProps) => {
     const title = maintenance.workshopName ?? maintenance.vehiclePlate;
-    const hasWorkshopImage = maintenance.workshopId > 0;
-
-    const { imageUrl, isError } = useTokenBuketAccess({
-        bucketName: BucketName.WORKSHOP_IMAGES,
-        itemKey: hasWorkshopImage ? maintenance.workshopId : -1,
-    });
+   
 
     return (
         <article className="rounded-2xl border border-desert-sand/40 bg-carbon-black p-4 shadow-sm">
             <div className="flex items-start justify-between gap-3">
                 <div className="flex min-w-0 items-start gap-3">
                     <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full border border-desert-sand/40 bg-white">
-                        {!isError ? (
-                            <img src={imageUrl} alt={title} className="h-full w-full object-cover" />
-                        ) : (
-                            <IconCarSuv className="h-6 w-6 text-gray-500" />
-                        )}
+                        <ImageComponent
+                            bucket={BucketName.WORKSHOP_IMAGES}
+                            path={`${maintenance.vehicleId}.jpg`}
+                            alt="Imagen de ejemplo"
+                            // width={100}
+                            height="100%"
+                        />
                     </div>
 
                     <div className="min-w-0">
