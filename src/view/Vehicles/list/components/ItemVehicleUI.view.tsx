@@ -47,22 +47,17 @@ export const ItemVehicleUI = ({ vehicle }: ItemVehicleUIProps) => {
     <div className="w-full rounded-2xl border border-orange-rally bg-gray-100/50 shadow-sm">
       <div className="flex flex-row items-stretch justify-center gap-0.5">
         <div className="shrink-0 self-stretch w-28 sm:w-32">
-          {/* <StorageImageManagerUI
-            itemKey={vehicle.id}
-            bucketName={BucketName.VEHICLE_IMAGES}
-            modalTitle={`Actualizar imagen - ${vehicleName}`}
-            imageAlt={vehicleName}
-            wrapperClassName="relative w-full h-full min-h-[150px] pt-0.5 pb-0.5"
-            editButtonStyle={{ color: "#d8ff28" }}
-            invalidateQueryKey={vehiclesKeys.list()}
-          /> */}
-          <div className="flex items-center justify-center w-full h-full pl-0.5">
+
+          <div className="flex items-center justify-center w-full h-full p-1">
             <ImageComponent
               bucket={BucketName.VEHICLE_IMAGES}
               path={`${vehicle.id}.webp`}
               alt="Imagen de ejemplo"
-              // width={100}
               height="100%"
+              uploadOnError={true}
+              showImageActions
+              uploadOnEdit
+              deleteFromStorage
             />
           </div>
         </div>

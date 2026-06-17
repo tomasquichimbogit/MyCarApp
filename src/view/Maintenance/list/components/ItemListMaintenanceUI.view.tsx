@@ -46,7 +46,6 @@ export const ItemListMaintenanceUIView = ({
                             bucket={BucketName.WORKSHOP_IMAGES}
                             path={`${maintenance.vehicleId}.jpg`}
                             alt="Imagen de ejemplo"
-                            // width={100}
                             height="100%"
                         />
                     </div>

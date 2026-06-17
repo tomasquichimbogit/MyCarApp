@@ -179,3 +179,16 @@ export const uploadVehicleImages = async ({
 
   return results;
 };
+
+export const deleteStorageImage = async (path: string, bucketName = DEFAULT_BUCKET): Promise<void> => {
+  if (!path) {
+    throw new Error("La ruta de la imagen es requerida para eliminarla.");
+  }
+
+  await ensureSupabaseAuthSession();
+
+  const { error } = await SUPABASE.storage.from(bucketName).remove([path]);
+  if (error) {
+    throw error;
+  }
+};
