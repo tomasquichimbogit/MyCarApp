@@ -26,6 +26,7 @@ export const IMG_FALLBACK = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMIAA
 
 export const BucketName = {
   VEHICLE_IMAGES: "vehicle-images",
+  WORKSHOP_IMAGES: "workshop-images",
 }
 
 

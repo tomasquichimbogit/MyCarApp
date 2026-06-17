@@ -81,6 +81,14 @@ const getWorkshopName = (
   return value.name ?? `Taller ${value.id}`;
 };
 
+const getWorkshopId = (
+  value: number | IWorkshopRelation | null,
+): number => {
+  if (!value) return 0;
+  if (typeof value === "number") return value;
+  return value.id;
+};
+
 const buildMaintenancePayload = (payload: ICreateMaintenancePayload) => ({
   vehicle_id: payload.vehicle_id,
   workshop_id: payload.workshop_id ?? null,
@@ -94,6 +102,8 @@ const buildMaintenancePayload = (payload: ICreateMaintenancePayload) => ({
 const mapMaintenance = (row: IMaintenanceRow): IMaintenance => ({
   id: String(row.id),
   vehiclePlate: getVehiclePlate(row.vehicle ?? row.vehicle_id),
+  vehicleId: row.vehicle?.id ?? 0,
+  workshopId: getWorkshopId(row.workshop ?? row.workshop_id),
   workshopName: getWorkshopName(row.workshop ?? row.workshop_id),
   maintenanceType: row.maintenance_type ?? "Mantenimiento",
   description: row.description ?? "-",
@@ -187,7 +197,7 @@ export const fetchMaintenancesByVehicleId = async (
 ): Promise<IMaintenance[]> => {
   const { data, error } = await SUPABASE
     .from("maintenance")
-    .select("*, vehicle(*), workshop(*)")
+    .select("*, vehicle(id, license_plate), workshop(id, name)")
     .eq("vehicle_id", vehicleId)
     .is("deleted_at", null)
     .order("maintenance_date", { ascending: false });
