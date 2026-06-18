@@ -7,6 +7,7 @@ export const PATHS = {
     maintenance: "/maintenance",
     maintenanceCreate: "/maintenance/create",
     workshops: "/workshops",
+    uploadLogoWorkshop: "/upload-logo-workshop",
     adventure: "/adventure",
     userInformation: "/user-information",
     testImages: "/test-images",

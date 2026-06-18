@@ -4,6 +4,7 @@ import { Image, Upload, theme } from 'antd';
 import type { GetProp, UploadFile, UploadProps } from 'antd';
 import { uploadVehicleImages, type IUploadedVehicleImage } from './UploadImages/uploadImages.service';
 import type { CSSProperties } from 'react';
+import { useNotify } from 'tomascomponents';
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
@@ -31,6 +32,7 @@ export const UploadImageComponent = ({
     onUploaded,
 }: UploadImageComponentProps) => {
     const { token } = theme.useToken();
+    const { notify } = useNotify();
     const [previewOpen, setPreviewOpen] = useState(false);
     const [previewImage, setPreviewImage] = useState('');
     const [fileList, setFileList] = useState<UploadFile[]>([]);
@@ -70,7 +72,9 @@ export const UploadImageComponent = ({
             onSuccess?.(uploadedFile);
             await onUploaded?.(uploadedFile);
         } catch (error) {
-            onError?.(error instanceof Error ? error : new Error(String(error)));
+            const message = error instanceof Error ? error.message : String(error);
+            notify('error', { title: 'No se pudo subir la imagen', description: message });
+            onError?.(error instanceof Error ? error : new Error(message));
         }
     };
 

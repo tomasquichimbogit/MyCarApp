@@ -84,10 +84,12 @@ export const ImageComponent = ({
     const { token } = theme.useToken();
     const { url, loading, error } = useSignedImageUrl(bucket, path);
     const removeImageCacheEntry = useImageStore((state) => state.removeEntry);
+    const setImageCacheEntry = useImageStore((state) => state.setEntry);
     const [fetchPercent, setFetchPercent] = useState(0);
     const [uploadedImage, setUploadedImage] = useState<{ key: string; url: string } | null>(null);
     const [editingImageKey, setEditingImageKey] = useState<string | null>(null);
     const [deletedImageKey, setDeletedImageKey] = useState<string | null>(null);
+    const [imageLoadFailedForKey, setImageLoadFailedForKey] = useState<string | null>(null);
 
     const imageStyles = useMemo(
         () => ({
@@ -124,6 +126,7 @@ export const ImageComponent = ({
     }, [loading, bucket, path]);
 
     const imageKey = `${bucket}/${path}`;
+    const imageLoadFailed = imageLoadFailedForKey === imageKey;
     const isEditingImage = editingImageKey === imageKey;
     const isDeletedImage = deletedImageKey === imageKey;
     const uploadedUrl = uploadedImage?.key === imageKey ? uploadedImage.url : null;
@@ -133,9 +136,9 @@ export const ImageComponent = ({
     const uploadItemKey = path.replace(/\.[^/.]+$/, '');
     const wrapperStyle: CSSProperties = {
         position: 'relative',
-        display: 'inline-block',
+        display: 'block',
         width: width ?? '100%',
-        height,
+        height: height ?? '100%',
         lineHeight: 0,
     };
 
@@ -159,8 +162,15 @@ export const ImageComponent = ({
     ) => {
         if (data.signedUrl) {
             setUploadedImage({ key: imageKey, url: data.signedUrl });
+            removeImageCacheEntry(imageKey);
+            setImageCacheEntry(imageKey, {
+                url: data.signedUrl,
+                expiresAt: Date.now() + 60 * 60 * 1000,
+            });
         }
 
+        setImageLoadFailedForKey(null);
+        setDeletedImageKey(null);
         setEditingImageKey(null);
         await onImageUploaded?.(data);
         await extraHandler?.(data);
@@ -187,32 +197,54 @@ export const ImageComponent = ({
     };
 
     const shouldShowImageActions = showImageActions && !isFetchingUrl && !isEditingImage;
+    const isMissingOrBrokenImage = Boolean(error) || imageLoadFailed || isDeletedImage;
+    const shouldShowUploadUI =
+        isEditingImage || (uploadOnError && !uploadedUrl && isMissingOrBrokenImage);
 
-    if (isDeletedImage && uploadOnError) {
+    const previewConfig = useMemo(() => {
+        if (!preview || isFetchingUrl || !imageUrl || imageLoadFailed) {
+            return false;
+        }
+
+        return {
+            src: imageUrl,
+            getContainer: () => document.body,
+            zIndex: 3000,
+        };
+    }, [preview, isFetchingUrl, imageUrl, imageLoadFailed]);
+
+    const imageWrapperStyle: CSSProperties = {
+        width: '100%',
+        height: '100%',
+        display: 'block',
+        lineHeight: 0,
+    };
+
+    const imageStyle: CSSProperties = {
+        width: '100%',
+        height: '100%',
+        objectFit: 'cover',
+        ...style,
+    };
+
+    if (shouldShowUploadUI) {
         return (
             <UploadImageComponent
                 bucketName={bucket}
                 itemKey={uploadItemKey}
                 width={width}
                 height={height}
-                onUploaded={handleUploadedImage}
+                onUploaded={(data) =>
+                    handleUploadedImage(
+                        data,
+                        isMissingOrBrokenImage ? onErrorImageUploaded : undefined,
+                    )
+                }
             />
         );
     }
 
-    if (error && !uploadedUrl) {
-        if (uploadOnError) {
-            return (
-                <UploadImageComponent
-                    bucketName={bucket}
-                    itemKey={uploadItemKey}
-                    width={width}
-                    height={height}
-                    onUploaded={(data) => handleUploadedImage(data, onErrorImageUploaded)}
-                />
-            );
-        }
-
+    if (error && !uploadedUrl && !uploadOnError) {
         return (
             <Image
                 width={width}
@@ -239,18 +271,6 @@ export const ImageComponent = ({
                 placeholder={
                     <LoadingPlaceholder borderRadius={token.borderRadiusLG} label="No hay imagen" />
                 }
-            />
-        );
-    }
-
-    if (isEditingImage) {
-        return (
-            <UploadImageComponent
-                bucketName={bucket}
-                itemKey={uploadItemKey}
-                width={width}
-                height={height}
-                onUploaded={handleUploadedImage}
             />
         );
     }
@@ -295,14 +315,20 @@ export const ImageComponent = ({
                 </div>
             )}
             <Image
-                width={width}
-                height={height}
+                width={width ?? '100%'}
+                height={height ?? '100%'}
                 alt={alt ?? path}
                 styles={imageStyles}
-                style={{ maxWidth: '100%', ...style }}
+                wrapperStyle={imageWrapperStyle}
+                style={imageStyle}
                 src={isFetchingUrl ? undefined : imageUrl}
-                preview={preview && !isFetchingUrl}
+                preview={previewConfig}
                 fallback={IMG_FALLBACK}
+                onError={() => {
+                    if (uploadOnError) {
+                        setImageLoadFailedForKey(imageKey);
+                    }
+                }}
                 placeholder={
                     isFetchingUrl ? (
                         <LoadingPlaceholder

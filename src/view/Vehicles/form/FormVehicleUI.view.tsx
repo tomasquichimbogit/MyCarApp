@@ -2,8 +2,7 @@ import { Button, FormInput, FormNumberInput, FormSelect } from "tomascomponents"
 import type { IUseFormVehicleUIHook } from "./FormVehicleUI.hook";
 import { Alert } from "antd";
 import { BucketName } from "@/constants";
-import { vehiclesKeys } from "@/services/vehicles/vehiclesKeys";
-import { StorageImageManagerUI } from "@/components/Render/StorageImageManagerUI.view";
+import { ImageComponent } from "@/components/Render/ImageComponent";
 
 export const FormVehicleUIView = ({
   control,
@@ -20,15 +19,7 @@ export const FormVehicleUIView = ({
   closeModal,
   isUpdateMode,
   vehicleImageItemKey,
-  vehicleImageTitle,
 }: IUseFormVehicleUIHook) => {
-  // if (loadingResources) {
-  //   return (
-  //     <div className="flex justify-center py-8">
-  //       <Spin spinning />
-  //     </div>
-  //   );
-  // }
 
   if (errorResources) {
     return (
@@ -74,13 +65,15 @@ export const FormVehicleUIView = ({
         <FormInput label="Placa" name="license_plate" placeholder="ABC-1234" control={control} required />
         {isUpdateMode && <strong>Imagen del vehículo</strong>}
         {isUpdateMode && (
-          <StorageImageManagerUI
-            itemKey={vehicleImageItemKey}
-            bucketName={BucketName.VEHICLE_IMAGES}
-            modalTitle={vehicleImageTitle}
-            imageAlt="Imagen del vehículo"
-            wrapperClassName="relative w-full h-full min-h-[150px] pt-0.5 pb-0.5"
-            invalidateQueryKey={vehiclesKeys.list()}
+          <ImageComponent
+            bucket={BucketName.VEHICLE_IMAGES}
+            path={`${vehicleImageItemKey}.webp`}
+            alt="Imagen de ejemplo"
+            height="100%"
+            uploadOnError={true}
+            showImageActions
+            uploadOnEdit
+            deleteFromStorage
           />
         )}
       </div>
