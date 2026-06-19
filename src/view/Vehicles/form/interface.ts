@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { ETypeVehicle } from "@/enums";
 
 const currentYear = new Date().getFullYear();
 
@@ -13,6 +14,7 @@ export const schemaFormVehicleUI = z.object({
     .max(currentYear + 1, "Año inválido"),
   color: z.string({error: "Selecciona un color"}).min(1, "Selecciona un color"),
   person_id: z.number({error: "Usuario no identificado"}).min(1, "Usuario no identificado"),
+  type: z.nativeEnum(ETypeVehicle, { error: "Selecciona un tipo de vehículo" }),
   license_plate: z
     .string({error: "La placa es requerida"}).min(1, "La placa es requerida")
     .min(1, "La placa es requerida")

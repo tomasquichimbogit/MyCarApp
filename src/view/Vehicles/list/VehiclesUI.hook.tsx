@@ -3,6 +3,8 @@ import type { IVehicles } from "./intefaces";
 import { useModal } from "tomascomponents";
 import { VehicleCreateUIView } from "../create/VehicleCreateUI.view";
 import { useMemo, useState } from "react";
+import { TypeVehicleUI } from "./components/TypeVehicleUI.view";
+import { ETypeVehicle } from "@/enums";
 
 export interface IUseVehiclesUIHook {
   vehicles: IVehicles[];
@@ -22,12 +24,23 @@ export const useVehiclesUIHook = (): IUseVehiclesUIHook => {
     setSearch(e.target.value);
   };
 
-  const handleAddClick = () => {
+  const handleOpenModalTypeVehicle = (type: ETypeVehicle) => {
+    const title = type === ETypeVehicle.MOTORCYCLE ? "Agregar motocicleta" : "Agregar vehículo";
+
     openModal({
-      title: "Agregar vehículo",
-      content: <VehicleCreateUIView />,
+      title,
+      content: <VehicleCreateUIView vehicleType={type} />,
       width: "500px	",
       height: "auto",
+    });
+  };
+
+  const openModalConfirmTypeVehicle = () => {
+    openModal({
+      title: "Selecciona el tipo de vehículo",
+      content: <TypeVehicleUI openModal={handleOpenModalTypeVehicle} />,
+      width: "500px",
+      height: "100px",
     });
   };
 
@@ -44,12 +57,11 @@ export const useVehiclesUIHook = (): IUseVehiclesUIHook => {
     );
   }, [vehicles, search]);
 
-
   return {
     vehicles: filteredVehicles,
     isLoading,
     isError,
-    handleAddClick,
+    handleAddClick: openModalConfirmTypeVehicle,
     search,
     handleSearchChange,
   };

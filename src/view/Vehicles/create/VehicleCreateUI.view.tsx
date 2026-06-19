@@ -1,21 +1,28 @@
 import { Tabs } from "antd";
 import { FormVehicleUI } from "../form/FormVehicleUI.controller";
 import { FormSimpleVehicleUI } from "../form-simple/FormSimpleVehicleUI.controller";
+import { ETypeVehicle } from "@/enums";
 
-export const VehicleCreateUIView = () => {
+interface VehicleCreateUIViewProps {
+  vehicleType?: ETypeVehicle;
+}
+
+export const VehicleCreateUIView = ({ vehicleType = ETypeVehicle.CAR }: VehicleCreateUIViewProps) => {
+  const vehicleLabel = vehicleType === ETypeVehicle.MOTORCYCLE ? "motocicleta" : "vehículo";
+
   return (
     <div>
       <Tabs
         items={[
           {
-            label: "Vehículo simple",
+            label: `${vehicleLabel[0].toUpperCase()}${vehicleLabel.slice(1)} simple`,
             key: "simple-vehicle",
-            children: <FormSimpleVehicleUI />,
+            children: <FormSimpleVehicleUI vehicleType={vehicleType} />,
           },
           {
-            label: "Vehículo completo",
+            label: `${vehicleLabel[0].toUpperCase()}${vehicleLabel.slice(1)} completo`,
             key: "vehicle",
-            children: <FormVehicleUI />,
+            children: <FormVehicleUI vehicleType={vehicleType} />,
           },
         ]}
       />

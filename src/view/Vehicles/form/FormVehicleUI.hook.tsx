@@ -8,10 +8,12 @@ import { useCurrentPerson } from "@/services/person/person.services";
 import { useCreateVehicle, useUpdateVehicle, useVehicleById } from "@/services/vehicles/vehicles.services";
 import { useFormController } from "@/hooks/useFormController";
 import { useModal, useNotify } from "tomascomponents";
+import { ETypeVehicle } from "@/enums";
 
 interface UseFormVehicleUIHookProps {
   mode?: "create" | "update";
   vehicleId?: number;
+  vehicleType?: ETypeVehicle;
 }
 
 export interface IUseFormVehicleUIHook {
@@ -32,7 +34,7 @@ export interface IUseFormVehicleUIHook {
   vehicleImageTitle: string;
 }
 
-export const useFormVehicleUIHook = ({ mode = "create", vehicleId }: UseFormVehicleUIHookProps) => {
+export const useFormVehicleUIHook = ({ mode = "create", vehicleId, vehicleType = ETypeVehicle.CAR }: UseFormVehicleUIHookProps) => {
   const isUpdateMode = mode === "update" && !!vehicleId;
   const { closeModal } = useModal();
   const { notify } = useNotify();
@@ -47,7 +49,10 @@ export const useFormVehicleUIHook = ({ mode = "create", vehicleId }: UseFormVehi
   } = useVehicleById(vehicleId ?? 0, isUpdateMode);
 
   const methods = useForm<TSchemaFormVehicleUI>({
-    resolver: zodResolver(schemaFormVehicleUI),   
+    resolver: zodResolver(schemaFormVehicleUI),
+    defaultValues: {
+      type: vehicleType,
+    },
   });
 
   const { control, handleSubmit, setValue } = methods;
@@ -78,8 +83,9 @@ export const useFormVehicleUIHook = ({ mode = "create", vehicleId }: UseFormVehi
     setValue("year", vehicleDetail.year);
     setValue("color", vehicleDetail.color);
     setValue("person_id", vehicleDetail.person_id);
+    setValue("type", vehicleDetail.type ?? vehicleType);
     setValue("license_plate", vehicleDetail.license_plate);
-  }, [vehicleDetail, setValue]);
+  }, [vehicleDetail, setValue, vehicleType]);
 
   const loadingResources = isLoadingCatalogs || isLoadingPerson || isLoadingVehicle;
   const missingProfile = !isLoadingPerson && !isErrorPerson && !person;
@@ -96,6 +102,7 @@ export const useFormVehicleUIHook = ({ mode = "create", vehicleId }: UseFormVehi
       color: data.color,
       person_id: data.person_id,
       license_plate: data.license_plate.trim().toUpperCase(),
+      type: data.type,
     };
 
     if (isUpdateMode && vehicleId) {

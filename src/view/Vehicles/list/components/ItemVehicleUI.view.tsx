@@ -9,6 +9,8 @@ import { FilePenLine, PencilIcon, WrenchIcon } from "lucide-react";
 import { useDeleteVehicle } from "@/services/vehicles/vehicles.services";
 import { ImageComponent } from "@/components/Render/ImageComponent";
 import { BucketName } from "@/constants";
+import { IconCarSuv, IconMotorcycle } from "@/assets/svg";
+import { ETypeVehicle } from "@/enums";
 
 interface ItemVehicleUIProps {
   vehicle: IVehicles;
@@ -21,6 +23,9 @@ export const ItemVehicleUI = ({ vehicle }: ItemVehicleUIProps) => {
   const vehicleId = Number(vehicle.id);
 
   const vehicleName = `${brand} ${model}`.trim();
+  const isMotorcycle = vehicle.type === ETypeVehicle.MOTORCYCLE;
+  const VehicleTypeIcon = isMotorcycle ? IconMotorcycle : IconCarSuv;
+  const vehicleTypeLabel = isMotorcycle ? "Motocicleta" : "Automóvil";
 
   const handleNavigateToPath = (path: string) => {
     navigate(path);
@@ -65,7 +70,16 @@ export const ItemVehicleUI = ({ vehicle }: ItemVehicleUIProps) => {
         <div className="flex flex-1 flex-col self-stretch p-1">
           <div className="flex flex-1 flex-col gap-2 bg-gray-100/50 rounded-xl p-2">
             <div className="flex flex-row items-center justify-between">
-              <span className="text-sm md:text-lg font-bold text-gray-900">{vehicleName}</span>
+              <div className="flex flex-row items-center gap-2">
+                <span
+                  className="flex h-7 w-7 items-center justify-center rounded-full bg-orange-rally/10 text-orange-rally"
+                  title={vehicleTypeLabel}
+                  aria-label={vehicleTypeLabel}
+                >
+                  <VehicleTypeIcon className="h-5 w-5" transform={isMotorcycle ? undefined : "scale(-1, 1)"} />
+                </span>
+                <span className="text-sm md:text-lg font-bold text-gray-900">{vehicleName}</span>
+              </div>
               <div className="flex flex-row items-center gap-1">
                 <AntdButton type="primary" icon={<EditOutlined />} size="small" onClick={openModalUpdateVehicle} />
 

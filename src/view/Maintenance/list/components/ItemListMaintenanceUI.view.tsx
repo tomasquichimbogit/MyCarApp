@@ -1,7 +1,8 @@
-import { CalendarDays, Car, DollarSign, Gauge, MapPin, Trash2 } from "lucide-react";
+import { CalendarDays, DollarSign, Gauge, MapPin, Trash2 } from "lucide-react";
 import type { IMaintenance } from "../interfaces";
 import { BucketName } from "@/constants";
 import { ImageComponent } from "@/components/Render/ImageComponent";
+import { IconCarSuv } from "@/assets/svg";
 
 interface ItemListMaintenanceUIViewProps {
     maintenance: IMaintenance;
@@ -43,8 +44,8 @@ export const ItemListMaintenanceUIView = ({
                 <div className="flex min-w-0 items-start gap-3">
                     <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full border border-desert-sand/40 bg-white">
                         <ImageComponent
-                            bucket={BucketName.WORKSHOP_IMAGES}
-                            path={`${maintenance.vehicleId}.jpg`}
+                            bucket={BucketName.WORKSHOP_LOGOS}
+                            path={`${maintenance.workshopId}.webp`}
                             alt="Imagen de ejemplo"
                             height="100%"
                         />
@@ -55,7 +56,7 @@ export const ItemListMaintenanceUIView = ({
                             <h3 className="truncate text-base font-bold text-white">
                                 {title}
                             </h3>
-                            <span className="rounded-full bg-orange-rally/15 px-3 py-1 text-xs font-medium text-orange-rally">
+                            <span className="rounded-full bg-orange-rally/15 px-3 py-1 text-sm font-medium text-orange-rally">
                                 {maintenance.maintenanceType}
                             </span>
                         </div>
@@ -83,7 +84,7 @@ export const ItemListMaintenanceUIView = ({
 
             <div className="mt-4 grid grid-cols-2 gap-2 md:grid-cols-4">
                 <span className="flex items-center gap-2 rounded-lg bg-helmet-blue px-3 py-2 text-sm font-semibold text-white">
-                    <Car className="h-4 w-4 text-orange-rally" />
+                    <IconCarSuv className="w-10 h-10 text-orange-rally" transform="scale(-1, 1)" />
                     {maintenance.vehiclePlate}
                 </span>
                 <span className="flex items-center gap-2 rounded-lg bg-helmet-blue px-3 py-2 text-sm font-semibold text-white">

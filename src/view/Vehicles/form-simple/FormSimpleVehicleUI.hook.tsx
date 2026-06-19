@@ -6,6 +6,7 @@ import { useCurrentPerson } from "@/services/person/person.services";
 import { type ICreateSimpleVehiclePayload, useCreateSimpleVehicle } from "@/services/vehicles/vehicles.services";
 import { useFormController } from "@/hooks/useFormController";
 import { useModal, useNotify } from "tomascomponents";
+import { ETypeVehicle } from "@/enums";
 
 export interface IUseFormSimpleVehicleUIHook {
   control: Control<TSchemaFormSimpleVehicleUI>;
@@ -18,7 +19,11 @@ export interface IUseFormSimpleVehicleUIHook {
   closeModal: () => void;
 }
 
-export const useFormSimpleVehicleUIHook = () => {
+interface UseFormSimpleVehicleUIHookProps {
+  vehicleType?: ETypeVehicle;
+}
+
+export const useFormSimpleVehicleUIHook = ({ vehicleType = ETypeVehicle.CAR }: UseFormSimpleVehicleUIHookProps = {}) => {
   const { closeModal } = useModal();
   const { notify } = useNotify();
   const { errorForm } = useFormController();
@@ -26,7 +31,10 @@ export const useFormSimpleVehicleUIHook = () => {
   const { data: person, isLoading: isLoadingPerson, isError: isErrorPerson } = useCurrentPerson();
 
   const methods = useForm<TSchemaFormSimpleVehicleUI>({
-    resolver: zodResolver(schemaFormSimpleVehicleUI),   
+    resolver: zodResolver(schemaFormSimpleVehicleUI),
+    defaultValues: {
+      type: vehicleType,
+    },
   });
 
   const { control, handleSubmit, setValue } = methods;
@@ -51,6 +59,7 @@ export const useFormSimpleVehicleUIHook = () => {
     const payload: ICreateSimpleVehiclePayload = {
       person_id: data.person_id,
       license_plate: data.license_plate.trim().toUpperCase(),
+      type: data.type,
     };
 
     createSimpleVehicleMutation(payload, {

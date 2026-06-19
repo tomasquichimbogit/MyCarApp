@@ -1,5 +1,6 @@
 import { useApiGetQuery, useApiPostMutation } from "@/config/axiosMethods";
 import { SUPABASE } from "@/constants";
+import { ETypeVehicle } from "@/enums";
 import { ensureSupabaseAuthSession } from "@/services/auth.service";
 import type { IVehicles } from "@/view/Vehicles/list/intefaces";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -13,16 +14,22 @@ export interface ICreateVehiclePayload {
   color: string;
   person_id: number;
   license_plate: string;
+  type: ETypeVehicle;
 }
 
 export interface ICreateSimpleVehiclePayload {
   person_id: number;
   license_plate: string;
+  type: ETypeVehicle;
 }
 
 export interface IUpdateVehiclePayload extends ICreateVehiclePayload {
   id: number;
 }
+
+export type ICreateMotorcyclePayload = Omit<ICreateVehiclePayload, "type">;
+export type ICreateSimpleMotorcyclePayload = Omit<ICreateSimpleVehiclePayload, "type">;
+export type IUpdateMotorcyclePayload = Omit<IUpdateVehiclePayload, "type">;
 
 interface IBrandRelation {
   id: number;
@@ -45,6 +52,7 @@ export interface IVehicleRow {
   color: string | null;
   license_plate: string | null;
   person_id: number | null;
+  type: ETypeVehicle | null;
   update_at: string | null;
   delete_id: string | null;
 }
@@ -58,6 +66,7 @@ export interface IVehicleDetailRow {
   color: string;
   license_plate: string;
   person_id: number;
+  type: ETypeVehicle;
   update_at: string | null;
   delete_id: string | null;
 }
@@ -78,6 +87,7 @@ const mapVehicle = (row: IVehicleRow): IVehicles => ({
   year: row.year ?? 0,
   color: row.color ?? "-",
   plate: row.license_plate ?? "Sin placa",
+  type: row.type ?? undefined,
 });
 
 
@@ -88,6 +98,7 @@ export const createSimpleVehicle = async (payload: ICreateSimpleVehiclePayload):
     .insert({
       person_id: payload.person_id,
       license_plate: payload.license_plate,
+      type: payload.type,
     })
     .select()
     .single();
@@ -112,6 +123,7 @@ export const createVehicle = async (
       color: payload.color,
       person_id: payload.person_id,
       license_plate: payload.license_plate,
+      type: payload.type,
     })
     .select()
     .single();
@@ -154,6 +166,52 @@ export const updateVehicle = async (payload: IUpdateVehiclePayload): Promise<IVe
   return data as IVehicleDetailRow;
 };
 
+export const createSimpleMotorcycle = async (
+  payload: ICreateSimpleMotorcyclePayload,
+): Promise<IVehicleDetailRow> => {
+  return createSimpleVehicle({
+    ...payload,
+    type: ETypeVehicle.MOTORCYCLE,
+  });
+};
+
+export const createMotorcycle = async (
+  payload: ICreateMotorcyclePayload,
+): Promise<IVehicleRow> => {
+  return createVehicle({
+    ...payload,
+    type: ETypeVehicle.MOTORCYCLE,
+  });
+};
+
+export const fetchMotorcycleById = async (vehicleId: number): Promise<IVehicleDetailRow> => {
+  await ensureSupabaseAuthSession();
+
+  const { data, error } = await SUPABASE
+    .from("vehicle")
+    .select("*")
+    .eq("id", vehicleId)
+    .eq("type", ETypeVehicle.MOTORCYCLE)
+    .is("delete_id", null)
+    .single();
+
+  if (error) throw error;
+  return data as IVehicleDetailRow;
+};
+
+export const updateMotorcycle = async (
+  payload: IUpdateMotorcyclePayload,
+): Promise<IVehicleDetailRow> => {
+  return updateVehicle({
+    ...payload,
+    type: ETypeVehicle.MOTORCYCLE,
+  });
+};
+
+export const deleteMotorcycle = async (vehicleId: number): Promise<void> => {
+  await deleteVehicle(vehicleId);
+};
+
 export const deleteVehicle = async (vehicleId: number): Promise<void> => {
   await ensureSupabaseAuthSession();
   const { error } = await SUPABASE
@@ -187,6 +245,36 @@ export const useCreateVehicle = () => {
     true,
     createVehicle,
     "create-vehicle",
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: vehiclesKeys.init });
+      },
+    },
+  );
+};
+
+export const useCreateSimpleMotorcycle = () => {
+  const queryClient = useQueryClient();
+
+  return useApiPostMutation<ICreateSimpleMotorcyclePayload, IVehicleDetailRow>(
+    true,
+    createSimpleMotorcycle,
+    "create-simple-motorcycle",
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: vehiclesKeys.init });
+      },
+    },
+  );
+};
+
+export const useCreateMotorcycle = () => {
+  const queryClient = useQueryClient();
+
+  return useApiPostMutation<ICreateMotorcyclePayload, IVehicleRow>(
+    true,
+    createMotorcycle,
+    "create-motorcycle",
     {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: vehiclesKeys.init });
@@ -242,6 +330,53 @@ export const useDeleteVehicle = () => {
   });
 };
 
+export const useMotorcycleById = (vehicleId: number, enabled = true) => {
+  return useApiGetQuery(
+    [...vehiclesKeys.list(), "motorcycle-detail", vehicleId],
+    () => fetchMotorcycleById(vehicleId),
+    { enabled: enabled && Number.isFinite(vehicleId) && vehicleId > 0 },
+  );
+};
+
+export const useUpdateMotorcycle = () => {
+  const queryClient = useQueryClient();
+  const { notify } = useNotify();
+
+  return useMutation({
+    mutationKey: ["PUT", "update-motorcycle"],
+    mutationFn: updateMotorcycle,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: vehiclesKeys.init });
+    },
+    onError: (error) => {
+      notify("error", {
+        title: error instanceof Error ? error.message : String(error),
+      });
+    },
+  });
+};
+
+export const useDeleteMotorcycle = () => {
+  const queryClient = useQueryClient();
+  const { notify } = useNotify();
+
+  return useMutation({
+    mutationKey: ["DELETE", "delete-motorcycle"],
+    mutationFn: deleteMotorcycle,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: vehiclesKeys.init });
+      notify("success", {
+        title: "Motocicleta eliminada",
+      });
+    },
+    onError: (error) => {
+      notify("error", {
+        title: error instanceof Error ? error.message : String(error),
+      });
+    },
+  });
+};
+
 export const fetchVehicles = async (): Promise<IVehicles[]> => {
   const { data, error } = await SUPABASE
     .from("vehicle")
@@ -255,4 +390,20 @@ export const fetchVehicles = async (): Promise<IVehicles[]> => {
 
 export const useVehicles = () => {
   return useApiGetQuery(vehiclesKeys.list(), fetchVehicles);
+};
+
+export const fetchMotorcycles = async (): Promise<IVehicles[]> => {
+  const { data, error } = await SUPABASE
+    .from("vehicle")
+    .select("*, brand(*), model(*)")
+    .eq("type", ETypeVehicle.MOTORCYCLE)
+    .is("delete_id", null)
+    .order("created_at", { ascending: false });
+
+  if (error) throw error;
+  return (data as IVehicleRow[]).map(mapVehicle);
+};
+
+export const useMotorcycles = () => {
+  return useApiGetQuery([...vehiclesKeys.list(), "motorcycles"], fetchMotorcycles);
 };

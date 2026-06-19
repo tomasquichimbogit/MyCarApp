@@ -4,8 +4,9 @@ import { Select } from "antd";
 import { useMemo } from "react";
 import type { ICreateMaintenanceUI } from "../interface";
 import type { IVehicles } from "@/view/Vehicles/list/intefaces";
-import { IconCarSuv } from "@/assets/svg";
+import { IconCarSuv, IconMotorcycle } from "@/assets/svg";
 import { maintenanceSelectAppearance } from "./maintenanceSelectAppearance";
+import { ETypeVehicle } from "@/enums";
 
 
 export const StepOneUI = () => {
@@ -21,10 +22,13 @@ export const StepOneUI = () => {
     const selectedVehicleId = watch("vehicle_id");
 
     const renderLabel = (vehicle: IVehicles) => {
+        const isMotorcycle = vehicle.type === ETypeVehicle.MOTORCYCLE;
+        const VehicleTypeIcon = isMotorcycle ? IconMotorcycle : IconCarSuv;
+
         return (
             <div className="flex flex-row gap-0.5 items-center">
                 <div>
-                    <IconCarSuv className="w-10 h-10 text-orange-rally" transform="scale(-1, 1)" />
+                    <VehicleTypeIcon className="w-10 h-10 text-orange-rally" transform={isMotorcycle ? undefined : "scale(-1, 1)"} />
                 </div>
                 <div className="flex flex-col gap-0.5">
                     <strong className="text-sm text-orange-rally">{vehicle.brand} - {vehicle.model}</strong>
