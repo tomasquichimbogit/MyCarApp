@@ -100,7 +100,7 @@ const buildMaintenancePayload = (payload: ICreateMaintenancePayload) => ({
 });
 
 const mapMaintenance = (row: IMaintenanceRow): IMaintenance => ({
-  id: String(row.id),
+  id: row.id,
   vehiclePlate: getVehiclePlate(row.vehicle ?? row.vehicle_id),
   vehicleId: row.vehicle?.id ?? 0,
   workshopId: getWorkshopId(row.workshop ?? row.workshop_id),

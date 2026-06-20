@@ -4,6 +4,7 @@ import type { IUseMaintenanceUIHook } from "./MaintenanceUI.hook";
 import { ItemSelectVehicleUI } from "./components/ItemSelectVehicleUI.view";
 import { IconCarSuv } from "@/assets/svg";
 import { ItemListMaintenanceUIView } from "./components/ItemListMaintenanceUI.view";
+import { Input } from "tomascomponents";
 
 export const MaintenanceUIView = ({
   handleAddNewMaintenance,
@@ -12,13 +13,29 @@ export const MaintenanceUIView = ({
   isError,
   selectedVehicleId,
   setSelectedVehicleId,
+  handleDeleteMaintenance,
+  isDeletingMaintenance,
+  search,
+  handleSearchChange,
+  showInputSearch,
 }: IUseMaintenanceUIHook) => {
   return (
-    <CentralContainerUI title="Listado de mantenimientos" onAddClick={handleAddNewMaintenance} addButtonTitle="Nuevo" returnTo="list">
-      <div className="flex flex-col gap-2">
+    <CentralContainerUI
+      title="Listado de mantenimientos"
+      onAddClick={handleAddNewMaintenance}
+      addButtonTitle="Nuevo"
+      returnTo="list"
+    >
+      <div className="flex flex-col gap-1">
         <div>
           <ItemSelectVehicleUI value={selectedVehicleId} setValue={setSelectedVehicleId} />
         </div>
+        {showInputSearch && (
+          <div className="flex flex-col gap-0.5">
+            <small>Buscar mantenimiento</small>
+            <Input placeholder="Buscar mantenimiento" value={search} onChange={handleSearchChange} allowClear />
+          </div>
+        )}
         {!selectedVehicleId && (
           <div className="flex flex-col gap-2 justify-center items-center border border-desert-sand/40 p-3 rounded-2xl">
             <IconCarSuv className="w-10 h-10 text-orange-rally" transform="scale(-1, 1)" />
@@ -41,13 +58,20 @@ export const MaintenanceUIView = ({
 
             {!isLoading && !isError && maintenances.length === 0 && (
               <Empty
-                description={<span className="text-white">No hay mantenimientos registrados para este vehículo.</span>}
+                description={<span className="text-white">
+                  {search.length > 0 ? "No se encontraron mantenimientos para la búsqueda." : "No hay mantenimientos registrados para este vehículo."}
+                  </span>}
               />
             )}
 
-            <div className="h-[calc(100dvh-260px)] md:h-[calc(100dvh-220px)] overflow-y-auto">
+            <div className="h-[calc(100dvh-260px)] md:h-[calc(100dvh-270px)] overflow-y-auto">
               {maintenances.map((maintenance) => (
-                <ItemListMaintenanceUIView key={maintenance.id} maintenance={maintenance} />
+                <ItemListMaintenanceUIView
+                  key={maintenance.id}
+                  maintenance={maintenance}
+                  onDelete={handleDeleteMaintenance}
+                  isDeleting={isDeletingMaintenance}
+                />
               ))}
             </div>
           </div>

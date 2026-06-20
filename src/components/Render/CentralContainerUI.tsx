@@ -39,8 +39,8 @@ export const CentralContainerUI = ({ children, title, onAddClick, addButtonTitle
                 onClick={handleNavigateToHome}
               />
             </div>
-            <div className="flex min-w-0 flex-col gap-0.5">
-              {title && <h1 className="m-0 text-xl font-bold leading-tight text-orange-rally">{title}</h1>}
+            <div className="flex min-w-0 flex-col gap-0.5 items-center justify-center">
+              {title && <h1 className="m-0 text-md md:text-xl font-bold leading-tight text-orange-rally">{title}</h1>}
               {subtitle && <small className="block text-gray-500 text-md">{subtitle}</small>}
             </div>
           </div>

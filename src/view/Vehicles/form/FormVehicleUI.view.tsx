@@ -3,6 +3,7 @@ import type { IUseFormVehicleUIHook } from "./FormVehicleUI.hook";
 import { Alert } from "antd";
 import { BucketName } from "@/constants";
 import { ImageComponent } from "@/components/Render/ImageComponent";
+import { ETypeVehicle } from "@/enums";
 
 export const FormVehicleUIView = ({
   control,
@@ -19,8 +20,8 @@ export const FormVehicleUIView = ({
   closeModal,
   isUpdateMode,
   vehicleImageItemKey,
+  typeVehicle,
 }: IUseFormVehicleUIHook) => {
-
   if (errorResources) {
     return (
       <Alert
@@ -39,21 +40,26 @@ export const FormVehicleUIView = ({
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-col gap-3 p-2 max-h-[440px] overflow-y-auto">
-        <FormSelect
-          label="Marca"
-          name="brand"
-          placeholder="Selecciona una marca"
-          control={control}
-          options={brandsOptions}
-        />
-        <FormSelect
-          label="Modelo"
-          name="model"
-          placeholder="Selecciona un modelo"
-          control={control}
-          options={modelsOptions}
-          disabled={isModelDisabled || loadingResources}
-        />
+        {typeVehicle === ETypeVehicle.CAR && (
+          <>
+            {" "}
+            <FormSelect
+              label="Marca"
+              name="brand"
+              placeholder="Selecciona una marca"
+              control={control}
+              options={brandsOptions}
+            />
+            <FormSelect
+              label="Modelo"
+              name="model"
+              placeholder="Selecciona un modelo"
+              control={control}
+              options={modelsOptions}
+              disabled={isModelDisabled || loadingResources}
+            />
+          </>
+        )}
         <FormNumberInput label="Año" name="year" placeholder="Año" control={control} required />
         <FormSelect
           label="Color"

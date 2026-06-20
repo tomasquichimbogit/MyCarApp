@@ -85,7 +85,7 @@ export const ItemVehicleUI = ({ vehicle }: ItemVehicleUIProps) => {
                   title={vehicleTypeLabel}
                   aria-label={vehicleTypeLabel}
                 >
-                  <VehicleTypeIcon className="h-5 w-5" transform={isMotorcycle ? undefined : "scale(-1, 1)"} />
+                  <VehicleTypeIcon className="h-10 w-10" transform={isMotorcycle ? undefined : "scale(-1, 1)"} />
                 </span>
                 <span className="text-sm md:text-lg font-bold text-gray-900">{normalizedVehicleName}</span>
               </div>

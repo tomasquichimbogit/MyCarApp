@@ -5,6 +5,7 @@ import { VehicleCreateUIView } from "../create/VehicleCreateUI.view";
 import { useMemo, useState } from "react";
 import { TypeVehicleUI } from "./components/TypeVehicleUI.view";
 import { ETypeVehicle } from "@/enums";
+import { matchesSearch } from "@/helper";
 
 export interface IUseVehiclesUIHook {
   vehicles: IVehicles[];
@@ -44,18 +45,12 @@ export const useVehiclesUIHook = (): IUseVehiclesUIHook => {
     });
   };
 
-  const filteredVehicles = useMemo(() => {
-    if (!search) return vehicles;
-    const normalizedSearch = search.trim().toLowerCase();
-    return vehicles.filter(
-      (vehicle) =>
-        vehicle.brand?.toLowerCase().includes(normalizedSearch) ||
-        vehicle.model?.toLowerCase().includes(normalizedSearch) ||
-        vehicle.year?.toString().includes(normalizedSearch) ||
-        vehicle.color?.toLowerCase().includes(normalizedSearch) ||
-        vehicle.plate?.toLowerCase().includes(normalizedSearch),
-    );
-  }, [vehicles, search]);
+  const filteredVehicles = useMemo(
+    () => vehicles.filter((v) =>
+      matchesSearch(v, search ?? "", ["brand", "model", "year", "color", "plate"]),
+    ),
+    [vehicles, search],
+  );
 
   return {
     vehicles: filteredVehicles,

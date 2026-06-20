@@ -32,6 +32,7 @@ export interface IUseFormVehicleUIHook {
   isUpdateMode: boolean;
   vehicleImageItemKey: string | number;
   vehicleImageTitle: string;
+  typeVehicle: ETypeVehicle;
 }
 
 export const useFormVehicleUIHook = ({ mode = "create", vehicleId, vehicleType = ETypeVehicle.CAR }: UseFormVehicleUIHookProps) => {
@@ -155,5 +156,6 @@ export const useFormVehicleUIHook = ({ mode = "create", vehicleId, vehicleType =
     isUpdateMode,
     vehicleImageItemKey: vehicleId ?? -1,
     vehicleImageTitle: `Actualizar imagen - ${vehicleDetail?.license_plate ?? "vehículo"}`,
+    typeVehicle: vehicleDetail?.type ?? vehicleType,
   };
 };

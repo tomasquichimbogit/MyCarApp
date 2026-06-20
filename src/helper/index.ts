@@ -49,3 +49,18 @@ export const normalizeErrorForm = (errors: FieldErrors<FieldValues>): string[] =
         .map((error) => (typeof error?.message === "string" ? error.message : ""))
         .filter(Boolean);
 }
+
+export const normalizeText = (value: string | null | undefined): string =>
+    (value ?? "").trim().toLowerCase();
+
+export const matchesSearch = <T extends object>(
+    item: T,
+    search: string,
+    fields: (keyof T)[],
+): boolean => {
+    const term = normalizeText(search);
+    if (!term) return true;
+    return fields.some((field) =>
+        normalizeText(String((item as Record<keyof T, unknown>)[field] ?? "")).includes(term),
+    );
+};

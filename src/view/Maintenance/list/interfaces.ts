@@ -1,5 +1,5 @@
 export interface IMaintenance {
-  id: string;
+  id: number;
   vehiclePlate: string;
   vehicleId: number;
   workshopId: number;

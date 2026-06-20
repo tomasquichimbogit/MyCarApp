@@ -32,7 +32,7 @@ export const ItemSelectVehicleUI = ({ value, setValue }: IItemSelectVehicleUIPro
 
     return (
         <div className="flex flex-col gap-2 rounded-2xl bg-blue-bodywork p-4">
-            <p className="m-0 text-sm text-desert-sand/70">
+            <p className="m-0 text-xs md:text-sm text-desert-sand/70">
                 Selecciona la moto o el carro al que le hiciste el servicio.
             </p>
             <Select

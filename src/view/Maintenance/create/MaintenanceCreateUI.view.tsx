@@ -16,7 +16,7 @@ export const MaintenanceCreateUIView = ({
 }: IUseMaintenanceCreateUIHook) => {
 
   return (
-    <CentralContainerUI title="Nuevo Mantenimiento" subtitle="Sigue los pasos. Es muy fácil.">
+    <CentralContainerUI title="Nuevo Mantenimiento" subtitle="Sigue los pasos. Es muy fácil." returnTo="list">
       <div className="flex max-h-[calc(100dvh-110px)] flex-col md:max-h-[calc(100dvh-115px)]">
         <div className="min-h-0 flex-1 overflow-y-auto pr-1">
           <FormProvider {...methods}>

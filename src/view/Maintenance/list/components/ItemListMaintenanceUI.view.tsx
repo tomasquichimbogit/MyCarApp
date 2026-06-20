@@ -3,10 +3,12 @@ import type { IMaintenance } from "../interfaces";
 import { BucketName } from "@/constants";
 import { ImageComponent } from "@/components/Render/ImageComponent";
 import { IconCarSuv } from "@/assets/svg";
+import { Popconfirm } from "antd";
 
 interface ItemListMaintenanceUIViewProps {
     maintenance: IMaintenance;
-    onDelete?: (maintenanceId: string) => void;
+    onDelete?: (maintenanceId: number) => void;
+    isDeleting?: boolean;
 }
 
 const formatCurrency = (value: number) =>
@@ -34,6 +36,7 @@ const formatDate = (value: string) => {
 export const ItemListMaintenanceUIView = ({
     maintenance,
     onDelete,
+    isDeleting,
 }: ItemListMaintenanceUIViewProps) => {
     const title = maintenance.workshopName ?? maintenance.vehiclePlate;
    
@@ -71,14 +74,22 @@ export const ItemListMaintenanceUIView = ({
                 </div>
 
                 {onDelete && (
-                    <button
-                        type="button"
-                        className="rounded-lg p-1 text-desert-sand transition hover:bg-white/10 hover:text-orange-rally"
-                        aria-label="Eliminar mantenimiento"
-                        onClick={() => onDelete(maintenance.id)}
+                    <Popconfirm
+                        title="Eliminar mantenimiento"
+                        description="Esta acción eliminará el mantenimiento."
+                        okText="Eliminar"
+                        cancelText="Cancelar"
+                        okButtonProps={{ danger: true, loading: isDeleting }}
+                        onConfirm={() => onDelete(maintenance.id)}
                     >
-                        <Trash2 className="h-5 w-5" />
-                    </button>
+                        <button
+                            type="button"
+                            className="rounded-lg p-1 text-desert-sand transition hover:bg-white/10 hover:text-orange-rally"
+                            aria-label="Eliminar mantenimiento"
+                        >
+                            <Trash2 className="h-5 w-5" />
+                        </button>
+                    </Popconfirm>
                 )}
             </div>
 
