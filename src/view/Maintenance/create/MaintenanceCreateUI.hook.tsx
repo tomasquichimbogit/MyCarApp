@@ -59,22 +59,22 @@ export const useMaintenanceCreateUIHook = (): IUseMaintenanceCreateUIHook => {
   };
 
   const onSubmit = (data: ICreateMaintenanceUI) => {
-    createMaintenance(data, {
+    createMaintenance({
+      ...data,
+      maintenance_date: data.maintenance_date ?? new Date().toISOString().slice(0, 10),
+    }, {
       onSuccess: () => {
         notify("success", {
           title: "Mantenimiento creado",
           description: "El mantenimiento se registró correctamente.",
         });
-        navigate(PATHS.maintenance);
+        handleCancel();
       },
     });
   };
 
-  const handleFormSubmit = () => {
-    const dataForm = methods.getValues();
-    console.log('TEST => ', dataForm);
+    const handleFormSubmit = () => {
     handleSubmit(onSubmit, (errors) => {
-      console.log('errors =>',errors);
       errorForm(errors);  
     })();
   };

@@ -32,3 +32,7 @@ export const BucketName = {
 
 export const USER_ADMIN_EMAIL: string = import.meta.env.VITE_USER_ADMIN_EMAIL ?? '';
 
+export const DEFAULT_IDS = {
+  BRAND: 1,
+  MODEL: 1,
+}

@@ -1,6 +1,6 @@
 import { Button } from "tomascomponents";
 import type { ReactNode } from "react";
-import { HomeIcon, Plus } from "lucide-react";
+import { ArrowLeftIcon, HomeIcon, Plus } from "lucide-react";
 import { PATHS } from "@/router/paths";
 import { useNavigate } from "react-router-dom";
 import { Button as AntdButton } from "antd";
@@ -11,13 +11,18 @@ interface ICentralContainerUIProps {
   onAddClick?: () => void;
   addButtonTitle?: ReactNode;
   subtitle?: string;
+  returnTo?: "home" | "list";
 }
 
-export const CentralContainerUI = ({ children, title, onAddClick, addButtonTitle, subtitle }: ICentralContainerUIProps) => {
+export const CentralContainerUI = ({ children, title, onAddClick, addButtonTitle, subtitle, returnTo="home" }: ICentralContainerUIProps) => {
   const showAddButton = addButtonTitle && onAddClick;
   const navigate = useNavigate();
   const handleNavigateToHome = () => {
-    navigate(PATHS.home);
+    if (returnTo === "list") {
+      navigate(-1);
+    } else {
+      navigate(PATHS.home);
+    }
   };
 
   return (
@@ -30,7 +35,7 @@ export const CentralContainerUI = ({ children, title, onAddClick, addButtonTitle
                 variant="link"
                 type="text"
                 size="small"
-                icon={<HomeIcon className="w-5 h-5" color="#d8ff28" />}
+                icon={ returnTo === "home" ? <HomeIcon className="w-5 h-5" color="#d8ff28" /> : <ArrowLeftIcon className="w-5 h-5" color="#d8ff28" />}
                 onClick={handleNavigateToHome}
               />
             </div>

@@ -11,6 +11,7 @@ import { ImageComponent } from "@/components/Render/ImageComponent";
 import { BucketName } from "@/constants";
 import { IconCarSuv, IconMotorcycle } from "@/assets/svg";
 import { ETypeVehicle } from "@/enums";
+import { useMemo } from "react";
 
 interface ItemVehicleUIProps {
   vehicle: IVehicles;
@@ -22,7 +23,6 @@ export const ItemVehicleUI = ({ vehicle }: ItemVehicleUIProps) => {
   const { mutate: deleteVehicle, isPending: isDeletingVehicle } = useDeleteVehicle();
   const vehicleId = Number(vehicle.id);
 
-  const vehicleName = `${brand} ${model}`.trim();
   const isMotorcycle = vehicle.type === ETypeVehicle.MOTORCYCLE;
   const VehicleTypeIcon = isMotorcycle ? IconMotorcycle : IconCarSuv;
   const vehicleTypeLabel = isMotorcycle ? "Motocicleta" : "Automóvil";
@@ -47,6 +47,15 @@ export const ItemVehicleUI = ({ vehicle }: ItemVehicleUIProps) => {
   const handleConfirmDeleteVehicle = () => {
     deleteVehicle(vehicleId);
   };
+
+
+  const normalizedVehicleName = useMemo(() => {
+    const brandName = brand === "Marca" || brand === "Otra" ? "" : brand;
+    const modelName = model === "Modelo" || model === "Otro" ? "" : model;
+    const vehicleName = `${brandName} ${modelName}`.trim();
+    const typeVehicleLabel = isMotorcycle ? "Motocicleta" : "Automóvil";
+    return vehicleName === "" ? typeVehicleLabel : vehicleName;
+  }, [brand, isMotorcycle, model]);
 
   return (
     <div className="w-full rounded-2xl border border-orange-rally bg-gray-100/50 shadow-sm">
@@ -78,7 +87,7 @@ export const ItemVehicleUI = ({ vehicle }: ItemVehicleUIProps) => {
                 >
                   <VehicleTypeIcon className="h-5 w-5" transform={isMotorcycle ? undefined : "scale(-1, 1)"} />
                 </span>
-                <span className="text-sm md:text-lg font-bold text-gray-900">{vehicleName}</span>
+                <span className="text-sm md:text-lg font-bold text-gray-900">{normalizedVehicleName}</span>
               </div>
               <div className="flex flex-row items-center gap-1">
                 <AntdButton type="primary" icon={<EditOutlined />} size="small" onClick={openModalUpdateVehicle} />
@@ -101,7 +110,7 @@ export const ItemVehicleUI = ({ vehicle }: ItemVehicleUIProps) => {
               </div>
 
               <div>
-                <Tag color="blue">{vehicle.plate}</Tag>
+                <Tag color="blue"><strong>Placa:</strong> {vehicle.plate}</Tag>
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -127,7 +136,7 @@ export const ItemVehicleUI = ({ vehicle }: ItemVehicleUIProps) => {
                 type="default"
                 title={
                   <div className="flex flex-row items-center gap-1">
-                    Detalles <PencilIcon className="w-4 h-4" color="#b9c2d0" />
+                    Completar información <PencilIcon className="w-4 h-4" color="#b9c2d0" />
                   </div>
                 }
                 variant="outlined"

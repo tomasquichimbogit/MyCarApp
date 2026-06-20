@@ -28,3 +28,5 @@ export const COLORS = [
   { id: 26, name: "Cobre" },
   { id: 27, name: "Turquesa" },
 ];
+
+export const COLOR_OPTIONS = COLORS.map(color => ({ label: color.name, value: color.name }));
