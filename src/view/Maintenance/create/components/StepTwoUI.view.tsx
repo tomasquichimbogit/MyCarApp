@@ -14,7 +14,8 @@ export const StepTwoUI = () => {
     isError: isErrorWorkshops,
   } = useWorkshops();
 
-  const { setValue } = useFormContext<ICreateMaintenanceUI>();
+  const { setValue, watch } = useFormContext<ICreateMaintenanceUI>();
+  const selectedWorkshopId = watch("workshop_id");
 
   const renderLabel = (workshop: IWorkshop) => {
     const location = [workshop.city, workshop.state].filter(Boolean).join(", ");
@@ -82,6 +83,7 @@ export const StepTwoUI = () => {
         options={normalizedWorkshops}
         placeholder="Toca aquí para elegir un taller"
         loading={isLoadingWorkshops}
+        value={selectedWorkshopId || undefined}
         onChange={(value) => setValue("workshop_id", Number(value))}
         disabled={isErrorWorkshops}
         allowClear

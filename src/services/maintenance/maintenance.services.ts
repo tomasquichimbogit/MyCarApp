@@ -30,6 +30,7 @@ export interface IMaintenanceRow {
   mileage: number | null;
   cost: number | null;
   maintenance_date: string | null;
+  confirmed_workshop: boolean | null;
 }
 
 export interface IMaintenanceDetailRow {
@@ -110,6 +111,9 @@ const mapMaintenance = (row: IMaintenanceRow): IMaintenance => ({
   date: row.maintenance_date ?? row.created_at,
   mileage: row.mileage ?? 0,
   cost: row.cost ?? 0,
+  confirmedWorkshop: row.confirmed_workshop ?? false,
+  createdAt: row.created_at,
+
 });
 
 export const createMaintenance = async (

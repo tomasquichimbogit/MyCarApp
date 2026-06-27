@@ -9,4 +9,6 @@ export interface IMaintenance {
   date: string;
   mileage: number;
   cost: number;
+  createdAt: string;
+  confirmedWorkshop: boolean;
 }
