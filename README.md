@@ -2,6 +2,12 @@
 
 Aplicación web y móvil para propietarios de vehículos (autos y motos) que centraliza la gestión del parque automotor, el historial de mantenimientos y la relación con talleres de confianza.
 
+## Proyecto de demostración
+
+MotCarApp es una aplicación de muestra desarrollada con fines educativos y de portafolio. El proyecto busca presentar una solución completa, desde la experiencia de usuario y el diseño de interfaces hasta la organización del código, la integración con servicios externos y su adaptación a dispositivos móviles.
+
+Su objetivo es servir como ejemplo práctico de las habilidades aplicadas durante el desarrollo de una aplicación moderna. Puede utilizarse para presentar y evaluar conceptos técnicos, decisiones de arquitectura, buenas prácticas y capacidades de implementación en entornos web y móviles.
+
 ## Enfoque
 
 MotCarApp está pensada para conductores que quieren llevar un control ordenado de sus vehículos y su mantenimiento, sin depender de notas sueltas o registros dispersos. La app combina utilidad práctica con una identidad visual inspirada en el mundo del rally y la aventura sobre ruedas.
