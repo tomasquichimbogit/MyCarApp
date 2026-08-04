@@ -9,7 +9,7 @@ export const LoginView = ({ control, handleNavigateToRegister, isPending, handle
   return (
     <SecurityAuthLayout title="Iniciar sesión" icon={<UserOutlined style={{ fontSize: 32 }} />}>
       <div className="flex flex-col gap-2 p-4">
-        <div className="flex flex-col gap-0.5">
+        <form className="flex flex-col gap-0.5">
           <FormInput name="email" label="Email" control={control} placeholder="Email" type="email" required />
           <FormPasswordInput
             name="password"
@@ -18,7 +18,7 @@ export const LoginView = ({ control, handleNavigateToRegister, isPending, handle
             placeholder="Password"
             required
           />
-        </div>
+        </form>
         <div className="flex flex-col gap-2">
           <Button title="Iniciar sesión" onClick={handleFormSubmit} loading={isPending} />
           <Divider />

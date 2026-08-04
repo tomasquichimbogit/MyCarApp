@@ -8,6 +8,7 @@ import { PATHS } from "@/router/paths";
 import { syncSupabaseSession, useSignIn } from "@/services/auth.service";
 import { useAuthStore } from "@/store/useAuthStore";
 import { LOCAL_STORAGE_KEYS } from "@/constants";
+import { useCallback, useEffect } from "react";
 
 const loginSchema = z.object({
   email: z.string({ error: "Email es requerido" }).email("Email inválido"),
@@ -33,6 +34,10 @@ export const useLoginUI = (): IUseLoginUIHook => {
     resolver: zodResolver(loginSchema),
     mode: "onChange",
     reValidateMode: "onChange",
+    defaultValues: {
+      email: "tomasquichimbo@gmail.com",
+      password: "123456",
+    },
   });
 
   const handleNavigateToRegister = () => {
@@ -43,7 +48,7 @@ export const useLoginUI = (): IUseLoginUIHook => {
     navigate(PATHS.recoveryPassword);
   };
 
-  const onSubmit = (data: ILoginForm) => {
+  const onSubmit = useCallback((data: ILoginForm) => {
     signIn(data, {
       onSuccess: async (response) => {
         localStorage.setItem(LOCAL_STORAGE_KEYS.REFRESH_TOKEN, response.session.refresh_token);
@@ -52,11 +57,22 @@ export const useLoginUI = (): IUseLoginUIHook => {
         navigate(PATHS.home, { replace: true });
       },
     });
-  };
+  }, [signIn, setUser, navigate]);
 
-  const handleFormSubmit = () => {
+  const handleFormSubmit = useCallback(() => {
     handleSubmit(onSubmit)();
-  };
+  }, [handleSubmit, onSubmit]);
+
+  //useEffect para enviar con el enter
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Enter") {
+        handleFormSubmit();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [handleFormSubmit]);
 
   return {
     control,

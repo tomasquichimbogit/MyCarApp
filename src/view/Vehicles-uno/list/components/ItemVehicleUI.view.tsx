@@ -1,4 +1,4 @@
-import type { IVehicles } from "../intefaces";
+import type { IVehicles } from "../../../Vehicles/list/intefaces";
 import { useNavigate } from "react-router-dom";
 import { Button as AntdButton, Tag, Popconfirm } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";

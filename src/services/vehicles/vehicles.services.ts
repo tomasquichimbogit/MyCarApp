@@ -1,10 +1,11 @@
 import { useApiGetQuery, useApiPostMutation } from "@/config/axiosMethods";
 import { SUPABASE } from "@/constants";
 import { ensureSupabaseAuthSession } from "@/services/auth.service";
-import type { IVehicles } from "@/view/Vehicles/list/intefaces";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNotify } from "tomascomponents";
 import { vehiclesKeys } from "./vehiclesKeys";
+import type { IVehicles } from "@/view/Vehicles/list/intefaces";
+import { useAuthStore } from "@/store/useAuthStore";
 
 export interface ICreateVehiclePayload {
   brand: number;
@@ -243,10 +244,12 @@ export const useDeleteVehicle = () => {
 };
 
 export const fetchVehicles = async (): Promise<IVehicles[]> => {
+  const personId = useAuthStore.getState().personId;
   const { data, error } = await SUPABASE
     .from("vehicle")
     .select("*, brand(*), model(*)")
     .is("delete_id", null)
+    .eq("person_id", personId)
     .order("created_at", { ascending: false });
 
   if (error) throw error;

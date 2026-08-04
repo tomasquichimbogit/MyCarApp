@@ -1,5 +1,5 @@
 import { useVehicles } from "@/services/vehicles/vehicles.services";
-import type { IVehicles } from "./intefaces";
+import type { IVehicles } from "../../Vehicles/list/intefaces";
 import { useModal } from "tomascomponents";
 import { VehicleCreateUIView } from "../create/VehicleCreateUI.view";
 import { useMemo, useState } from "react";
